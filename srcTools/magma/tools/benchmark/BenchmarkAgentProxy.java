@@ -40,6 +40,10 @@ public class BenchmarkAgentProxy extends AgentProxy
 	/** counts the number of cycles in which at least one leg has force */
 	private int legOnGround;
 
+	private boolean startCount;
+
+	private boolean stopCount;
+
 	/**
 	 * @param clientSocket
 	 * @param ssHost
@@ -50,8 +54,19 @@ public class BenchmarkAgentProxy extends AgentProxy
 			boolean showMessages)
 	{
 		super(clientSocket, ssHost, ssPort, showMessages);
+	}
+
+	public void startCount()
+	{
 		bothLegsOffGround = 0;
 		legOnGround = 0;
+		startCount = true;
+		stopCount = false;
+	}
+
+	public void stopCount()
+	{
+		stopCount = true;
 	}
 
 	/**
@@ -71,10 +86,12 @@ public class BenchmarkAgentProxy extends AgentProxy
 			return true;
 		}
 
-		if (leftForce.getNorm() < 0.01 && rightForce.getNorm() < 0.01) {
-			bothLegsOffGround++;
-		} else {
-			legOnGround++;
+		if (startCount && !stopCount) {
+			if (leftForce.getNorm() < 0.01 && rightForce.getNorm() < 0.01) {
+				bothLegsOffGround++;
+			} else {
+				legOnGround++;
+			}
 		}
 
 		return true;
@@ -135,6 +152,9 @@ public class BenchmarkAgentProxy extends AgentProxy
 	 */
 	public int getLegOnGround()
 	{
+		if (legOnGround < 100) {
+			return 100;
+		}
 		return legOnGround;
 	}
 }

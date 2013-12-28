@@ -28,6 +28,7 @@ import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.general.impl.MonitorParameter;
 import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.impl.BenchmarkReferee;
+import magma.monitor.server.ServerController;
 import magma.tools.SAProxy.SAProxy;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
 
@@ -41,6 +42,14 @@ public class BenchmarkMain
 	private BenchmarkAgentProxyServer proxy;
 
 	private MonitorRuntime monitor;
+
+	private ServerController server;
+
+	private int resultCount;
+
+	private float averageSpeed;
+
+	private float averageOffGround;
 
 	/**
 	 * Instantiates and starts the Simspark agent proxy.
@@ -72,24 +81,60 @@ public class BenchmarkMain
 		starter.stop();
 	}
 
+	public BenchmarkMain()
+	{
+		server = new ServerController(3100, 3200, false);
+		resultCount = 0;
+		averageSpeed = 0;
+	}
+
 	public void start(String[] args)
 	{
+		// start the proxy through which players should connect
 		startProxy(args);
 
-		// start average out runs
+		while (resultCount < 3) {
+			try {
+				server.startServer();
 
-		// start Trainer
-		try {
-			startTrainer(args);
-			BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
-			System.out.println("avgspeed: " + referee.getAverageSpeed());
-			System.out.println("legs off ground: " + proxy.getBothLegsOffGround());
-			System.out.println("percentage: " + proxy.getBothLegsOffGround()
-					/ (float) proxy.getLegOnGround());
+				startTrainer(args);
 
-		} catch (RuntimeException e) {
-			e.printStackTrace();
+				collectResults();
+
+			} catch (RuntimeException e) {
+				e.printStackTrace();
+			} finally {
+				server.stopServer();
+			}
 		}
+
+		System.out.println("Overall Average Speed: " + averageSpeed);
+		System.out
+				.println("Overall Average Feet off ground: " + averageOffGround);
+	}
+
+	/**
+	 * 
+	 */
+	private void collectResults()
+	{
+		BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
+		float avgSpeed = referee.getAverageSpeed();
+		averageSpeed = (averageSpeed * resultCount + avgSpeed)
+				/ (resultCount + 1);
+		System.out.println("avgspeed: " + avgSpeed);
+
+		int bothLegsOffGround = proxy.getBothLegsOffGround();
+		System.out.println("legs off ground: " + bothLegsOffGround);
+		int legOnGround = proxy.getLegOnGround();
+		if (legOnGround > 0) {
+			float avgOffGround = bothLegsOffGround / (float) legOnGround;
+			averageOffGround = (averageOffGround * resultCount + avgOffGround)
+					/ (resultCount + 1);
+			System.out.println("percentage: " + avgOffGround);
+		}
+		System.out.println();
+		resultCount++;
 	}
 
 	/**
@@ -116,7 +161,21 @@ public class BenchmarkMain
 		monitor = new MonitorRuntime(new MonitorParameter(serverIP, 3200,
 				Level.WARNING, 3, factory));
 
-		monitor.startMonitor();
+		int tryCount = 0;
+		boolean connected = false;
+		while (!connected && tryCount < 10) {
+			((BenchmarkReferee) monitor.getReferee()).setProxy(proxy);
+			connected = monitor.startMonitor();
+			if (!connected) {
+				try {
+					System.out
+							.println("connection not possible, sleeping..................");
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**
