@@ -19,7 +19,7 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark;
+package magma.tools.benchmark.model;
 
 import java.net.Socket;
 
