@@ -21,22 +21,31 @@
 
 package magma.tools.benchmark.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
+import magma.monitor.general.IMonitorRuntimeListener;
 import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.general.impl.MonitorParameter;
 import magma.monitor.general.impl.MonitorRuntime;
+import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.referee.impl.BenchmarkReferee;
 import magma.monitor.server.ServerController;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
+import magma.util.observer.IObserver;
+import magma.util.observer.IPublishSubscribe;
+import magma.util.observer.Subject;
 
 /**
  * 
  * @author kdorer
  */
-public class BenchmarkMain
+public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 {
+	/** observers of model */
+	private final transient IPublishSubscribe<IModelReadOnly> observer;
 
 	private BenchmarkAgentProxyServer proxy;
 
@@ -44,51 +53,33 @@ public class BenchmarkMain
 
 	private ServerController server;
 
-	private int resultCount;
+	private List<TeamResult> results;
 
-	private float averageSpeed;
+	private RunThread runThread;
 
-	private float averageOffGround;
-
-	private boolean running;
+	private int currentTeam;
 
 	public BenchmarkMain()
 	{
+		observer = new Subject<IModelReadOnly>();
 		server = new ServerController(3100, 3200, false);
-		resultCount = 0;
-		averageSpeed = 0;
-		running = false;
+		runThread = null;
+		results = new ArrayList<TeamResult>();
 	}
 
-	public void start(BenchmarkConfiguration config)
+	@Override
+	public void start(BenchmarkConfiguration config,
+			List<TeamConfiguration> teamConfig)
 	{
-		if (running) {
+		if (runThread != null) {
 			return;
 		}
-		running = true;
 
-		// start the proxy through which players should connect
-		startProxy(config);
+		currentTeam = 0;
+		results.add(new TeamResult("currentTeam"));
 
-		while (resultCount < 3) {
-			try {
-				server.startServer();
-
-				startTrainer(config);
-
-				collectResults();
-
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-			} finally {
-				server.stopServer();
-			}
-		}
-
-		System.out.println("Overall Average Speed: " + averageSpeed);
-		System.out
-				.println("Overall Average Feet off ground: " + averageOffGround);
-		stop();
+		runThread = new RunThread(config, teamConfig);
+		runThread.start();
 	}
 
 	/**
@@ -98,21 +89,19 @@ public class BenchmarkMain
 	{
 		BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
 		float avgSpeed = referee.getAverageSpeed();
-		averageSpeed = (averageSpeed * resultCount + avgSpeed)
-				/ (resultCount + 1);
-		System.out.println("avgspeed: " + avgSpeed);
+		float bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
 
-		int bothLegsOffGround = proxy.getBothLegsOffGround();
-		System.out.println("legs off ground: " + bothLegsOffGround);
-		int legOnGround = proxy.getLegOnGround();
-		if (legOnGround > 0) {
-			float avgOffGround = bothLegsOffGround / (float) legOnGround;
-			averageOffGround = (averageOffGround * resultCount + avgOffGround)
-					/ (resultCount + 1);
-			System.out.println("percentage: " + avgOffGround);
-		}
-		System.out.println();
-		resultCount++;
+		getCurrentResult().addResult(
+				new SingleRunResult(avgSpeed, bothLegsOffGround));
+		observer.onStateChange(this);
+	}
+
+	/**
+	 * @return
+	 */
+	private TeamResult getCurrentResult()
+	{
+		return results.get(currentTeam);
 	}
 
 	/**
@@ -122,27 +111,29 @@ public class BenchmarkMain
 	{
 		// start proxy to get force information
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
-				config.getServerPort(), config.getServerIP(),
-				config.getAgentPort(), true);
+				config.getAgentPort(), config.getServerIP(),
+				config.getServerPort(), false);
 		proxy = new BenchmarkAgentProxyServer(parameterObject);
 		proxy.start();
 	}
 
-	private void startTrainer(BenchmarkConfiguration config)
+	private void startTrainer(BenchmarkConfiguration config,
+			TeamConfiguration teamConfig)
 	{
 		MonitorComponentFactory factory = new MonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), config.getPath(), null,
-						config.getLaunch(), null, 1));
+						config.getAgentPort(), teamConfig.getPath(), null,
+						teamConfig.getLaunch(), null, 1));
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, config.getAverageOutRuns(),
 				factory));
 
+		monitor.addRuntimeListener(this);
+
 		int tryCount = 0;
 		boolean connected = false;
 		while (!connected && tryCount < 10) {
-			((BenchmarkReferee) monitor.getReferee()).setProxy(proxy);
 			connected = monitor.startMonitor();
 			if (!connected) {
 				try {
@@ -159,33 +150,121 @@ public class BenchmarkMain
 	/**
 	 * 
 	 */
+	@Override
 	public void stop()
 	{
-		proxy.shutdown();
-		running = false;
+		if (runThread != null) {
+			runThread.stopRun();
+		}
 	}
 
 	/**
 	 * @return the averageSpeed
 	 */
+	@Override
 	public float getAverageSpeed()
 	{
-		return averageSpeed;
+		return getCurrentResult().getAverageSpeed();
 	}
 
 	/**
 	 * @return the averageOffGround
 	 */
+	@Override
 	public float getAverageOffGround()
 	{
-		return averageOffGround;
+		return getCurrentResult().getAverageOffGround();
 	}
 
 	/**
-	 * @return the averageOffGround
+	 * @return the averageScore
 	 */
+	@Override
 	public float getAverageScore()
 	{
-		return averageOffGround + averageSpeed;
+		return getCurrentResult().getAverageScore();
+
+	}
+
+	@Override
+	public void monitorUpdated()
+	{
+		if (!proxy.getAgentProxies().isEmpty()) {
+			BenchmarkAgentProxy benchmarkAgentProxy = (BenchmarkAgentProxy) proxy
+					.getAgentProxies().get(0);
+			if (monitor.getReferee().getState() == RefereeState.STARTED) {
+				benchmarkAgentProxy.startCount();
+			} else if (monitor.getReferee().getState() == RefereeState.STOPPED) {
+				benchmarkAgentProxy.stopCount();
+			}
+		}
+	}
+
+	@Override
+	public void attach(IObserver<IModelReadOnly> newObserver)
+	{
+		observer.attach(newObserver);
+	}
+
+	@Override
+	public boolean detach(IObserver<IModelReadOnly> oldObserver)
+	{
+		return observer.detach(oldObserver);
+	}
+
+	private class RunThread extends Thread
+	{
+		private BenchmarkConfiguration config;
+
+		private boolean stopped;
+
+		private List<TeamConfiguration> teamConfig;
+
+		/**
+		 * @param config
+		 */
+		public RunThread(BenchmarkConfiguration config,
+				List<TeamConfiguration> teamConfig)
+		{
+			this.config = config;
+			this.teamConfig = teamConfig;
+			stopped = false;
+		}
+
+		@Override
+		public void run()
+		{
+			// start the proxy through which players should connect
+			startProxy(config);
+
+			int avgRuns = config.getAverageOutRuns();
+
+			for (TeamConfiguration currentTeam : teamConfig) {
+				while (getCurrentResult().size() < avgRuns && !stopped) {
+					try {
+						server.startServer();
+
+						startTrainer(config, currentTeam);
+
+						collectResults();
+
+					} catch (RuntimeException e) {
+						e.printStackTrace();
+					} finally {
+						server.stopServer();
+					}
+				}
+				System.out.println("Overall Score: "
+						+ getCurrentResult().getAverageScore());
+			}
+
+			proxy.shutdown();
+			runThread = null;
+		}
+
+		public void stopRun()
+		{
+			stopped = true;
+		}
 	}
 }

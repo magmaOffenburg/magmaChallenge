@@ -23,9 +23,12 @@ package magma.tools.benchmark.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.BenchmarkMain;
+import magma.tools.benchmark.model.IModelReadWrite;
+import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.view.BenchmarkView;
 
 /**
@@ -34,7 +37,7 @@ import magma.tools.benchmark.view.BenchmarkView;
  */
 public class BenchmarkController
 {
-	private BenchmarkMain starter;
+	private IModelReadWrite model;
 
 	private BenchmarkView view;
 
@@ -48,9 +51,10 @@ public class BenchmarkController
 	 */
 	public BenchmarkController()
 	{
-		starter = new BenchmarkMain();
-		view = new BenchmarkView();
+		model = new BenchmarkMain();
+		view = BenchmarkView.getInstance(model);
 		view.addCompetitionButtonListener(new CompetitionListener());
+		view.addStopButtonListener(new StopListener());
 		view.setVisible(true);
 	}
 
@@ -63,8 +67,22 @@ public class BenchmarkController
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			starter.start(new BenchmarkConfiguration());
-			starter.stop();
+			List<TeamConfiguration> teamConfigurations = view
+					.getTeamConfiguration();
+			model.start(new BenchmarkConfiguration(), teamConfigurations);
+		}
+	}
+
+	/**
+	 * listener for stop button
+	 * 
+	 * @author kdorer
+	 */
+	class StopListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			model.stop();
 		}
 	}
 }

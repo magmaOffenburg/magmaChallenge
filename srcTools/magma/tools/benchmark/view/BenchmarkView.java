@@ -23,6 +23,8 @@ package magma.tools.benchmark.view;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,18 +38,45 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import magma.tools.benchmark.model.IModelReadOnly;
+import magma.tools.benchmark.model.TeamConfiguration;
+import magma.util.observer.IObserver;
+
 /**
  * 
  * @author kdorer
  */
-public class BenchmarkView extends JFrame
+public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
-	public BenchmarkView()
+	private static final int COLUMN_TEAMNAME = 0;
+
+	private static final int COLUMN_SCORE = 1;
+
+	private static final int COLUMN_FALLS = 2;
+
+	private static final int COLUMN_SPEED = 3;
+
+	private static final int COLUMN_PATH = 4;
+
+	private static final int COLUMN_BINARY = 5;
+
+	private IModelReadOnly model;
+
+	public static BenchmarkView getInstance(IModelReadOnly model)
 	{
+		BenchmarkView view = new BenchmarkView(model);
+		model.attach(view);
+		return view;
+	}
+
+	@SuppressWarnings("serial")
+	private BenchmarkView(IModelReadOnly model)
+	{
+		this.model = model;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Run Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setSize(600, 400);
+		setSize(800, 600);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
@@ -67,7 +96,7 @@ public class BenchmarkView extends JFrame
 		textField_1 = new JTextField();
 		textField_1.setEnabled(true);
 		textField_1.setEditable(true);
-		textField_1.setText("40");
+		textField_1.setText("3");
 		panel.add(textField_1);
 		textField_1.setColumns(4);
 
@@ -77,18 +106,17 @@ public class BenchmarkView extends JFrame
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(true);
-		table.setModel(new DefaultTableModel(
-				new Object[][] {
-						{
-								"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-								"magmaOffenburg", null, null, null },
-						{ null, null, null, null, null },
-						{ null, null, null, null, null },
-						{ null, null, null, null, null },
-						{ null, null, null, null, null }, }, new String[] { "path",
-						"team", "score", "falls", "score progress" }) {
-			Class[] columnTypes = new Class[] { String.class, String.class,
-					Float.class, Integer.class, Object.class };
+		table.setModel(new DefaultTableModel(new Object[][] {
+				{ "magmaOffenburg", null, null, null,
+						"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
+						"startPlayerRunning.sh" },
+				{ null, null, null, null, null, null },
+				{ null, null, null, null, null, null },
+				{ null, null, null, null, null, null },
+				{ null, null, null, null, null, null }, }, new String[] { "team",
+				"score", "falls", "speed", "path", "binary" }) {
+			Class[] columnTypes = new Class[] { String.class, Float.class,
+					Integer.class, Float.class, String.class, String.class };
 
 			@Override
 			public Class getColumnClass(int columnIndex)
@@ -96,11 +124,12 @@ public class BenchmarkView extends JFrame
 				return columnTypes[columnIndex];
 			}
 		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(302);
-		table.getColumnModel().getColumn(1).setPreferredWidth(102);
-		table.getColumnModel().getColumn(2).setPreferredWidth(56);
-		table.getColumnModel().getColumn(3).setPreferredWidth(55);
-		table.getColumnModel().getColumn(4).setPreferredWidth(85);
+		table.getColumnModel().getColumn(0).setPreferredWidth(102);
+		table.getColumnModel().getColumn(1).setPreferredWidth(56);
+		table.getColumnModel().getColumn(2).setPreferredWidth(55);
+		table.getColumnModel().getColumn(3).setPreferredWidth(85);
+		table.getColumnModel().getColumn(4).setPreferredWidth(302);
+		table.getColumnModel().getColumn(5).setPreferredWidth(156);
 		table.setColumnSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 
@@ -116,14 +145,46 @@ public class BenchmarkView extends JFrame
 		btnCompetition.setIcon(new ImageIcon(BenchmarkView.class
 				.getResource("/images/execute_16.png")));
 		toolBar.add(btnCompetition);
+
+		btnStop = new JButton("Stop");
+		btnStop.setIcon(new ImageIcon(BenchmarkView.class
+				.getResource("/images/processStop_16.png")));
+		toolBar.add(btnStop);
 	}
 
-	/**
-	 * 
-	 */
+	public void addTestButtonListener(ActionListener listener)
+	{
+		btnTest.addActionListener(listener);
+	}
+
 	public void addCompetitionButtonListener(ActionListener listener)
 	{
 		btnCompetition.addActionListener(listener);
+	}
+
+	public void addStopButtonListener(ActionListener listener)
+	{
+		btnStop.addActionListener(listener);
+	}
+
+	public List<TeamConfiguration> getTeamConfiguration()
+	{
+		List<TeamConfiguration> result = new ArrayList<TeamConfiguration>();
+		int teamid = 0;
+		String teamName;
+		do {
+			String teamPath = (String) table.getValueAt(teamid, COLUMN_PATH);
+			String teamBinary = (String) table.getValueAt(teamid, COLUMN_BINARY);
+			teamName = (String) table.getValueAt(teamid, COLUMN_TEAMNAME);
+			if (teamName != null && !teamName.isEmpty()) {
+				TeamConfiguration config = new TeamConfiguration(teamName,
+						teamPath, teamBinary);
+				result.add(config);
+				teamid++;
+			}
+		} while (teamName != null && !teamName.isEmpty());
+
+		return result;
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -140,13 +201,16 @@ public class BenchmarkView extends JFrame
 
 	private JButton btnCompetition;
 
+	private JButton btnStop;
+
 	private JLabel lblAvgOutRuns;
 
 	private JTextField textField_1;
 
-	public static void main(String[] args)
+	@Override
+	public void update(IModelReadOnly model)
 	{
-		BenchmarkView view = new BenchmarkView();
-		view.setVisible(true);
+		float averageScore = model.getAverageScore();
+		table.setValueAt(averageScore, 0, COLUMN_SCORE);
 	}
 }

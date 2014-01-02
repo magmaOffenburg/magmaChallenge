@@ -29,10 +29,6 @@ public class BenchmarkConfiguration
 {
 	private String serverIP;
 
-	private String path;
-
-	private String launch;
-
 	private int agentPort;
 
 	private int trainerPort;
@@ -47,8 +43,6 @@ public class BenchmarkConfiguration
 	public BenchmarkConfiguration()
 	{
 		serverIP = "127.0.0.1";
-		path = "/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/";
-		launch = "startPlayerRunning.sh";
 		serverPort = 3100;
 		agentPort = 3110;
 		trainerPort = 3200;
@@ -64,15 +58,12 @@ public class BenchmarkConfiguration
 	 * @param averageOutRuns
 	 */
 	public BenchmarkConfiguration(String serverIP, int serverPort,
-			int agentPort, int trainerPort, String path, String launch,
-			int averageOutRuns)
+			int agentPort, int trainerPort, int averageOutRuns)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
 		this.agentPort = agentPort;
 		this.trainerPort = trainerPort;
-		this.path = path;
-		this.launch = launch;
 		this.averageOutRuns = averageOutRuns;
 	}
 
@@ -82,22 +73,6 @@ public class BenchmarkConfiguration
 	public String getServerIP()
 	{
 		return serverIP;
-	}
-
-	/**
-	 * @return the path
-	 */
-	public String getPath()
-	{
-		return path;
-	}
-
-	/**
-	 * @return the launch
-	 */
-	public String getLaunch()
-	{
-		return launch;
 	}
 
 	/**

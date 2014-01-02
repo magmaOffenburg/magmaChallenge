@@ -58,6 +58,9 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	public void startCount()
 	{
+		if (startCount) {
+			return;
+		}
 		bothLegsOffGround = 0;
 		legOnGround = 0;
 		startCount = true;
