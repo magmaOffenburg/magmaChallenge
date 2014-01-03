@@ -21,6 +21,8 @@
 
 package magma.tools.benchmark.model;
 
+import java.util.List;
+
 import magma.util.observer.IObserver;
 
 /**
@@ -30,19 +32,9 @@ import magma.util.observer.IObserver;
 public interface IModelReadOnly
 {
 	/**
-	 * @return the averageSpeed
+	 * @return the results per team
 	 */
-	float getAverageSpeed();
-
-	/**
-	 * @return the averageOffGround
-	 */
-	float getAverageOffGround();
-
-	/**
-	 * @return the averageOffGround
-	 */
-	float getAverageScore();
+	List<TeamResult> getTeamResults();
 
 	void attach(IObserver<IModelReadOnly> observer);
 

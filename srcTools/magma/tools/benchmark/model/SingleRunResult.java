@@ -31,14 +31,17 @@ public class SingleRunResult
 
 	private float offGround;
 
+	private boolean fallen;
+
 	/**
 	 * @param speed
 	 * @param offGround
 	 */
-	public SingleRunResult(float speed, float offGround)
+	public SingleRunResult(float speed, float offGround, boolean fallen)
 	{
 		this.speed = speed;
 		this.offGround = offGround;
+		this.fallen = fallen;
 	}
 
 	/**
@@ -55,6 +58,14 @@ public class SingleRunResult
 	public float getOffGround()
 	{
 		return offGround;
+	}
+
+	/**
+	 * @return the fallen
+	 */
+	public boolean isFallen()
+	{
+		return fallen;
 	}
 
 }

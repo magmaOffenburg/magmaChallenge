@@ -83,8 +83,33 @@ public class TeamResult
 		return avg / results.size();
 	}
 
+	/**
+	 * @return
+	 */
+	public int getFallenCount()
+	{
+		if (results.isEmpty()) {
+			return 0;
+		}
+		int fallen = 0;
+		for (SingleRunResult result : results) {
+			if (result.isFallen()) {
+				fallen++;
+			}
+		}
+		return fallen;
+	}
+
 	public int size()
 	{
 		return results.size();
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName()
+	{
+		return name;
 	}
 }

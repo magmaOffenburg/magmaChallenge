@@ -33,21 +33,11 @@ public class BenchmarkConfiguration
 
 	private int trainerPort;
 
-	private int averageOutRuns;
-
 	private int serverPort;
 
-	/**
-	 * 
-	 */
-	public BenchmarkConfiguration()
-	{
-		serverIP = "127.0.0.1";
-		serverPort = 3100;
-		agentPort = 3110;
-		trainerPort = 3200;
-		averageOutRuns = 3;
-	}
+	private int averageOutRuns;
+
+	private int runtime;
 
 	/**
 	 * @param serverIP
@@ -56,15 +46,17 @@ public class BenchmarkConfiguration
 	 * @param agentPort
 	 * @param trainerPort
 	 * @param averageOutRuns
+	 * @param runtime time to run in seconds
 	 */
 	public BenchmarkConfiguration(String serverIP, int serverPort,
-			int agentPort, int trainerPort, int averageOutRuns)
+			int agentPort, int trainerPort, int averageOutRuns, int runtime)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
 		this.agentPort = agentPort;
 		this.trainerPort = trainerPort;
 		this.averageOutRuns = averageOutRuns;
+		this.runtime = runtime;
 	}
 
 	/**
@@ -92,6 +84,14 @@ public class BenchmarkConfiguration
 	}
 
 	/**
+	 * @return the serverPort
+	 */
+	public int getServerPort()
+	{
+		return serverPort;
+	}
+
+	/**
 	 * @return the averageOutRuns
 	 */
 	public int getAverageOutRuns()
@@ -100,10 +100,26 @@ public class BenchmarkConfiguration
 	}
 
 	/**
-	 * @return the serverPort
+	 * @return the runtime in seconds
 	 */
-	public int getServerPort()
+	public int getRuntime()
 	{
-		return serverPort;
+		return runtime;
+	}
+
+	/**
+	 * @param averageOutRuns the averageOutRuns to set
+	 */
+	public void setAverageOutRuns(int averageOutRuns)
+	{
+		this.averageOutRuns = averageOutRuns;
+	}
+
+	/**
+	 * @param runtime the runtime to set
+	 */
+	public void setRuntime(int runtime)
+	{
+		this.runtime = runtime;
 	}
 }

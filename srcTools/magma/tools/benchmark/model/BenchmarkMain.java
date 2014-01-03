@@ -22,6 +22,7 @@
 package magma.tools.benchmark.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -62,7 +63,6 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	public BenchmarkMain()
 	{
 		observer = new Subject<IModelReadOnly>();
-		server = new ServerController(3100, 3200, false);
 		runThread = null;
 		results = new ArrayList<TeamResult>();
 	}
@@ -75,8 +75,10 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			return;
 		}
 
+		results = new ArrayList<TeamResult>();
 		currentTeam = 0;
-		results.add(new TeamResult("currentTeam"));
+		server = new ServerController(config.getServerPort(),
+				config.getTrainerPort(), false);
 
 		runThread = new RunThread(config, teamConfig);
 		runThread.start();
@@ -90,9 +92,10 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
 		float avgSpeed = referee.getAverageSpeed();
 		float bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
+		boolean fallen = referee.isHasFallen();
 
 		getCurrentResult().addResult(
-				new SingleRunResult(avgSpeed, bothLegsOffGround));
+				new SingleRunResult(avgSpeed, bothLegsOffGround, fallen));
 		observer.onStateChange(this);
 	}
 
@@ -123,11 +126,10 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		MonitorComponentFactory factory = new MonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
 						config.getAgentPort(), teamConfig.getPath(), null,
-						teamConfig.getLaunch(), null, 1));
+						teamConfig.getLaunch(), null, config.getRuntime()));
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
-				config.getTrainerPort(), Level.WARNING, config.getAverageOutRuns(),
-				factory));
+				config.getTrainerPort(), Level.WARNING, 3, factory));
 
 		monitor.addRuntimeListener(this);
 
@@ -158,34 +160,6 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		}
 	}
 
-	/**
-	 * @return the averageSpeed
-	 */
-	@Override
-	public float getAverageSpeed()
-	{
-		return getCurrentResult().getAverageSpeed();
-	}
-
-	/**
-	 * @return the averageOffGround
-	 */
-	@Override
-	public float getAverageOffGround()
-	{
-		return getCurrentResult().getAverageOffGround();
-	}
-
-	/**
-	 * @return the averageScore
-	 */
-	@Override
-	public float getAverageScore()
-	{
-		return getCurrentResult().getAverageScore();
-
-	}
-
 	@Override
 	public void monitorUpdated()
 	{
@@ -198,6 +172,12 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				benchmarkAgentProxy.stopCount();
 			}
 		}
+	}
+
+	@Override
+	public List<TeamResult> getTeamResults()
+	{
+		return Collections.unmodifiableList(results);
 	}
 
 	@Override
@@ -239,12 +219,14 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 			int avgRuns = config.getAverageOutRuns();
 
-			for (TeamConfiguration currentTeam : teamConfig) {
+			for (TeamConfiguration currentTeamConfig : teamConfig) {
+				results.add(new TeamResult(currentTeamConfig.getName()));
+
 				while (getCurrentResult().size() < avgRuns && !stopped) {
 					try {
 						server.startServer();
 
-						startTrainer(config, currentTeam);
+						startTrainer(config, currentTeamConfig);
 
 						collectResults();
 
@@ -256,6 +238,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				}
 				System.out.println("Overall Score: "
 						+ getCurrentResult().getAverageScore());
+				currentTeam++;
 			}
 
 			proxy.shutdown();

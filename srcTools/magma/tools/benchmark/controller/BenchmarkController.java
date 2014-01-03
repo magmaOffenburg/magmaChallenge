@@ -53,7 +53,8 @@ public class BenchmarkController
 	{
 		model = new BenchmarkMain();
 		view = BenchmarkView.getInstance(model);
-		view.addCompetitionButtonListener(new CompetitionListener());
+		view.addCompetitionButtonListener(new CompetitionListener(false));
+		view.addTestButtonListener(new CompetitionListener(true));
 		view.addStopButtonListener(new StopListener());
 		view.setVisible(true);
 	}
@@ -65,11 +66,27 @@ public class BenchmarkController
 	 */
 	class CompetitionListener implements ActionListener
 	{
+		private boolean isTest;
+
+		/**
+		 * @param b
+		 */
+		public CompetitionListener(boolean isTest)
+		{
+			this.isTest = isTest;
+		}
+
 		public void actionPerformed(ActionEvent arg0)
 		{
+			BenchmarkConfiguration config = view.getBenchmarkConfiguration();
+			if (isTest) {
+				config.setRuntime(4);
+				config.setAverageOutRuns(1);
+			}
 			List<TeamConfiguration> teamConfigurations = view
 					.getTeamConfiguration();
-			model.start(new BenchmarkConfiguration(), teamConfigurations);
+			view.disableEditing();
+			model.start(config, teamConfigurations);
 		}
 	}
 
