@@ -21,6 +21,7 @@
 
 package magma.tools.benchmark.model;
 
+import java.io.File;
 import java.util.List;
 
 import magma.util.observer.IObserver;
@@ -35,6 +36,11 @@ public interface IModelReadOnly
 	 * @return the results per team
 	 */
 	List<TeamResult> getTeamResults();
+
+	boolean isRunning();
+
+	List<TeamConfiguration> loadConfigFile(File file)
+			throws InvalidConfigFileException;
 
 	void attach(IObserver<IModelReadOnly> observer);
 

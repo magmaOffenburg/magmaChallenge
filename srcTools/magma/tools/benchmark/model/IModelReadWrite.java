@@ -32,4 +32,6 @@ public interface IModelReadWrite extends IModelReadOnly
 	void start(BenchmarkConfiguration config, List<TeamConfiguration> teamConfig);
 
 	void stop();
+
+	void stopServer();
 }

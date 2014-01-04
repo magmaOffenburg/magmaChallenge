@@ -25,13 +25,16 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -53,6 +56,7 @@ import magma.util.observer.IObserver;
  */
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
+
 	private static final int COLUMN_TEAMNAME = 0;
 
 	private static final int COLUMN_SCORE = 1;
@@ -76,7 +80,6 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		return view;
 	}
 
-	@SuppressWarnings("serial")
 	private BenchmarkView(IModelReadOnly model)
 	{
 		this.model = model;
@@ -124,49 +127,15 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(table);
-		table.setCellSelectionEnabled(true);
-		table.setModel(new DefaultTableModel(new Object[][] {
-				{ "magmaOffenburg", null, null, null, null,
-						"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-						"startPlayerRunning.sh" },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null }, }, new String[] {
-				"team", "score", "falls", "speed", "off ground", "path", "binary" }) {
-			Class[] columnTypes = new Class[] { String.class, Float.class,
-					Integer.class, Float.class, Float.class, String.class,
-					String.class };
-
-			@Override
-			public Class getColumnClass(int columnIndex)
-			{
-				return columnTypes[columnIndex];
-			}
-
-			boolean[] columnEditables = new boolean[] { true, false, false, false,
-					false, true, true };
-
-			@Override
-			public boolean isCellEditable(int row, int column)
-			{
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(102);
-		table.getColumnModel().getColumn(1).setPreferredWidth(56);
-		table.getColumnModel().getColumn(2).setPreferredWidth(55);
-		table.getColumnModel().getColumn(3).setPreferredWidth(85);
-		table.getColumnModel().getColumn(5).setPreferredWidth(302);
-		table.getColumnModel().getColumn(6).setPreferredWidth(156);
-		table.setColumnSelectionAllowed(true);
-		table.setAutoCreateRowSorter(true);
+		createTeamTable(null);
 
 		toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.SOUTH);
+
+		btnOpen = new JButton("Open...");
+		btnOpen.setIcon(new ImageIcon(BenchmarkView.class
+				.getResource("/images/documentOpen_16.png")));
+		toolBar.add(btnOpen);
 
 		btnTest = new JButton("Test");
 		btnTest.setIcon(new ImageIcon(BenchmarkView.class
@@ -181,7 +150,13 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		btnStop = new JButton("Stop");
 		btnStop.setIcon(new ImageIcon(BenchmarkView.class
 				.getResource("/images/processStop_16.png")));
+		btnStop.setEnabled(false);
 		toolBar.add(btnStop);
+
+		btnStopServer = new JButton("Stop Server");
+		btnStopServer.setIcon(new ImageIcon(BenchmarkView.class
+				.getResource("/images/helpAbout_16.png")));
+		toolBar.add(btnStopServer);
 	}
 
 	private int getNumber(String text, int minimum, int maximum)
@@ -197,6 +172,11 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		}
 	}
 
+	public void addOpenButtonListener(ActionListener listener)
+	{
+		btnOpen.addActionListener(listener);
+	}
+
 	public void addTestButtonListener(ActionListener listener)
 	{
 		btnTest.addActionListener(listener);
@@ -210,6 +190,11 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void addStopButtonListener(ActionListener listener)
 	{
 		btnStop.addActionListener(listener);
+	}
+
+	public void addKillServerListener(ActionListener listener)
+	{
+		btnStopServer.addActionListener(listener);
 	}
 
 	public BenchmarkConfiguration getBenchmarkConfiguration()
@@ -239,7 +224,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				result.add(config);
 				teamid++;
 			}
-		} while (teamName != null && !teamName.isEmpty());
+		} while (teamName != null && !teamName.isEmpty()
+				&& teamid < table.getRowCount());
 
 		return result;
 	}
@@ -247,11 +233,19 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void disableEditing()
 	{
 		table.setEnabled(false);
+		btnOpen.setEnabled(false);
+		btnTest.setEnabled(false);
+		btnCompetition.setEnabled(false);
+		btnStop.setEnabled(true);
 	}
 
 	public void enableEditing()
 	{
 		table.setEnabled(true);
+		btnOpen.setEnabled(true);
+		btnTest.setEnabled(true);
+		btnCompetition.setEnabled(true);
+		btnStop.setEnabled(false);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -274,6 +268,10 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private JTextField averageRuns;
 
+	private JButton btnStopServer;
+
+	private JButton btnOpen;
+
 	@Override
 	public void update(IModelReadOnly model)
 	{
@@ -282,18 +280,92 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		for (int i = 0; i < teamResults.size(); i++) {
 			TeamResult teamResult = teamResults.get(i);
 
+			int teamRow = getTeamRow(teamResult.getName());
+
 			float averageScore = teamResult.getAverageScore();
-			table.setValueAt(averageScore, i, COLUMN_SCORE);
+			table.setValueAt(averageScore, teamRow, COLUMN_SCORE);
 
 			int fallenCount = teamResult.getFallenCount();
-			table.setValueAt(fallenCount, i, COLUMN_FALLS);
+			table.setValueAt(fallenCount, teamRow, COLUMN_FALLS);
 
 			float averageSpeed = teamResult.getAverageSpeed();
-			table.setValueAt(averageSpeed, i, COLUMN_SPEED);
+			table.setValueAt(averageSpeed, teamRow, COLUMN_SPEED);
 
 			float averageOffGround = teamResult.getAverageOffGround();
-			table.setValueAt(averageOffGround, i, COLUMN_OFF_GROUND);
+			table.setValueAt(averageOffGround, teamRow, COLUMN_OFF_GROUND);
+		}
 
+		if (!model.isRunning()) {
+			enableEditing();
 		}
 	}
+
+	/**
+	 * @param name
+	 * @return
+	 */
+	private int getTeamRow(String name)
+	{
+		for (int i = 0; i < table.getRowCount(); i++) {
+			if (name.equals(table.getValueAt(i, COLUMN_TEAMNAME))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * @return
+	 */
+	public File getFileName()
+	{
+		JFileChooser fc = new JFileChooser(
+				"/host/Data/Programmierung/Robocup/magma/RoboCup3D/config/runChallenge/");
+		int returnVal = fc.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			return fc.getSelectedFile();
+		}
+		return null;
+	}
+
+	/**
+	 * @param message
+	 */
+	public void showErrorMessage(String message)
+	{
+		JOptionPane.showMessageDialog(this, message, "Problem",
+				JOptionPane.ERROR_MESSAGE);
+	}
+
+	/**
+	 * @param loadConfigFile
+	 */
+	public void updateConfigTable(List<TeamConfiguration> loadConfigFile)
+	{
+		createTeamTable(loadConfigFile);
+	}
+
+	/**
+	 * 
+	 */
+	@SuppressWarnings("serial")
+	private void createTeamTable(List<TeamConfiguration> config)
+	{
+		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(table);
+		table.setCellSelectionEnabled(true);
+		DefaultTableModel tableModel = DefaultTableModelExtension
+				.getInstance(config);
+		table.setModel(tableModel);
+		table.getColumnModel().getColumn(0).setPreferredWidth(102);
+		table.getColumnModel().getColumn(1).setPreferredWidth(56);
+		table.getColumnModel().getColumn(2).setPreferredWidth(55);
+		table.getColumnModel().getColumn(3).setPreferredWidth(85);
+		table.getColumnModel().getColumn(5).setPreferredWidth(302);
+		table.getColumnModel().getColumn(6).setPreferredWidth(156);
+		table.setColumnSelectionAllowed(true);
+		table.setAutoCreateRowSorter(true);
+	}
+
 }

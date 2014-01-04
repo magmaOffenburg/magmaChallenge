@@ -21,6 +21,7 @@
 
 package magma.tools.benchmark.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,7 +72,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	public void start(BenchmarkConfiguration config,
 			List<TeamConfiguration> teamConfig)
 	{
-		if (runThread != null) {
+		if (isRunning()) {
 			return;
 		}
 
@@ -82,6 +83,14 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 		runThread = new RunThread(config, teamConfig);
 		runThread.start();
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isRunning()
+	{
+		return runThread != null;
 	}
 
 	/**
@@ -155,7 +164,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	@Override
 	public void stop()
 	{
-		if (runThread != null) {
+		if (isRunning()) {
 			runThread.stopRun();
 		}
 	}
@@ -243,11 +252,25 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 			proxy.shutdown();
 			runThread = null;
+			observer.onStateChange(BenchmarkMain.this);
 		}
 
 		public void stopRun()
 		{
 			stopped = true;
 		}
+	}
+
+	@Override
+	public void stopServer()
+	{
+		server.killAllServer();
+	}
+
+	public List<TeamConfiguration> loadConfigFile(File file)
+			throws InvalidConfigFileException
+	{
+		ConfigLoader loader = new ConfigLoader();
+		return loader.loadConfigFile(file);
 	}
 }

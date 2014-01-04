@@ -23,11 +23,13 @@ package magma.tools.benchmark.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.List;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.BenchmarkMain;
 import magma.tools.benchmark.model.IModelReadWrite;
+import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.view.BenchmarkView;
 
@@ -54,8 +56,10 @@ public class BenchmarkController
 		model = new BenchmarkMain();
 		view = BenchmarkView.getInstance(model);
 		view.addCompetitionButtonListener(new CompetitionListener(false));
+		view.addOpenButtonListener(new LoadConfigFileListener());
 		view.addTestButtonListener(new CompetitionListener(true));
 		view.addStopButtonListener(new StopListener());
+		view.addKillServerListener(new KillServerListener());
 		view.setVisible(true);
 	}
 
@@ -100,6 +104,42 @@ public class BenchmarkController
 		public void actionPerformed(ActionEvent arg0)
 		{
 			model.stop();
+		}
+	}
+
+	/**
+	 * listener for stop button
+	 * 
+	 * @author kdorer
+	 */
+	class KillServerListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			model.stopServer();
+		}
+	}
+
+	/**
+	 * listener for stop button
+	 * 
+	 * @author kdorer
+	 */
+	class LoadConfigFileListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			try {
+				File file = view.getFileName();
+				if (file == null) {
+					return;
+				}
+				List<TeamConfiguration> loadConfigFile = model.loadConfigFile(file);
+				view.updateConfigTable(loadConfigFile);
+
+			} catch (InvalidConfigFileException e) {
+				view.showErrorMessage(e.getMessage());
+			}
 		}
 	}
 }

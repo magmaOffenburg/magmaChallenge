@@ -35,16 +35,6 @@ public class TeamConfiguration
 
 	/**
 	 * 
-	 */
-	public TeamConfiguration()
-	{
-		name = "magma";
-		path = "/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/";
-		launch = "startPlayerRunning.sh";
-	}
-
-	/**
-	 * 
 	 * @param name
 	 * @param path
 	 * @param launch
