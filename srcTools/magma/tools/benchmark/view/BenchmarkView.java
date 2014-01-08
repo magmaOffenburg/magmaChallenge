@@ -22,13 +22,20 @@
 package magma.tools.benchmark.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -43,6 +50,8 @@ import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
@@ -57,21 +66,49 @@ import magma.util.observer.IObserver;
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
 
-	private static final int COLUMN_TEAMNAME = 0;
+	static final int COLUMN_TEAMNAME = 0;
 
-	private static final int COLUMN_SCORE = 1;
+	static final int COLUMN_STATUS = 1;
 
-	private static final int COLUMN_FALLS = 2;
+	static final int COLUMN_SCORE = 2;
 
-	private static final int COLUMN_SPEED = 3;
+	static final int COLUMN_FALLS = 3;
 
-	private static final int COLUMN_OFF_GROUND = 4;
+	static final int COLUMN_SPEED = 4;
 
-	private static final int COLUMN_PATH = 5;
+	static final int COLUMN_OFF_GROUND = 5;
 
-	private static final int COLUMN_BINARY = 6;
+	static final int COLUMN_PATH = 6;
+
+	static final int COLUMN_BINARY = 7;
+
+	private static final long serialVersionUID = 1L;
+
+	private JTextField runTime;
+
+	private JTable table;
+
+	private JScrollPane scrollPane;
+
+	private JToolBar toolBar;
+
+	private JButton btnTest;
+
+	private JButton btnCompetition;
+
+	private JButton btnStop;
+
+	private JLabel lblAvgOutRuns;
+
+	private JTextField averageRuns;
+
+	private JButton btnStopServer;
+
+	private JButton btnOpen;
 
 	private IModelReadOnly model;
+
+	private JFileChooser fc;
 
 	public static BenchmarkView getInstance(IModelReadOnly model)
 	{
@@ -83,6 +120,9 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	private BenchmarkView(IModelReadOnly model)
 	{
 		this.model = model;
+		fc = new JFileChooser(
+				"/host/Data/Programmierung/Robocup/magma/RoboCup3D/config/runChallenge/");
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Run Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -248,30 +288,6 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		btnStop.setEnabled(false);
 	}
 
-	private static final long serialVersionUID = 1L;
-
-	private JTextField runTime;
-
-	private JTable table;
-
-	private JScrollPane scrollPane;
-
-	private JToolBar toolBar;
-
-	private JButton btnTest;
-
-	private JButton btnCompetition;
-
-	private JButton btnStop;
-
-	private JLabel lblAvgOutRuns;
-
-	private JTextField averageRuns;
-
-	private JButton btnStopServer;
-
-	private JButton btnOpen;
-
 	@Override
 	public void update(IModelReadOnly model)
 	{
@@ -293,6 +309,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 			float averageOffGround = teamResult.getAverageOffGround();
 			table.setValueAt(averageOffGround, teamRow, COLUMN_OFF_GROUND);
+
+			table.setValueAt("", teamRow, COLUMN_STATUS);
 		}
 
 		if (!model.isRunning()) {
@@ -315,12 +333,24 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	}
 
 	/**
+	 * @param name
+	 * @return
+	 */
+	private TeamResult getTeamEntry(String name, List<TeamResult> teamResults)
+	{
+		for (TeamResult result : teamResults) {
+			if (name.equals(result.getName())) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * @return
 	 */
 	public File getFileName()
 	{
-		JFileChooser fc = new JFileChooser(
-				"/host/Data/Programmierung/Robocup/magma/RoboCup3D/config/runChallenge/");
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			return fc.getSelectedFile();
@@ -348,7 +378,6 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	/**
 	 * 
 	 */
-	@SuppressWarnings("serial")
 	private void createTeamTable(List<TeamConfiguration> config)
 	{
 		table = new JTable();
@@ -359,13 +388,134 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				.getInstance(config);
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(102);
-		table.getColumnModel().getColumn(1).setPreferredWidth(56);
-		table.getColumnModel().getColumn(2).setPreferredWidth(55);
-		table.getColumnModel().getColumn(3).setPreferredWidth(85);
-		table.getColumnModel().getColumn(5).setPreferredWidth(302);
-		table.getColumnModel().getColumn(6).setPreferredWidth(156);
+		table.getColumnModel().getColumn(2).setPreferredWidth(56);
+		table.getColumnModel().getColumn(3).setPreferredWidth(55);
+		table.getColumnModel().getColumn(4).setPreferredWidth(85);
+		table.getColumnModel().getColumn(6).setPreferredWidth(302);
+		table.getColumnModel().getColumn(7).setPreferredWidth(156);
 		table.setColumnSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
+
+		BenchmarkTableCell benchmarkTableCell = new BenchmarkTableCell();
+		table.getColumn("status").setCellRenderer(benchmarkTableCell);
+		table.getColumn("status").setCellEditor(benchmarkTableCell);
+		table.setRowHeight(35);
+		table.addMouseListener(new TableMouseListener());
 	}
 
+	class TableMouseListener extends MouseAdapter
+	{
+		@Override
+		public void mouseClicked(MouseEvent e)
+		{
+			JTable target = (JTable) e.getSource();
+			int row = target.getSelectedRow();
+			int column = target.getSelectedColumn();
+			if (column == COLUMN_STATUS) {
+				List<TeamResult> teamResults = model.getTeamResults();
+				String team = (String) target.getValueAt(row, COLUMN_TEAMNAME);
+				TeamResult result = getTeamEntry(team, teamResults);
+				if (result != null) {
+					String text = result.getStatusText();
+					int type = JOptionPane.ERROR_MESSAGE;
+					if (result.isValid()) {
+						type = JOptionPane.INFORMATION_MESSAGE;
+					}
+					JOptionPane.showMessageDialog(BenchmarkView.this, text, team,
+							type);
+				}
+			}
+		}
+	}
+
+	enum ResultStatus {
+		NO_RESULT, SUCCESS, FAILED
+	};
+
+	class BenchmarkTableCell extends AbstractCellEditor implements
+			TableCellEditor, TableCellRenderer
+	{
+		/**  */
+		private static final long serialVersionUID = 1L;
+
+		JPanel panel;
+
+		JButton statusButton;
+
+		public BenchmarkTableCell()
+		{
+			statusButton = new JButton();
+			statusButton.setIcon(new ImageIcon(BenchmarkView.class
+					.getResource("/images/info_16.png")));
+			statusButton.setSize(30, 30);
+			statusButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0)
+				{
+					System.out.println("pressed");
+				}
+			});
+
+			panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			panel.add(statusButton);
+		}
+
+		private void updateData(String text, boolean isSelected, JTable table,
+				int row)
+		{
+			statusButton.setText(text);
+			if (isSelected) {
+				panel.setBackground(table.getSelectionBackground());
+			} else {
+				ResultStatus status = getStatus(row);
+				if (status == ResultStatus.SUCCESS) {
+					panel.setBackground(Color.green);
+				} else if (status == ResultStatus.FAILED) {
+					panel.setBackground(Color.RED);
+				} else {
+					panel.setBackground(table.getBackground());
+				}
+			}
+		}
+
+		public Component getTableCellEditorComponent(JTable table, Object value,
+				boolean isSelected, int row, int column)
+		{
+			String text = (String) value;
+			updateData(text, true, table, row);
+			return panel;
+		}
+
+		public Object getCellEditorValue()
+		{
+			return null;
+		}
+
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column)
+		{
+			String text = (String) value;
+			updateData(text, isSelected, table, row);
+			return panel;
+		}
+	}
+
+	/**
+	 * @param row
+	 * @return
+	 */
+	public ResultStatus getStatus(int row)
+	{
+		List<TeamResult> teamResults = model.getTeamResults();
+		String team = (String) table.getValueAt(row, COLUMN_TEAMNAME);
+		TeamResult entry = getTeamEntry(team, teamResults);
+		if (entry == null) {
+			return ResultStatus.NO_RESULT;
+		}
+		if (entry.isValid()) {
+			return ResultStatus.SUCCESS;
+		} else {
+			return ResultStatus.FAILED;
+		}
+	}
 }

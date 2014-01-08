@@ -43,7 +43,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 	public static DefaultTableModelExtension getInstance(
 			List<TeamConfiguration> config)
 	{
-		final int COLUMNS = 7;
+		final int COLUMNS = 8;
 
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
@@ -55,18 +55,19 @@ class DefaultTableModelExtension extends DefaultTableModel
 		Object[][] content = new Object[config.size()][COLUMNS];
 		int i = 0;
 		for (TeamConfiguration team : config) {
-			content[i][0] = team.getName();
-			content[i][1] = null;
-			content[i][2] = null;
-			content[i][3] = null;
-			content[i][4] = null;
-			content[i][5] = team.getPath();
-			content[i][6] = team.getLaunch();
+			content[i][BenchmarkView.COLUMN_TEAMNAME] = team.getName();
+			content[i][BenchmarkView.COLUMN_STATUS] = null;
+			content[i][BenchmarkView.COLUMN_SCORE] = null;
+			content[i][BenchmarkView.COLUMN_FALLS] = null;
+			content[i][BenchmarkView.COLUMN_SPEED] = null;
+			content[i][BenchmarkView.COLUMN_OFF_GROUND] = null;
+			content[i][BenchmarkView.COLUMN_PATH] = team.getPath();
+			content[i][BenchmarkView.COLUMN_BINARY] = team.getLaunch();
 			i++;
 		}
 
-		String[] headers = new String[] { "team", "score", "falls", "speed",
-				"off ground", "path", "binary" };
+		String[] headers = new String[] { "team", "status", "score", "falls",
+				"speed", "off ground", "path", "binary" };
 
 		return new DefaultTableModelExtension(content, headers);
 	}
@@ -79,11 +80,11 @@ class DefaultTableModelExtension extends DefaultTableModel
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] { String.class, Float.class, Integer.class,
-				Float.class, Float.class, String.class, String.class };
+		columnTypes = new Class[] { String.class, Object.class, Float.class,
+				Integer.class, Float.class, Float.class, String.class, String.class };
 
-		columnEditables = new boolean[] { true, false, false, false, false, true,
-				true };
+		columnEditables = new boolean[] { true, false, false, false, false,
+				false, true, true };
 	}
 
 	@Override

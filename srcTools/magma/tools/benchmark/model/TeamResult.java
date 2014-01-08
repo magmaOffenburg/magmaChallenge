@@ -100,6 +100,19 @@ public class TeamResult
 		return fallen;
 	}
 
+	public boolean isValid()
+	{
+		if (results.isEmpty()) {
+			return false;
+		}
+		for (SingleRunResult result : results) {
+			if (!result.isValid()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public int size()
 	{
 		return results.size();
@@ -111,5 +124,25 @@ public class TeamResult
 	public String getName()
 	{
 		return name;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getStatusText()
+	{
+		if (results.isEmpty()) {
+			return "No results";
+		}
+		StringBuffer buffer = new StringBuffer(1000);
+		int i = 0;
+		for (SingleRunResult result : results) {
+			if (!result.getStatusText().isEmpty()) {
+				buffer.append(i).append(": ");
+				buffer.append(result.getStatusText()).append("\n");
+			}
+			i++;
+		}
+		return buffer.toString();
 	}
 }

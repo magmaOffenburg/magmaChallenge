@@ -33,15 +33,22 @@ public class SingleRunResult
 
 	private boolean fallen;
 
+	private boolean valid;
+
+	private String statusText;
+
 	/**
 	 * @param speed
 	 * @param offGround
 	 */
-	public SingleRunResult(float speed, float offGround, boolean fallen)
+	public SingleRunResult(boolean valid, float speed, float offGround,
+			boolean fallen, String statusText)
 	{
+		this.valid = valid;
 		this.speed = speed;
 		this.offGround = offGround;
 		this.fallen = fallen;
+		this.statusText = statusText;
 	}
 
 	/**
@@ -66,6 +73,22 @@ public class SingleRunResult
 	public boolean isFallen()
 	{
 		return fallen;
+	}
+
+	/**
+	 * @return the fallen
+	 */
+	public boolean isValid()
+	{
+		return valid;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getStatusText()
+	{
+		return statusText;
 	}
 
 }

@@ -66,6 +66,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		observer = new Subject<IModelReadOnly>();
 		runThread = null;
 		results = new ArrayList<TeamResult>();
+		server = new ServerController(3100, 3200, false);
 	}
 
 	@Override
@@ -99,12 +100,22 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	private void collectResults()
 	{
 		BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
-		float avgSpeed = referee.getAverageSpeed();
-		float bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
-		boolean fallen = referee.isHasFallen();
-
+		float avgSpeed = 0;
+		float bothLegsOffGround = 0;
+		boolean fallen = false;
+		boolean valid = false;
+		String status = "";
+		if (referee.getState() == RefereeState.STOPPED) {
+			avgSpeed = referee.getAverageSpeed();
+			bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
+			fallen = referee.isHasFallen();
+			valid = true;
+		} else {
+			status = referee.getStatusText();
+		}
 		getCurrentResult().addResult(
-				new SingleRunResult(avgSpeed, bothLegsOffGround, fallen));
+				new SingleRunResult(valid, avgSpeed, bothLegsOffGround, fallen,
+						status));
 		observer.onStateChange(this);
 	}
 
