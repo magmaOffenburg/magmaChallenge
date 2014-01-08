@@ -110,6 +110,22 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private JFileChooser fc;
 
+	private JLabel lblServer;
+
+	private JTextField serverIP;
+
+	private JLabel lblServerport;
+
+	private JTextField serverPort;
+
+	private JLabel lblProxyport;
+
+	private JTextField proxyPort;
+
+	private JLabel lblTrainerport;
+
+	private JTextField trainerPort;
+
 	public static BenchmarkView getInstance(IModelReadOnly model)
 	{
 		BenchmarkView view = new BenchmarkView(model);
@@ -126,7 +142,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Run Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setSize(800, 600);
+		setSize(1000, 600);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
@@ -163,6 +179,38 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		averageRuns.setText("3");
 		panel.add(averageRuns);
 		averageRuns.setColumns(4);
+
+		lblServer = new JLabel("Server:");
+		panel.add(lblServer);
+
+		serverIP = new JTextField();
+		serverIP.setText("127.0.0.1");
+		panel.add(serverIP);
+		serverIP.setColumns(8);
+
+		lblServerport = new JLabel("ServerPort:");
+		panel.add(lblServerport);
+
+		serverPort = new JTextField();
+		serverPort.setText("3100");
+		panel.add(serverPort);
+		serverPort.setColumns(5);
+
+		lblProxyport = new JLabel("ProxyPort:");
+		panel.add(lblProxyport);
+
+		proxyPort = new JTextField();
+		proxyPort.setText("3110");
+		panel.add(proxyPort);
+		proxyPort.setColumns(5);
+
+		lblTrainerport = new JLabel("TrainerPort:");
+		panel.add(lblTrainerport);
+
+		trainerPort = new JTextField();
+		trainerPort.setText("3200");
+		panel.add(trainerPort);
+		trainerPort.setColumns(5);
 
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -239,14 +287,14 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	public BenchmarkConfiguration getBenchmarkConfiguration()
 	{
-		String serverIP = "127.0.0.1";
-		int serverPort = 3100;
-		int agentPort = 3110;
-		int trainerPort = 3200;
+		String sIP = serverIP.getText();
+		int sPort = getNumber(serverPort.getText(), 1, 65536);
+		int pPort = getNumber(proxyPort.getText(), 1, 65536);
+		int tPort = getNumber(trainerPort.getText(), 1, 65536);
 		int averageOutRuns = getNumber(averageRuns.getText(), 1, 200);
 		int time = getNumber(runTime.getText(), 2, 20);
-		return new BenchmarkConfiguration(serverIP, serverPort, agentPort,
-				trainerPort, averageOutRuns, time);
+		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
+				averageOutRuns, time);
 	}
 
 	public List<TeamConfiguration> getTeamConfiguration()

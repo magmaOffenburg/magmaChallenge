@@ -132,17 +132,21 @@ public class TeamResult
 	public String getStatusText()
 	{
 		if (results.isEmpty()) {
-			return "No results";
+			return "No results.";
 		}
 		StringBuffer buffer = new StringBuffer(1000);
 		int i = 0;
 		for (SingleRunResult result : results) {
 			if (!result.getStatusText().isEmpty()) {
-				buffer.append(i).append(": ");
+				buffer.append(i + 1).append(": ");
 				buffer.append(result.getStatusText()).append("\n");
 			}
 			i++;
 		}
-		return buffer.toString();
+		String result = buffer.toString();
+		if (result.isEmpty()) {
+			result = "No problems.";
+		}
+		return result;
 	}
 }

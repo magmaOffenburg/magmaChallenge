@@ -135,6 +135,7 @@ public class BenchmarkController
 					return;
 				}
 				List<TeamConfiguration> loadConfigFile = model.loadConfigFile(file);
+				model.resetModel();
 				view.updateConfigTable(loadConfigFile);
 
 			} catch (InvalidConfigFileException e) {

@@ -61,12 +61,22 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 	private int currentTeam;
 
+	private String statusText;
+
 	public BenchmarkMain()
 	{
 		observer = new Subject<IModelReadOnly>();
 		runThread = null;
 		results = new ArrayList<TeamResult>();
 		server = new ServerController(3100, 3200, false);
+		statusText = "";
+	}
+
+	public void resetModel()
+	{
+		results = new ArrayList<TeamResult>();
+		currentTeam = 0;
+		statusText = "";
 	}
 
 	@Override
@@ -77,8 +87,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			return;
 		}
 
-		results = new ArrayList<TeamResult>();
-		currentTeam = 0;
+		resetModel();
 		server = new ServerController(config.getServerPort(),
 				config.getTrainerPort(), false);
 
@@ -104,18 +113,17 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		float bothLegsOffGround = 0;
 		boolean fallen = false;
 		boolean valid = false;
-		String status = "";
 		if (referee.getState() == RefereeState.STOPPED) {
 			avgSpeed = referee.getAverageSpeed();
 			bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
 			fallen = referee.isHasFallen();
 			valid = true;
 		} else {
-			status = referee.getStatusText();
+			statusText += referee.getStatusText();
 		}
 		getCurrentResult().addResult(
 				new SingleRunResult(valid, avgSpeed, bothLegsOffGround, fallen,
-						status));
+						statusText));
 		observer.onStateChange(this);
 	}
 
@@ -140,7 +148,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		proxy.start();
 	}
 
-	private void startTrainer(BenchmarkConfiguration config,
+	private boolean startTrainer(BenchmarkConfiguration config,
 			TeamConfiguration teamConfig)
 	{
 		MonitorComponentFactory factory = new MonitorComponentFactory(
@@ -162,11 +170,16 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 					System.out
 							.println("connection not possible, sleeping..................");
 					Thread.sleep(200);
+					tryCount++;
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		if (tryCount >= 10) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -176,7 +189,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	public void stop()
 	{
 		if (isRunning()) {
-			runThread.stopRun();
+			runThread.stopAll();
 		}
 	}
 
@@ -191,6 +204,21 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			} else if (monitor.getReferee().getState() == RefereeState.STOPPED) {
 				benchmarkAgentProxy.stopCount();
 			}
+		}
+
+		int countMonitor = monitor.getWorldModel().getSoccerAgents().size();
+		if (countMonitor > 1) {
+			statusText += "More than one player on the field\n";
+			monitor.stopMonitor();
+			runThread.stopTeam();
+			return;
+		}
+		int countProxy = proxy.getAgentProxies().size();
+		if (countMonitor == 1 && countProxy < 1) {
+			statusText += "Player did not connect through proxy\n";
+			monitor.stopMonitor();
+			runThread.stopTeam();
+			return;
 		}
 	}
 
@@ -218,6 +246,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 		private boolean stopped;
 
+		private boolean stoppedTeam;
+
 		private List<TeamConfiguration> teamConfig;
 
 		/**
@@ -229,6 +259,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			this.config = config;
 			this.teamConfig = teamConfig;
 			stopped = false;
+			stoppedTeam = false;
 		}
 
 		@Override
@@ -241,14 +272,16 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 			for (TeamConfiguration currentTeamConfig : teamConfig) {
 				results.add(new TeamResult(currentTeamConfig.getName()));
-
-				while (getCurrentResult().size() < avgRuns && !stopped) {
+				stoppedTeam = false;
+				while (getCurrentResult().size() < avgRuns && !stopped
+						&& !stoppedTeam) {
 					try {
 						server.startServer();
 
-						startTrainer(config, currentTeamConfig);
-
-						collectResults();
+						boolean success = startTrainer(config, currentTeamConfig);
+						if (success) {
+							collectResults();
+						}
 
 					} catch (RuntimeException e) {
 						e.printStackTrace();
@@ -259,6 +292,9 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				System.out.println("Overall Score: "
 						+ getCurrentResult().getAverageScore());
 				currentTeam++;
+				if (stopped) {
+					break;
+				}
 			}
 
 			proxy.shutdown();
@@ -266,9 +302,14 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			observer.onStateChange(BenchmarkMain.this);
 		}
 
-		public void stopRun()
+		public void stopAll()
 		{
 			stopped = true;
+		}
+
+		public void stopTeam()
+		{
+			stoppedTeam = true;
 		}
 	}
 
