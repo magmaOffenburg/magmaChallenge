@@ -126,18 +126,18 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private JTextField trainerPort;
 
-	public static BenchmarkView getInstance(IModelReadOnly model)
+	public static BenchmarkView getInstance(IModelReadOnly model,
+			String defaultPath)
 	{
-		BenchmarkView view = new BenchmarkView(model);
+		BenchmarkView view = new BenchmarkView(model, defaultPath);
 		model.attach(view);
 		return view;
 	}
 
-	private BenchmarkView(IModelReadOnly model)
+	private BenchmarkView(IModelReadOnly model, String defaultPath)
 	{
 		this.model = model;
-		fc = new JFileChooser(
-				"/host/Data/Programmierung/Robocup/magma/RoboCup3D/config/runChallenge/");
+		fc = new JFileChooser(defaultPath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Run Challenge Benchmark");
@@ -222,28 +222,28 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 		btnOpen = new JButton("Open...");
 		btnOpen.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/documentOpen_16.png")));
+				.getResource("/images/runChallenge/documentOpen_16.png")));
 		toolBar.add(btnOpen);
 
 		btnTest = new JButton("Test");
 		btnTest.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/info_16.png")));
+				.getResource("/images/runChallenge/info_16.png")));
 		toolBar.add(btnTest);
 
 		btnCompetition = new JButton("Competition");
 		btnCompetition.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/execute_16.png")));
+				.getResource("/images/runChallenge/execute_16.png")));
 		toolBar.add(btnCompetition);
 
 		btnStop = new JButton("Stop");
 		btnStop.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/processStop_16.png")));
+				.getResource("/images/runChallenge/processStop_16.png")));
 		btnStop.setEnabled(false);
 		toolBar.add(btnStop);
 
 		btnStopServer = new JButton("Stop Server");
 		btnStopServer.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/helpAbout_16.png")));
+				.getResource("/images/runChallenge/helpAbout_16.png")));
 		toolBar.add(btnStopServer);
 	}
 
@@ -494,7 +494,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		{
 			statusButton = new JButton();
 			statusButton.setIcon(new ImageIcon(BenchmarkView.class
-					.getResource("/images/info_16.png")));
+					.getResource("/images/runChallenge/info_16.png")));
 			statusButton.setSize(30, 30);
 			statusButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0)

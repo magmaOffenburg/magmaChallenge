@@ -45,16 +45,20 @@ public class BenchmarkController
 
 	public static void main(String[] args)
 	{
-		new BenchmarkController();
+		String defaultPath = "/host/Data/Programmierung/Robocup/magma/RoboCup3D/config/runChallenge/";
+		if (args.length > 0) {
+			defaultPath = args[0];
+		}
+		new BenchmarkController(defaultPath);
 	}
 
 	/**
 	 * 
 	 */
-	public BenchmarkController()
+	public BenchmarkController(String defaultPath)
 	{
 		model = new BenchmarkMain();
-		view = BenchmarkView.getInstance(model);
+		view = BenchmarkView.getInstance(model, defaultPath);
 		view.addCompetitionButtonListener(new CompetitionListener(false));
 		view.addOpenButtonListener(new LoadConfigFileListener());
 		view.addTestButtonListener(new CompetitionListener(true));

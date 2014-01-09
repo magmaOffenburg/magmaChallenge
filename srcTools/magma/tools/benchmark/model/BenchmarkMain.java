@@ -35,6 +35,7 @@ import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.referee.impl.BenchmarkReferee;
 import magma.monitor.server.ServerController;
+import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
 import magma.util.observer.IObserver;
 import magma.util.observer.IPublishSubscribe;
@@ -108,18 +109,20 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	 */
 	private void collectResults()
 	{
-		BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
 		float avgSpeed = 0;
 		float bothLegsOffGround = 0;
 		boolean fallen = false;
 		boolean valid = false;
-		if (referee.getState() == RefereeState.STOPPED) {
-			avgSpeed = referee.getAverageSpeed();
-			bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
-			fallen = referee.isHasFallen();
-			valid = true;
-		} else {
-			statusText += referee.getStatusText();
+		if (monitor != null) {
+			BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
+			if (referee.getState() == RefereeState.STOPPED) {
+				avgSpeed = referee.getAverageSpeed();
+				bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
+				fallen = referee.isHasFallen();
+				valid = true;
+			} else {
+				statusText += referee.getStatusText();
+			}
 		}
 		getCurrentResult().addResult(
 				new SingleRunResult(valid, avgSpeed, bothLegsOffGround, fallen,
@@ -167,8 +170,6 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			connected = monitor.startMonitor();
 			if (!connected) {
 				try {
-					System.out
-							.println("connection not possible, sleeping..................");
 					Thread.sleep(200);
 					tryCount++;
 				} catch (InterruptedException e) {
@@ -282,6 +283,10 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 						if (success) {
 							collectResults();
 						}
+
+					} catch (ServerException e) {
+						statusText += e.getMessage();
+						collectResults();
 
 					} catch (RuntimeException e) {
 						e.printStackTrace();
