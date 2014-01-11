@@ -24,6 +24,7 @@ package magma.tools.benchmark.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +39,7 @@ import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,6 +47,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
@@ -104,13 +107,15 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private JButton btnStopServer;
 
+	private JButton btnOpenScript;
+
 	private JButton btnOpen;
 
 	private IModelReadOnly model;
 
 	private JFileChooser fc;
 
-	private JLabel lblServer;
+	// private JLabel lblServer;
 
 	private JTextField serverIP;
 
@@ -125,6 +130,10 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	private JLabel lblTrainerport;
 
 	private JTextField trainerPort;
+
+	private JCheckBox chckbxVerbose;
+
+	private JButton btnAbout;
 
 	public static BenchmarkView getInstance(IModelReadOnly model,
 			String defaultPath)
@@ -180,13 +189,13 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(averageRuns);
 		averageRuns.setColumns(4);
 
-		lblServer = new JLabel("Server:");
-		panel.add(lblServer);
+		// lblServer = new JLabel("Server:");
+		// panel.add(lblServer);
 
 		serverIP = new JTextField();
 		serverIP.setText("127.0.0.1");
-		panel.add(serverIP);
-		serverIP.setColumns(8);
+		// panel.add(serverIP);
+		// serverIP.setColumns(8);
 
 		lblServerport = new JLabel("ServerPort:");
 		panel.add(lblServerport);
@@ -212,6 +221,9 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(trainerPort);
 		trainerPort.setColumns(5);
 
+		chckbxVerbose = new JCheckBox("Verbose");
+		panel.add(chckbxVerbose);
+
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
@@ -220,7 +232,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.SOUTH);
 
-		btnOpen = new JButton("Open...");
+		btnOpenScript = new JButton("Open Start Script...");
+		btnOpenScript.setIcon(new ImageIcon(BenchmarkView.class
+				.getResource("/images/runChallenge/documentOpen_16.png")));
+		toolBar.add(btnOpenScript);
+
+		btnOpen = new JButton("Open Competition...");
 		btnOpen.setIcon(new ImageIcon(BenchmarkView.class
 				.getResource("/images/runChallenge/documentOpen_16.png")));
 		toolBar.add(btnOpen);
@@ -245,6 +262,22 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		btnStopServer.setIcon(new ImageIcon(BenchmarkView.class
 				.getResource("/images/runChallenge/helpAbout_16.png")));
 		toolBar.add(btnStopServer);
+
+		btnAbout = new JButton("About");
+		btnAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				String text = "Run Challenge Benchmark Tool.\n\n";
+				text += "Provided by the magmaOffenburg team.\n";
+				text += "Version 0.8";
+				JOptionPane.showMessageDialog(BenchmarkView.this, text,
+						"Run Challenge Benchmark Tool",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		btnAbout.setIcon(new ImageIcon(BenchmarkView.class
+				.getResource("/images/runChallenge/helpContents_16.png")));
+		toolBar.add(btnAbout);
 	}
 
 	private int getNumber(String text, int minimum, int maximum)
@@ -258,6 +291,11 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		} catch (NumberFormatException e) {
 			return minimum;
 		}
+	}
+
+	public void addOpenScriptButtonListener(ActionListener listener)
+	{
+		btnOpenScript.addActionListener(listener);
 	}
 
 	public void addOpenButtonListener(ActionListener listener)
@@ -293,8 +331,9 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int tPort = getNumber(trainerPort.getText(), 1, 65536);
 		int averageOutRuns = getNumber(averageRuns.getText(), 1, 200);
 		int time = getNumber(runTime.getText(), 2, 20);
+		boolean verbose = chckbxVerbose.isSelected();
 		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
-				averageOutRuns, time);
+				averageOutRuns, time, verbose);
 	}
 
 	public List<TeamConfiguration> getTeamConfiguration()
@@ -321,6 +360,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void disableEditing()
 	{
 		table.setEnabled(false);
+		btnOpenScript.setEnabled(false);
 		btnOpen.setEnabled(false);
 		btnTest.setEnabled(false);
 		btnCompetition.setEnabled(false);
@@ -330,6 +370,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void enableEditing()
 	{
 		table.setEnabled(true);
+		btnOpenScript.setEnabled(true);
 		btnOpen.setEnabled(true);
 		btnTest.setEnabled(true);
 		btnCompetition.setEnabled(true);
@@ -411,7 +452,16 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	 */
 	public void showErrorMessage(String message)
 	{
-		JOptionPane.showMessageDialog(this, message, "Problem",
+		JTextArea jta = new JTextArea(message);
+		@SuppressWarnings("serial")
+		JScrollPane jsp = new JScrollPane(jta) {
+			@Override
+			public Dimension getPreferredSize()
+			{
+				return new Dimension(600, 320);
+			}
+		};
+		JOptionPane.showMessageDialog(this, jsp, "Problem",
 				JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -465,12 +515,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				TeamResult result = getTeamEntry(team, teamResults);
 				if (result != null) {
 					String text = result.getStatusText();
-					int type = JOptionPane.ERROR_MESSAGE;
 					if (result.isValid()) {
-						type = JOptionPane.INFORMATION_MESSAGE;
+						JOptionPane.showMessageDialog(BenchmarkView.this, text, team,
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						showErrorMessage(text);
 					}
-					JOptionPane.showMessageDialog(BenchmarkView.this, text, team,
-							type);
 				}
 			}
 		}

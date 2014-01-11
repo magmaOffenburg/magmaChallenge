@@ -92,6 +92,9 @@ public class BenchmarkAgentProxy extends AgentProxy
 		if (startCount && !stopCount) {
 			if (leftForce.getNorm() < 0.01 && rightForce.getNorm() < 0.01) {
 				bothLegsOffGround++;
+				if (showMessages) {
+					System.out.println("off ground");
+				}
 			} else {
 				legOnGround++;
 			}

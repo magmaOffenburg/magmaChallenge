@@ -64,6 +64,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 	private String statusText;
 
+	private int runtime;
+
 	public BenchmarkMain()
 	{
 		observer = new Subject<IModelReadOnly>();
@@ -71,6 +73,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		results = new ArrayList<TeamResult>();
 		server = new ServerController(3100, 3200, false);
 		statusText = "";
+		runtime = 10;
 	}
 
 	public void resetModel()
@@ -117,7 +120,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgSpeed = referee.getAverageSpeed();
-				bothLegsOffGround = proxy.getBothLegsOffGround() / (10 * 50f);
+				bothLegsOffGround = proxy.getBothLegsOffGround() / (runtime * 50f);
 				fallen = referee.isHasFallen();
 				valid = true;
 			} else {
@@ -146,7 +149,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		// start proxy to get force information
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
 				config.getAgentPort(), config.getServerIP(),
-				config.getServerPort(), false);
+				config.getServerPort(), config.isVerbose());
 		proxy = new BenchmarkAgentProxyServer(parameterObject);
 		proxy.start();
 	}
@@ -154,10 +157,11 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	private boolean startTrainer(BenchmarkConfiguration config,
 			TeamConfiguration teamConfig)
 	{
+		runtime = config.getRuntime();
 		MonitorComponentFactory factory = new MonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
 						config.getAgentPort(), teamConfig.getPath(), null,
-						teamConfig.getLaunch(), null, config.getRuntime()));
+						teamConfig.getLaunch(), null, runtime));
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));

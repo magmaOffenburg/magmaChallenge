@@ -39,6 +39,8 @@ public class BenchmarkConfiguration
 
 	private int runtime;
 
+	private boolean verbose;
+
 	/**
 	 * @param serverIP
 	 * @param path
@@ -49,7 +51,8 @@ public class BenchmarkConfiguration
 	 * @param runtime time to run in seconds
 	 */
 	public BenchmarkConfiguration(String serverIP, int serverPort,
-			int agentPort, int trainerPort, int averageOutRuns, int runtime)
+			int agentPort, int trainerPort, int averageOutRuns, int runtime,
+			boolean verbose)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
@@ -57,6 +60,7 @@ public class BenchmarkConfiguration
 		this.trainerPort = trainerPort;
 		this.averageOutRuns = averageOutRuns;
 		this.runtime = runtime;
+		this.verbose = verbose;
 	}
 
 	/**
@@ -105,6 +109,14 @@ public class BenchmarkConfiguration
 	public int getRuntime()
 	{
 		return runtime;
+	}
+
+	/**
+	 * @return the runtime in seconds
+	 */
+	public boolean isVerbose()
+	{
+		return verbose;
 	}
 
 	/**

@@ -67,7 +67,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 		}
 
 		String[] headers = new String[] { "team", "status", "score", "falls",
-				"speed", "off ground", "path", "binary" };
+				"speed", "off ground", "path", "start script" };
 
 		return new DefaultTableModelExtension(content, headers);
 	}

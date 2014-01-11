@@ -24,6 +24,7 @@ package magma.tools.benchmark.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
@@ -60,6 +61,7 @@ public class BenchmarkController
 		model = new BenchmarkMain();
 		view = BenchmarkView.getInstance(model, defaultPath);
 		view.addCompetitionButtonListener(new CompetitionListener(false));
+		view.addOpenScriptButtonListener(new LoadScriptFileListener());
 		view.addOpenButtonListener(new LoadConfigFileListener());
 		view.addTestButtonListener(new CompetitionListener(true));
 		view.addStopButtonListener(new StopListener());
@@ -145,6 +147,28 @@ public class BenchmarkController
 			} catch (InvalidConfigFileException e) {
 				view.showErrorMessage(e.getMessage());
 			}
+		}
+	}
+
+	/**
+	 * listener for stop button
+	 * 
+	 * @author kdorer
+	 */
+	class LoadScriptFileListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			File file = view.getFileName();
+			if (file == null) {
+				return;
+			}
+			TeamConfiguration config = new TeamConfiguration("teamname",
+					file.getParent() + File.separator, file.getName());
+			List<TeamConfiguration> loadConfigFile = Collections
+					.singletonList(config);
+			model.resetModel();
+			view.updateConfigTable(loadConfigFile);
 		}
 	}
 }
