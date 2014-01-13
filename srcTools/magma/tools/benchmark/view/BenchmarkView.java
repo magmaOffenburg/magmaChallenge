@@ -152,6 +152,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		setTitle("Run Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(1000, 600);
+		setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
