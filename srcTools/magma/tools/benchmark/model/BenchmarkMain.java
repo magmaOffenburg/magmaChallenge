@@ -37,6 +37,7 @@ import magma.monitor.referee.impl.BenchmarkReferee;
 import magma.monitor.server.ServerController;
 import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
+import magma.util.connection.ConnectionException;
 import magma.util.observer.IObserver;
 import magma.util.observer.IPublishSubscribe;
 import magma.util.observer.Subject;
@@ -171,11 +172,13 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		int tryCount = 0;
 		boolean connected = false;
 		while (!connected && tryCount < 10) {
-			connected = monitor.startMonitor();
-			if (!connected) {
+			try {
+				monitor.startMonitor();
+			} catch (ConnectionException e1) {
+				tryCount++;
+				connected = false;
 				try {
 					Thread.sleep(200);
-					tryCount++;
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
