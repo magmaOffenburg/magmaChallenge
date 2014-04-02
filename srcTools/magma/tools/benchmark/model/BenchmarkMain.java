@@ -153,6 +153,11 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				config.getServerPort(), config.isVerbose());
 		proxy = new BenchmarkAgentProxyServer(parameterObject);
 		proxy.start();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean startTrainer(BenchmarkConfiguration config,
@@ -161,8 +166,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		runtime = config.getRuntime();
 		MonitorComponentFactory factory = new MonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), teamConfig.getPath(), null,
-						teamConfig.getLaunch(), null, runtime));
+						config.getAgentPort(), teamConfig.getName(),
+						teamConfig.getPath(), teamConfig.getLaunch(), null, runtime));
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));
@@ -174,6 +179,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		while (!connected && tryCount < 10) {
 			try {
 				monitor.startMonitor();
+				connected = true;
 			} catch (ConnectionException e1) {
 				tryCount++;
 				connected = false;
