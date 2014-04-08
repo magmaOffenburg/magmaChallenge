@@ -86,6 +86,36 @@ public class TeamResult
 	/**
 	 * @return
 	 */
+	public float getAverageOneLeg()
+	{
+		if (results.isEmpty()) {
+			return 0.0f;
+		}
+		float avg = 0;
+		for (SingleRunResult result : results) {
+			avg += result.getOneLeg();
+		}
+		return avg / results.size();
+	}
+
+	/**
+	 * @return
+	 */
+	public float getAverageTwoLegs()
+	{
+		if (results.isEmpty()) {
+			return 0.0f;
+		}
+		float avg = 0;
+		for (SingleRunResult result : results) {
+			avg += result.getTwoLegs();
+		}
+		return avg / results.size();
+	}
+
+	/**
+	 * @return
+	 */
 	public int getFallenCount()
 	{
 		if (results.isEmpty()) {

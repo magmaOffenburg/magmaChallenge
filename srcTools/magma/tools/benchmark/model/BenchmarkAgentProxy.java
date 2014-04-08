@@ -37,6 +37,12 @@ public class BenchmarkAgentProxy extends AgentProxy
 	/** counts the number of cycles both legs do not have force */
 	private int bothLegsOffGround;
 
+	/** counts the number of cycles one leg do not have force */
+	private int oneLegOffGround;
+
+	/** counts the number of cycles both legs have force */
+	private int noLegOffGround;
+
 	/** counts the number of cycles in which at least one leg has force */
 	private int legOnGround;
 
@@ -62,6 +68,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 			return;
 		}
 		bothLegsOffGround = 0;
+		oneLegOffGround = 0;
+		noLegOffGround = 0;
 		legOnGround = 0;
 		startCount = true;
 		stopCount = false;
@@ -97,6 +105,11 @@ public class BenchmarkAgentProxy extends AgentProxy
 				}
 			} else {
 				legOnGround++;
+				if (leftForce.getNorm() >= 0.01 && rightForce.getNorm() >= 0.01) {
+					noLegOffGround++;
+				} else {
+					oneLegOffGround++;
+				}
 			}
 		}
 
@@ -151,6 +164,22 @@ public class BenchmarkAgentProxy extends AgentProxy
 	public int getBothLegsOffGround()
 	{
 		return bothLegsOffGround;
+	}
+
+	/**
+	 * @return the bothLegsOffGround
+	 */
+	public int getOneLegOffGround()
+	{
+		return oneLegOffGround;
+	}
+
+	/**
+	 * @return the bothLegsOffGround
+	 */
+	public int getNoLegOffGround()
+	{
+		return noLegOffGround;
 	}
 
 	/**

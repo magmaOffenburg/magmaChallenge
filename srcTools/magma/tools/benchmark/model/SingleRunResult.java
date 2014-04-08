@@ -31,6 +31,10 @@ public class SingleRunResult
 
 	private float offGround;
 
+	private float oneLeg;
+
+	private float twoLegs;
+
 	private boolean fallen;
 
 	private boolean valid;
@@ -42,11 +46,13 @@ public class SingleRunResult
 	 * @param offGround
 	 */
 	public SingleRunResult(boolean valid, float speed, float offGround,
-			boolean fallen, String statusText)
+			float oneLeg, float twoLegs, boolean fallen, String statusText)
 	{
 		this.valid = valid;
 		this.speed = speed;
 		this.offGround = offGround;
+		this.oneLeg = oneLeg;
+		this.twoLegs = twoLegs;
 		this.fallen = fallen;
 		this.statusText = statusText;
 	}
@@ -89,6 +95,22 @@ public class SingleRunResult
 	public String getStatusText()
 	{
 		return statusText;
+	}
+
+	/**
+	 * @return the oneLeg
+	 */
+	public float getOneLeg()
+	{
+		return oneLeg;
+	}
+
+	/**
+	 * @return the twoLegs
+	 */
+	public float getTwoLegs()
+	{
+		return twoLegs;
 	}
 
 }

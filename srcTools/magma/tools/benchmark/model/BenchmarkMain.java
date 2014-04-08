@@ -115,6 +115,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	{
 		float avgSpeed = 0;
 		float bothLegsOffGround = 0;
+		float oneLegOffGround = 0;
+		float noLegOffGround = 0;
 		boolean fallen = false;
 		boolean valid = false;
 		if (monitor != null) {
@@ -122,6 +124,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgSpeed = referee.getAverageSpeed();
 				bothLegsOffGround = proxy.getBothLegsOffGround() / (runtime * 50f);
+				oneLegOffGround = proxy.getOneLegOffGround() / (runtime * 50f);
+				noLegOffGround = proxy.getNoLegOffGround() / (runtime * 50f);
 				fallen = referee.isHasFallen();
 				valid = true;
 			} else {
@@ -129,8 +133,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			}
 		}
 		getCurrentResult().addResult(
-				new SingleRunResult(valid, avgSpeed, bothLegsOffGround, fallen,
-						statusText));
+				new SingleRunResult(valid, avgSpeed, bothLegsOffGround,
+						oneLegOffGround, noLegOffGround, fallen, statusText));
 		observer.onStateChange(this);
 	}
 

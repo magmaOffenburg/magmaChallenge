@@ -75,15 +75,21 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	static final int COLUMN_SCORE = 2;
 
-	static final int COLUMN_FALLS = 3;
+	static final int COLUMN_RUNS = 3;
 
-	static final int COLUMN_SPEED = 4;
+	static final int COLUMN_FALLS = 4;
 
-	static final int COLUMN_OFF_GROUND = 5;
+	static final int COLUMN_SPEED = 5;
 
-	static final int COLUMN_PATH = 6;
+	static final int COLUMN_OFF_GROUND = 6;
 
-	static final int COLUMN_BINARY = 7;
+	static final int COLUMN_ONE_LEG = 7;
+
+	static final int COLUMN_TWO_LEGS = 8;
+
+	static final int COLUMN_PATH = 9;
+
+	static final int COLUMN_BINARY = 10;
 
 	private static final long serialVersionUID = 1L;
 
@@ -270,7 +276,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			{
 				String text = "Run Challenge Benchmark Tool.\n\n";
 				text += "Provided by the magmaOffenburg team.\n";
-				text += "Version 0.8";
+				text += "Version 1.0";
 				JOptionPane.showMessageDialog(BenchmarkView.this, text,
 						"Run Challenge Benchmark Tool",
 						JOptionPane.INFORMATION_MESSAGE);
@@ -391,6 +397,9 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			float averageScore = teamResult.getAverageScore();
 			table.setValueAt(averageScore, teamRow, COLUMN_SCORE);
 
+			int runs = teamResult.size();
+			table.setValueAt(runs, teamRow, COLUMN_RUNS);
+
 			int fallenCount = teamResult.getFallenCount();
 			table.setValueAt(fallenCount, teamRow, COLUMN_FALLS);
 
@@ -399,6 +408,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 			float averageOffGround = teamResult.getAverageOffGround();
 			table.setValueAt(averageOffGround, teamRow, COLUMN_OFF_GROUND);
+
+			float averageOneLeg = teamResult.getAverageOneLeg();
+			table.setValueAt(averageOneLeg, teamRow, COLUMN_ONE_LEG);
+
+			float averageTwoLegs = teamResult.getAverageTwoLegs();
+			table.setValueAt(averageTwoLegs, teamRow, COLUMN_TWO_LEGS);
 
 			table.setValueAt("", teamRow, COLUMN_STATUS);
 		}
@@ -488,17 +503,20 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(102);
 		table.getColumnModel().getColumn(2).setPreferredWidth(56);
-		table.getColumnModel().getColumn(3).setPreferredWidth(55);
-		table.getColumnModel().getColumn(4).setPreferredWidth(85);
-		table.getColumnModel().getColumn(6).setPreferredWidth(302);
-		table.getColumnModel().getColumn(7).setPreferredWidth(156);
+		table.getColumnModel().getColumn(3).setPreferredWidth(44);
+		table.getColumnModel().getColumn(4).setPreferredWidth(38);
+		table.getColumnModel().getColumn(5).setPreferredWidth(85);
+		table.getColumnModel().getColumn(7).setPreferredWidth(54);
+		table.getColumnModel().getColumn(8).setPreferredWidth(54);
+		table.getColumnModel().getColumn(9).setPreferredWidth(302);
+		table.getColumnModel().getColumn(10).setPreferredWidth(156);
 		table.setColumnSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 
 		BenchmarkTableCell benchmarkTableCell = new BenchmarkTableCell();
 		table.getColumn("status").setCellRenderer(benchmarkTableCell);
 		table.getColumn("status").setCellEditor(benchmarkTableCell);
-		table.setRowHeight(35);
+		table.setRowHeight(30);
 		table.addMouseListener(new TableMouseListener());
 	}
 

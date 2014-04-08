@@ -65,6 +65,28 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 	}
 
 	/**
+	 * @return the bothLegsOffGround
+	 */
+	public int getOneLegOffGround()
+	{
+		if (agentProxies.isEmpty()) {
+			return 0;
+		}
+		return ((BenchmarkAgentProxy) agentProxies.get(0)).getOneLegOffGround();
+	}
+
+	/**
+	 * @return the bothLegsOffGround
+	 */
+	public int getNoLegOffGround()
+	{
+		if (agentProxies.isEmpty()) {
+			return 0;
+		}
+		return ((BenchmarkAgentProxy) agentProxies.get(0)).getNoLegOffGround();
+	}
+
+	/**
 	 * @return the legOnGround
 	 */
 	public int getLegOnGround()

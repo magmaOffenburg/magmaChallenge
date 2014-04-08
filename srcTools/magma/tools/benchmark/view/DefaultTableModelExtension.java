@@ -43,7 +43,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 	public static DefaultTableModelExtension getInstance(
 			List<TeamConfiguration> config)
 	{
-		final int COLUMNS = 8;
+		final int COLUMNS = 11;
 
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
@@ -58,16 +58,20 @@ class DefaultTableModelExtension extends DefaultTableModel
 			content[i][BenchmarkView.COLUMN_TEAMNAME] = team.getName();
 			content[i][BenchmarkView.COLUMN_STATUS] = null;
 			content[i][BenchmarkView.COLUMN_SCORE] = null;
+			content[i][BenchmarkView.COLUMN_RUNS] = null;
 			content[i][BenchmarkView.COLUMN_FALLS] = null;
 			content[i][BenchmarkView.COLUMN_SPEED] = null;
 			content[i][BenchmarkView.COLUMN_OFF_GROUND] = null;
+			content[i][BenchmarkView.COLUMN_ONE_LEG] = null;
+			content[i][BenchmarkView.COLUMN_TWO_LEGS] = null;
 			content[i][BenchmarkView.COLUMN_PATH] = team.getPath();
 			content[i][BenchmarkView.COLUMN_BINARY] = team.getLaunch();
 			i++;
 		}
 
-		String[] headers = new String[] { "team", "status", "score", "falls",
-				"speed", "off ground", "path", "start script" };
+		String[] headers = new String[] { "team", "status", "score", "runs",
+				"falls", "speed", "off ground", "one leg", "two legs", "path",
+				"start script" };
 
 		return new DefaultTableModelExtension(content, headers);
 	}
@@ -81,10 +85,11 @@ class DefaultTableModelExtension extends DefaultTableModel
 		super(data, columnNames);
 
 		columnTypes = new Class[] { String.class, Object.class, Float.class,
-				Integer.class, Float.class, Float.class, String.class, String.class };
+				Integer.class, Integer.class, Float.class, Float.class,
+				Float.class, Float.class, String.class, String.class };
 
 		columnEditables = new boolean[] { true, false, false, false, false,
-				false, true, true };
+				false, false, false, false, true, true };
 	}
 
 	@Override
