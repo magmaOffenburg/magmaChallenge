@@ -45,14 +45,14 @@ public class ConfigLoader
 			List<TeamConfiguration> result = new ArrayList<TeamConfiguration>(
 					readCsvFile.size());
 			for (String[] line : readCsvFile) {
-				if (line.length != 3) {
-					String error = "Invalid config file format, expected 3 columns, but was: "
+				if (line.length != 4) {
+					String error = "Invalid config file format, expected 4 columns, but was: "
 							+ line.length + "\nline: " + Arrays.toString(line);
 					throw new InvalidConfigFileException(error);
 				}
-
+				float dropHeight = Float.valueOf(line[3]);
 				TeamConfiguration config = new TeamConfiguration(line[0], line[1],
-						line[2]);
+						line[2], dropHeight);
 				result.add(config);
 			}
 

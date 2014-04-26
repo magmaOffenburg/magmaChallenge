@@ -164,7 +164,7 @@ public class BenchmarkController
 				return;
 			}
 			TeamConfiguration config = new TeamConfiguration("teamname",
-					file.getParent() + File.separator, file.getName());
+					file.getParent() + File.separator, file.getName(), 0.65f);
 			List<TeamConfiguration> loadConfigFile = Collections
 					.singletonList(config);
 			model.resetModel();

@@ -171,7 +171,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		MonitorComponentFactory factory = new MonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
 						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null, runtime));
+						teamConfig.getPath(), teamConfig.getLaunch(), null, runtime,
+						teamConfig.getDropHeight()));
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));

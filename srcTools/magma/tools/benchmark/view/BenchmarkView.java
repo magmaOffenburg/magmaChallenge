@@ -91,6 +91,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	static final int COLUMN_BINARY = 10;
 
+	static final int COLUMN_DROP_HEIGHT = 11;
+
 	private static final long serialVersionUID = 1L;
 
 	private JTextField runTime;
@@ -348,13 +350,15 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		List<TeamConfiguration> result = new ArrayList<TeamConfiguration>();
 		int teamid = 0;
 		String teamName;
+		float dropHeight = 0.65f;
 		do {
 			String teamPath = (String) table.getValueAt(teamid, COLUMN_PATH);
 			String teamBinary = (String) table.getValueAt(teamid, COLUMN_BINARY);
 			teamName = (String) table.getValueAt(teamid, COLUMN_TEAMNAME);
+			dropHeight = (Float) table.getValueAt(teamid, COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName,
-						teamPath, teamBinary);
+						teamPath, teamBinary, dropHeight);
 				result.add(config);
 				teamid++;
 			}

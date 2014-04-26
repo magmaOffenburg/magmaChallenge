@@ -43,12 +43,12 @@ class DefaultTableModelExtension extends DefaultTableModel
 	public static DefaultTableModelExtension getInstance(
 			List<TeamConfiguration> config)
 	{
-		final int COLUMNS = 11;
+		final int COLUMNS = 12;
 
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
 					"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-					"startPlayerRunning.sh");
+					"startPlayerRunning.sh", 0.65f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -66,12 +66,13 @@ class DefaultTableModelExtension extends DefaultTableModel
 			content[i][BenchmarkView.COLUMN_TWO_LEGS] = null;
 			content[i][BenchmarkView.COLUMN_PATH] = team.getPath();
 			content[i][BenchmarkView.COLUMN_BINARY] = team.getLaunch();
+			content[i][BenchmarkView.COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
 		String[] headers = new String[] { "team", "status", "score", "runs",
 				"falls", "speed", "off ground", "one leg", "two legs", "path",
-				"start script" };
+				"start script", "drop height" };
 
 		return new DefaultTableModelExtension(content, headers);
 	}
@@ -86,10 +87,10 @@ class DefaultTableModelExtension extends DefaultTableModel
 
 		columnTypes = new Class[] { String.class, Object.class, Float.class,
 				Integer.class, Integer.class, Float.class, Float.class,
-				Float.class, Float.class, String.class, String.class };
+				Float.class, Float.class, String.class, String.class, Float.class };
 
 		columnEditables = new boolean[] { true, false, false, false, false,
-				false, false, false, false, true, true };
+				false, false, false, false, true, true, true };
 	}
 
 	@Override

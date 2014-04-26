@@ -33,17 +33,21 @@ public class TeamConfiguration
 
 	private String launch;
 
+	private float dropHeight;
+
 	/**
 	 * 
 	 * @param name
 	 * @param path
 	 * @param launch
 	 */
-	public TeamConfiguration(String name, String path, String launch)
+	public TeamConfiguration(String name, String path, String launch,
+			float dropHeight)
 	{
 		this.name = name;
 		this.path = path;
 		this.launch = launch;
+		this.dropHeight = dropHeight;
 	}
 
 	/**
@@ -68,5 +72,13 @@ public class TeamConfiguration
 	public String getLaunch()
 	{
 		return launch;
+	}
+
+	/**
+	 * @return the dropHeight of the player
+	 */
+	public float getDropHeight()
+	{
+		return dropHeight;
 	}
 }
