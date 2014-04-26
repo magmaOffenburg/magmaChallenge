@@ -86,8 +86,9 @@ public class BenchmarkAgentProxy extends AgentProxy
 	 * @return true if the message should be forwarded to the client
 	 */
 	@Override
-	protected boolean onNewServerMessage(String message)
+	protected boolean onNewServerMessage(byte[] msg)
 	{
+		String message = new String(msg);
 		Vector3D leftForce = getForce(message, "(FRP (n lf)");
 		if (leftForce == null) {
 			return true;
@@ -148,9 +149,10 @@ public class BenchmarkAgentProxy extends AgentProxy
 	 * @return true if the message should be forwarded to the server
 	 */
 	@Override
-	public boolean onNewClientMessage(String message)
+	public boolean onNewClientMessage(byte[] message)
 	{
-		if (message.contains("(beam")) {
+		String msgString = new String(message);
+		if (msgString.contains("(beam")) {
 			System.out.println("Agent may not beam! Message ignored.");
 			return false;
 		}
