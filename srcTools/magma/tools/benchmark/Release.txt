@@ -1,0 +1,26 @@
+Version 1.4 (planned as final release for RoboCup 2014)
+- TODO: automate the support for multi-user challenges introduced at German Open so that no source code changes are necessary
+- TODO: still looking into an issue where the tool counts an attempt even though a player could not connect
+
+Version 1.3
+- added team individual drop height to be specified in a competition file.
+- doubled time until challenge starts from 2 to 4 seconds.
+- dropping ball and move it out of way into opponent half
+
+Version 1.2 (German Open 2014)
+- added support for running teams of multiple users (still manual changes necessary)
+- added the number of runs done so far
+- added counters for single support phase and double support phase in addition to no support phase 
+- adjusted a couple of timeouts
+- fixed a bug that run challenge did not stop anymore
+- calling a script to explicitly stop clients
+
+Version 1.1
+- off ground started to count too early, fixed
+- check for if start line was never crossed has been misplaced
+- long error messages have been unreadable, using Scroll Pane and TextArea
+- added support for a verbose mode that prints all messages of the proxy
+- added a button to open a single start script
+
+Version 1.0
+Initial version for the run challenge benchmark tool 

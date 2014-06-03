@@ -278,7 +278,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			{
 				String text = "Run Challenge Benchmark Tool.\n\n";
 				text += "Provided by the magmaOffenburg team.\n";
-				text += "Version 1.0";
+				text += "Version 1.3";
 				JOptionPane.showMessageDialog(BenchmarkView.this, text,
 						"Run Challenge Benchmark Tool",
 						JOptionPane.INFORMATION_MESSAGE);
