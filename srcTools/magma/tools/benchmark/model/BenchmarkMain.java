@@ -21,7 +21,12 @@
 
 package magma.tools.benchmark.model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,11 +34,9 @@ import java.util.logging.Level;
 
 import magma.monitor.general.IMonitorRuntimeListener;
 import magma.monitor.general.impl.FactoryParameter;
-import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.general.impl.MonitorParameter;
 import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.IReferee.RefereeState;
-import magma.monitor.referee.impl.BenchmarkReferee;
 import magma.monitor.server.ServerController;
 import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
@@ -65,16 +68,30 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 	private String statusText;
 
-	private int runtime;
+	private String scriptPath;
 
 	public BenchmarkMain()
 	{
 		observer = new Subject<IModelReadOnly>();
 		runThread = null;
 		results = new ArrayList<TeamResult>();
-		server = new ServerController(3100, 3200, false);
+
+		URL resource = BenchmarkMain.class
+				.getResource("/runChallenge/rcssserver3d.rb");
+		if (resource != null) {
+			scriptPath = resource.getPath();
+		}
+
+		if (scriptPath == null || scriptPath.contains("jar!")) {
+			String absPath = getClass().getProtectionDomain().getCodeSource()
+					.getLocation().getPath();
+			scriptPath = absPath.substring(0, absPath.lastIndexOf(File.separator))
+					+ "/rcssserver3d.rb";
+		}
+		System.out.println(scriptPath);
+
+		server = new ServerController(3100, 3200, false, scriptPath);
 		statusText = "";
-		runtime = 10;
 	}
 
 	public void resetModel()
@@ -94,7 +111,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 		resetModel();
 		server = new ServerController(config.getServerPort(),
-				config.getTrainerPort(), false);
+				config.getTrainerPort(), false, scriptPath);
 
 		runThread = new RunThread(config, teamConfig);
 		runThread.start();
@@ -123,9 +140,12 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgSpeed = referee.getAverageSpeed();
-				bothLegsOffGround = proxy.getBothLegsOffGround() / (runtime * 50f);
-				oneLegOffGround = proxy.getOneLegOffGround() / (runtime * 50f);
-				noLegOffGround = proxy.getNoLegOffGround() / (runtime * 50f);
+				bothLegsOffGround = proxy.getBothLegsOffGround()
+						/ (referee.getRunTime() * 50f);
+				oneLegOffGround = proxy.getOneLegOffGround()
+						/ (referee.getRunTime() * 50f);
+				noLegOffGround = proxy.getNoLegOffGround()
+						/ (referee.getRunTime() * 50f);
 				fallen = referee.isHasFallen();
 				valid = true;
 			} else {
@@ -167,12 +187,11 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	private boolean startTrainer(BenchmarkConfiguration config,
 			TeamConfiguration teamConfig)
 	{
-		runtime = config.getRuntime();
-		MonitorComponentFactory factory = new MonitorComponentFactory(
+		BenchmarkMonitorComponentFactory factory = new BenchmarkMonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
 						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null, runtime,
-						teamConfig.getDropHeight()));
+						teamConfig.getPath(), teamConfig.getLaunch(), null,
+						config.getRuntime(), teamConfig.getDropHeight()));
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));
@@ -222,6 +241,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				benchmarkAgentProxy.startCount();
 			} else if (monitor.getReferee().getState() == RefereeState.STOPPED) {
 				benchmarkAgentProxy.stopCount();
+			} else if (monitor.getReferee().getState() == RefereeState.BEAMED) {
+				benchmarkAgentProxy.noBeaming();
 			}
 		}
 
@@ -281,6 +302,38 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			stoppedTeam = false;
 		}
 
+		public void replace(String path, float dropheight)
+		{
+			try {
+				// System.out.println(path);
+				FileReader fr = new FileReader(path);
+				BufferedReader br = new BufferedReader(fr);
+				String line = null;
+				ArrayList<String> myLines = new ArrayList<String>();
+
+				while ((line = br.readLine()) != null) {
+					// System.out.println(line);
+					if (line.indexOf("AgentRadius") >= 0) {
+						line = "addSoccerVar('AgentRadius', "
+								+ String.valueOf(dropheight) + ")";
+					}
+					myLines.add(line);
+				}
+				br.close();
+				FileWriter fw = new FileWriter(path);
+				BufferedWriter bw = new BufferedWriter(fw);
+				for (int i = 0; i < myLines.size(); i++) {
+					// System.out.println(myLines.get(i));
+					bw.write(myLines.get(i) + '\n');
+				}
+				bw.close();
+
+			} catch (Exception ioe) {
+				ioe.printStackTrace();
+			}
+
+		}
+
 		@Override
 		public void run()
 		{
@@ -295,6 +348,11 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				while (getCurrentResult().size() < avgRuns && !stopped
 						&& !stoppedTeam) {
 					try {
+						float dropHeight = currentTeamConfig.getDropHeight();
+						// System.out.println("dropheight: " +
+						// String.valueOf(dropHeight));
+						replace(scriptPath, dropHeight);
+
 						server.startServer();
 
 						boolean success = startTrainer(config, currentTeamConfig);

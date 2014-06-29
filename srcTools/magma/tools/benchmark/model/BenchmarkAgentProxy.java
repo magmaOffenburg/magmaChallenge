@@ -50,6 +50,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private boolean stopCount;
 
+	private boolean beaming;
+
 	/**
 	 * @param clientSocket
 	 * @param ssHost
@@ -60,6 +62,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 			boolean showMessages)
 	{
 		super(clientSocket, ssHost, ssPort, showMessages);
+		beaming = true;
 	}
 
 	public void startCount()
@@ -80,22 +83,27 @@ public class BenchmarkAgentProxy extends AgentProxy
 		stopCount = true;
 	}
 
+	public void noBeaming()
+	{
+		beaming = false;
+	}
+
 	/**
 	 * Called before a message from the server was forwarded to the client
 	 * @param message the message received from the server
 	 * @return true if the message should be forwarded to the client
 	 */
 	@Override
-	protected boolean onNewServerMessage(byte[] msg)
+	protected byte[] onNewServerMessage(byte[] msg)
 	{
 		String message = new String(msg);
-		Vector3D leftForce = getForce(message, "(FRP (n lf)");
+		Vector3D leftForce = getForce(message, "(FRP (n lf");
 		if (leftForce == null) {
-			return true;
+			return msg;
 		}
-		Vector3D rightForce = getForce(message, "(FRP (n rf)");
+		Vector3D rightForce = getForce(message, "(FRP (n rf");
 		if (rightForce == null) {
-			return true;
+			return msg;
 		}
 
 		if (startCount && !stopCount) {
@@ -114,7 +122,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 			}
 		}
 
-		return true;
+		return msg;
 	}
 
 	/**
@@ -149,15 +157,20 @@ public class BenchmarkAgentProxy extends AgentProxy
 	 * @return true if the message should be forwarded to the server
 	 */
 	@Override
-	public boolean onNewClientMessage(byte[] message)
+	public byte[] onNewClientMessage(byte[] message)
 	{
 		String msgString = new String(message);
 		if (msgString.contains("(beam")) {
 			System.out.println("Agent may not beam! Message ignored.");
-			return false;
+			return null;
 		}
 
-		return true;
+		if (beaming) {
+			msgString += "(beam -13.5 0 0)";
+			message = msgString.getBytes();
+		}
+
+		return message;
 	}
 
 	/**

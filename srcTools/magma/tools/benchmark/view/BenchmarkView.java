@@ -350,7 +350,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		List<TeamConfiguration> result = new ArrayList<TeamConfiguration>();
 		int teamid = 0;
 		String teamName;
-		float dropHeight = 0.65f;
+		float dropHeight = 0.4f;
 		do {
 			String teamPath = (String) table.getValueAt(teamid, COLUMN_PATH);
 			String teamBinary = (String) table.getValueAt(teamid, COLUMN_BINARY);
