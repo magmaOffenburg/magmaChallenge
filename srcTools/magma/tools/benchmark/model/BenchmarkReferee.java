@@ -41,8 +41,6 @@ public class BenchmarkReferee extends RefereeBase
 
 	private int startCycleCount;
 
-	public static boolean appendBeamCommand = false;
-
 	public BenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight)
@@ -79,14 +77,12 @@ public class BenchmarkReferee extends RefereeBase
 							+ launcher.getStatusText();
 					return true;
 				}
-				appendBeamCommand = true;
 				launching = launcher.launchPlayer(getNumberOfPlayers());
 			} else {
 				// game is not running, so lets start it
 				boolean finishedStarting = onStartBenchmark();
 				if (finishedStarting) {
 					cycleCount++;
-					appendBeamCommand = false;
 				}
 			}
 		} else {
