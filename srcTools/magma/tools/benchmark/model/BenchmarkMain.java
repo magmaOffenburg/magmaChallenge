@@ -88,7 +88,6 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			scriptPath = absPath.substring(0, absPath.lastIndexOf(File.separator))
 					+ "/rcssserver3d.rb";
 		}
-		System.out.println(scriptPath);
 
 		server = new ServerController(3100, 3200, false, scriptPath);
 		statusText = "";

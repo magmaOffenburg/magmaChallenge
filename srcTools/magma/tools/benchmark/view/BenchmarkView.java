@@ -68,6 +68,7 @@ import magma.util.observer.IObserver;
  */
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
+	private static final String VERSION = "Version 1.4";
 
 	static final int COLUMN_TEAMNAME = 0;
 
@@ -274,11 +275,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 		btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0)
 			{
 				String text = "Run Challenge Benchmark Tool.\n\n";
 				text += "Provided by the magmaOffenburg team.\n";
-				text += "Version 1.3";
+				text += VERSION;
 				JOptionPane.showMessageDialog(BenchmarkView.this, text,
 						"Run Challenge Benchmark Tool",
 						JOptionPane.INFORMATION_MESSAGE);

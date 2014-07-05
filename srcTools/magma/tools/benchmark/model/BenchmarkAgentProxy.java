@@ -96,25 +96,34 @@ public class BenchmarkAgentProxy extends AgentProxy
 	@Override
 	protected byte[] onNewServerMessage(byte[] msg)
 	{
+		double leftPressure = 0;
+		double rightPressure = 0;
 		String message = new String(msg);
-		Vector3D leftForce = getForce(message, "(FRP (n lf");
-		if (leftForce == null) {
-			return msg;
-		}
-		Vector3D rightForce = getForce(message, "(FRP (n rf");
-		if (rightForce == null) {
-			return msg;
+		while (message.contains("(FRP (n lf") || message.contains("(FRP (n rf")) {
+			Vector3D leftForce = getForce(message, "(FRP (n lf");
+			if (leftForce == null) {
+				return msg;
+			}
+			Vector3D rightForce = getForce(message, "(FRP (n rf");
+			if (rightForce == null) {
+				return msg;
+			}
+
+			leftPressure += leftForce.getNorm();
+			rightPressure += rightForce.getNorm();
+			message = message.replaceFirst("\\(FRP \\(n lf","");
+			message = message.replaceFirst("\\(FRP \\(n rf","");
 		}
 
 		if (startCount && !stopCount) {
-			if (leftForce.getNorm() < 0.01 && rightForce.getNorm() < 0.01) {
+			if (leftPressure < 0.01 && rightPressure < 0.01) {
 				bothLegsOffGround++;
 				if (showMessages) {
 					System.out.println("off ground");
 				}
 			} else {
 				legOnGround++;
-				if (leftForce.getNorm() >= 0.01 && rightForce.getNorm() >= 0.01) {
+				if (leftPressure >= 0.01 && rightPressure >= 0.01) {
 					noLegOffGround++;
 				} else {
 					oneLegOffGround++;
@@ -162,7 +171,11 @@ public class BenchmarkAgentProxy extends AgentProxy
 		String msgString = new String(message);
 		if (msgString.contains("(beam")) {
 			System.out.println("Agent may not beam! Message ignored.");
-			return null;
+			if (beaming) {
+				msgString = "";
+			} else {
+				return null;
+			}
 		}
 
 		if (beaming) {
