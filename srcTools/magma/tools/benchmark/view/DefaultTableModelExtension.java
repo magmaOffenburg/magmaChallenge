@@ -36,7 +36,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 {
 	private static final long serialVersionUID = 1L;
 
-	private Class[] columnTypes;
+	private Class<? extends Object>[] columnTypes;
 
 	private boolean[] columnEditables;
 
@@ -94,7 +94,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 	}
 
 	@Override
-	public Class getColumnClass(int columnIndex)
+	public Class<? extends Object> getColumnClass(int columnIndex)
 	{
 		return columnTypes[columnIndex];
 	}
