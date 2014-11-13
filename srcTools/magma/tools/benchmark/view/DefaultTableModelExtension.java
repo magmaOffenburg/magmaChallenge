@@ -81,6 +81,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 	 * @param data
 	 * @param columnNames
 	 */
+	@SuppressWarnings("unchecked")
 	private DefaultTableModelExtension(Object[][] data, Object[] columnNames)
 	{
 		super(data, columnNames);
