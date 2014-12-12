@@ -111,8 +111,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 			leftPressure += leftForce.getNorm();
 			rightPressure += rightForce.getNorm();
-			message = message.replaceFirst("\\(FRP \\(n lf","");
-			message = message.replaceFirst("\\(FRP \\(n rf","");
+			message = message.replaceFirst("\\(FRP \\(n lf", "");
+			message = message.replaceFirst("\\(FRP \\(n rf", "");
 		}
 
 		if (startCount && !stopCount) {
