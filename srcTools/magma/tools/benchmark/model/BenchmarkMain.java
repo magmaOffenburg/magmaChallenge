@@ -321,9 +321,9 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 				br.close();
 				FileWriter fw = new FileWriter(path);
 				BufferedWriter bw = new BufferedWriter(fw);
-				for (int i = 0; i < myLines.size(); i++) {
+				for (String myLine : myLines) {
 					// System.out.println(myLines.get(i));
-					bw.write(myLines.get(i) + '\n');
+					bw.write(myLine + '\n');
 				}
 				bw.close();
 
