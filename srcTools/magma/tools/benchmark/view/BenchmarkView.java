@@ -395,7 +395,9 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	{
 		List<TeamResult> teamResults = model.getTeamResults();
 
-		for (TeamResult teamResult : teamResults) {
+		for (int i = 0; i < teamResults.size(); i++) {
+			TeamResult teamResult = teamResults.get(i);
+
 			int teamRow = getTeamRow(teamResult.getName());
 
 			float averageScore = teamResult.getAverageScore();
