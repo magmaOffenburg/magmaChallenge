@@ -1,4 +1,4 @@
-package magma.tools.benchmark.model.bench.runchallenge;
+package magma.tools.benchmark.model.bench.kickchallenge;
 
 import magma.monitor.command.IServerCommander;
 import magma.monitor.general.impl.FactoryParameter;
@@ -7,15 +7,22 @@ import magma.monitor.referee.IReferee;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 
-public class RunBenchmarkMonitorComponentFactory extends
+public class KickBenchmarkMonitorComponentFactory extends
 		MonitorComponentFactory
 {
+	protected int currentRun;
+
+	private long randomSeed;
+
 	/**
 	 * @param parameterObject TODO
 	 */
-	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject)
+	public KickBenchmarkMonitorComponentFactory(
+			FactoryParameter parameterObject, long randomSeed, int currentRun)
 	{
 		super(parameterObject);
+		this.randomSeed = randomSeed;
+		this.currentRun = currentRun;
 	}
 
 	/**
@@ -34,8 +41,8 @@ public class RunBenchmarkMonitorComponentFactory extends
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Name(),
 				params.getTeam1Jar(), params.getTeam2Name());
-		return new RunBenchmarkReferee(worldModel, serverCommander,
+		return new KickBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight());
+				params.getDropHeight(), randomSeed, currentRun);
 	}
 }

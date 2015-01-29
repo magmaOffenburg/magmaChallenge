@@ -19,13 +19,15 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench.runchallenge;
+
+import magma.tools.benchmark.model.SingleResult;
 
 /**
  * 
  * @author kdorer
  */
-public class SingleRunResult
+public class RunBenchmarkSingleResult extends SingleResult
 {
 	private float speed;
 
@@ -35,26 +37,18 @@ public class SingleRunResult
 
 	private float twoLegs;
 
-	private boolean fallen;
-
-	private boolean valid;
-
-	private String statusText;
-
 	/**
 	 * @param speed
 	 * @param offGround
 	 */
-	public SingleRunResult(boolean valid, float speed, float offGround,
+	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround,
 			float oneLeg, float twoLegs, boolean fallen, String statusText)
 	{
-		this.valid = valid;
+		super(valid, fallen, statusText);
 		this.speed = speed;
 		this.offGround = offGround;
 		this.oneLeg = oneLeg;
 		this.twoLegs = twoLegs;
-		this.fallen = fallen;
-		this.statusText = statusText;
 	}
 
 	/**
@@ -71,30 +65,6 @@ public class SingleRunResult
 	public float getOffGround()
 	{
 		return offGround;
-	}
-
-	/**
-	 * @return the fallen
-	 */
-	public boolean isFallen()
-	{
-		return fallen;
-	}
-
-	/**
-	 * @return the fallen
-	 */
-	public boolean isValid()
-	{
-		return valid;
-	}
-
-	/**
-	 * @return
-	 */
-	public String getStatusText()
-	{
-		return statusText;
 	}
 
 	/**

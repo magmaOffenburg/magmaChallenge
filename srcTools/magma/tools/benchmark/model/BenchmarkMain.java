@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.logging.Level;
 
 import magma.monitor.general.IMonitorRuntimeListener;
+import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.general.impl.MonitorParameter;
 import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.server.ServerController;
 import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
-import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkMonitorComponentFactory;
 import magma.util.connection.ConnectionException;
 import magma.util.observer.IObserver;
 import magma.util.observer.IPublishSubscribe;
@@ -175,7 +175,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	private boolean startTrainer(BenchmarkConfiguration config,
 			TeamConfiguration teamConfig, int currentRun)
 	{
-		RunBenchmarkMonitorComponentFactory factory = createMonitorFactory(config,
+		MonitorComponentFactory factory = createMonitorFactory(config,
 				teamConfig, currentRun);
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
@@ -205,9 +205,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 		return true;
 	}
 
-	protected abstract RunBenchmarkMonitorComponentFactory createMonitorFactory(
+	protected abstract MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
 			int currentRun);
+
+	protected abstract TeamResult createTeamResult(
+			TeamConfiguration currentTeamConfig);
 
 	/**
 	 * 
@@ -358,7 +361,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 			int avgRuns = config.getAverageOutRuns();
 
 			for (TeamConfiguration currentTeamConfig : teamConfig) {
-				results.add(new TeamResult(currentTeamConfig.getName()));
+				results.add(createTeamResult(currentTeamConfig));
 				stoppedTeam = false;
 				while (getCurrentResult().size() < avgRuns && !stopped
 						&& !stoppedTeam) {

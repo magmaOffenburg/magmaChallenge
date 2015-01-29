@@ -19,101 +19,85 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench.runchallenge;
 
-import java.util.ArrayList;
-import java.util.List;
+import magma.tools.benchmark.model.SingleResult;
+import magma.tools.benchmark.model.TeamResult;
 
 /**
  * 
  * @author kdorer
  */
-public abstract class TeamResult
+public class RunBenchmarkTeamResult extends TeamResult
 {
-	private String name;
-
-	protected List<SingleResult> results;
-
-	/**
-	 * @param name
-	 */
-	public TeamResult(String name)
+	public RunBenchmarkTeamResult(String name)
 	{
-		this.name = name;
-		results = new ArrayList<SingleResult>();
+		super(name);
 	}
 
-	public void addResult(SingleResult result)
+	@Override
+	public float getAverageScore()
 	{
-		results.add(result);
-	}
-
-	public abstract float getAverageScore();
-
-	/**
-	 * @return
-	 */
-	public int getFallenCount()
-	{
-		if (results.isEmpty()) {
-			return 0;
-		}
-		int fallen = 0;
-		for (SingleResult result : results) {
-			if (result.isFallen()) {
-				fallen++;
-			}
-		}
-		return fallen;
-	}
-
-	public boolean isValid()
-	{
-		if (results.isEmpty()) {
-			return false;
-		}
-		for (SingleResult result : results) {
-			if (!result.isValid()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public int size()
-	{
-		return results.size();
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return name;
+		return getAverageSpeed() + getAverageOffGround();
 	}
 
 	/**
 	 * @return
 	 */
-	public String getStatusText()
+	public float getAverageSpeed()
 	{
 		if (results.isEmpty()) {
-			return "No results.";
+			return 0.0f;
 		}
-		StringBuffer buffer = new StringBuffer(1000);
-		int i = 0;
+		float avg = 0;
 		for (SingleResult result : results) {
-			if (!result.getStatusText().isEmpty()) {
-				buffer.append(i + 1).append(": ");
-				buffer.append(result.getStatusText()).append("\n");
-			}
-			i++;
+			avg += ((RunBenchmarkSingleResult) result).getSpeed();
 		}
-		String result = buffer.toString();
-		if (result.isEmpty()) {
-			result = "No problems.";
+		return avg / results.size();
+	}
+
+	/**
+	 * @return
+	 */
+	public float getAverageOffGround()
+	{
+		if (results.isEmpty()) {
+			return 0.0f;
 		}
-		return result;
+		float avg = 0;
+		for (SingleResult result : results) {
+			avg += ((RunBenchmarkSingleResult) result).getOffGround();
+		}
+		return avg / results.size();
+	}
+
+	/**
+	 * @return
+	 */
+	public float getAverageOneLeg()
+	{
+		if (results.isEmpty()) {
+			return 0.0f;
+		}
+		float avg = 0;
+		for (SingleResult result : results) {
+			avg += ((RunBenchmarkSingleResult) result).getOneLeg();
+		}
+		return avg / results.size();
+	}
+
+	/**
+	 * @return
+	 */
+	public float getAverageTwoLegs()
+	{
+		if (results.isEmpty()) {
+			return 0.0f;
+		}
+		float avg = 0;
+		for (SingleResult result : results) {
+			avg += ((RunBenchmarkSingleResult) result).getTwoLegs();
+		}
+		return avg / results.size();
 	}
 }

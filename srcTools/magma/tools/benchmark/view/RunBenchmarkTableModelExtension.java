@@ -32,7 +32,7 @@ import magma.tools.benchmark.model.TeamConfiguration;
  * 
  * @author kdorer
  */
-class DefaultTableModelExtension extends DefaultTableModel
+class RunBenchmarkTableModelExtension extends DefaultTableModel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ class DefaultTableModelExtension extends DefaultTableModel
 
 	private boolean[] columnEditables;
 
-	public static DefaultTableModelExtension getInstance(
+	public static RunBenchmarkTableModelExtension getInstance(
 			List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 12;
@@ -74,15 +74,14 @@ class DefaultTableModelExtension extends DefaultTableModel
 				"falls", "speed", "off ground", "one leg", "two legs", "path",
 				"start script", "drop height" };
 
-		return new DefaultTableModelExtension(content, headers);
+		return new RunBenchmarkTableModelExtension(content, headers);
 	}
 
 	/**
 	 * @param data
 	 * @param columnNames
 	 */
-	@SuppressWarnings("unchecked")
-	private DefaultTableModelExtension(Object[][] data, Object[] columnNames)
+	private RunBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
 	{
 		super(data, columnNames);
 

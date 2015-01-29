@@ -19,7 +19,7 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model.bench.runchallenge;
+package magma.tools.benchmark.model.bench.kickchallenge;
 
 import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
@@ -28,33 +28,25 @@ import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.BenchmarkMain;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.TeamResult;
+import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkTeamResult;
 
 /**
  * 
  * @author kdorer
  */
-public class RunBenchmark extends BenchmarkMain
+public class KickBenchmark extends BenchmarkMain
 {
 	@Override
 	protected void benchmarkResults()
 	{
-		float avgSpeed = 0;
-		float bothLegsOffGround = 0;
-		float oneLegOffGround = 0;
-		float noLegOffGround = 0;
+		float avgScore = 0;
 		boolean fallen = false;
 		boolean valid = false;
 		if (monitor != null) {
-			RunBenchmarkReferee referee = (RunBenchmarkReferee) monitor
+			KickBenchmarkReferee referee = (KickBenchmarkReferee) monitor
 					.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
-				avgSpeed = referee.getAverageSpeed();
-				bothLegsOffGround = proxy.getBothLegsOffGround()
-						/ (referee.getRunTime() * 50f);
-				oneLegOffGround = proxy.getOneLegOffGround()
-						/ (referee.getRunTime() * 50f);
-				noLegOffGround = proxy.getNoLegOffGround()
-						/ (referee.getRunTime() * 50f);
+				avgScore = (float) referee.getDistanceError();
 				fallen = referee.isHasFallen();
 				valid = true;
 			} else {
@@ -62,8 +54,7 @@ public class RunBenchmark extends BenchmarkMain
 			}
 		}
 		getCurrentResult().addResult(
-				new RunBenchmarkSingleResult(valid, avgSpeed, bothLegsOffGround,
-						oneLegOffGround, noLegOffGround, fallen, statusText));
+				new KickBenchmarkSingleResult(valid, fallen, statusText, avgScore));
 	}
 
 	@Override
@@ -71,17 +62,18 @@ public class RunBenchmark extends BenchmarkMain
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
 			int currentRun)
 	{
-		MonitorComponentFactory factory = new RunBenchmarkMonitorComponentFactory(
+		MonitorComponentFactory factory = new KickBenchmarkMonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
 						config.getAgentPort(), teamConfig.getName(),
 						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()));
+						config.getRuntime(), teamConfig.getDropHeight()),
+				config.getRandomSeed(), currentRun);
 		return factory;
 	}
 
+	@Override
 	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
 	{
 		return new RunBenchmarkTeamResult(currentTeamConfig.getName());
 	}
-
 }

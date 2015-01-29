@@ -41,6 +41,8 @@ public class BenchmarkConfiguration
 
 	private boolean verbose;
 
+	private long randomSeed;
+
 	/**
 	 * @param serverIP
 	 * @param path
@@ -52,7 +54,7 @@ public class BenchmarkConfiguration
 	 */
 	public BenchmarkConfiguration(String serverIP, int serverPort,
 			int agentPort, int trainerPort, int averageOutRuns, int runtime,
-			boolean verbose)
+			boolean verbose, long randomSeed)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
@@ -61,6 +63,7 @@ public class BenchmarkConfiguration
 		this.averageOutRuns = averageOutRuns;
 		this.runtime = runtime;
 		this.verbose = verbose;
+		this.randomSeed = randomSeed;
 	}
 
 	/**
@@ -133,5 +136,13 @@ public class BenchmarkConfiguration
 	public void setRuntime(int runtime)
 	{
 		this.runtime = runtime;
+	}
+
+	/**
+	 * @return the random seed to use for random numbers
+	 */
+	public long getRandomSeed()
+	{
+		return randomSeed;
 	}
 }

@@ -21,13 +21,17 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	/** the current run/phase of the benchmark indicating the kick distance */
 	private int currentRun;
 
+	/** random seed to use to start random number generator */
+	private long randomSeed;
+
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			int currentRun)
+			long randomSeed, int currentRun)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				dropHeight);
+		this.randomSeed = randomSeed;
 		this.currentRun = currentRun;
 		distanceError = 0;
 		startX = 0;
@@ -42,6 +46,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	{
 		startCycleCount++;
 		state = RefereeState.CONNECTED;
+
+		// determine ball position
 
 		if (startCycleCount >= 200) {
 			String msg = "(playMode PlayOn)(ball (pos 14.75 0 0.042) (vel 0 0 0))";
