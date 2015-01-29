@@ -25,9 +25,9 @@ import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
-import magma.tools.benchmark.model.BenchmarkMain;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.TeamResult;
+import magma.tools.benchmark.model.bench.BenchmarkMain;
+import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
  * 

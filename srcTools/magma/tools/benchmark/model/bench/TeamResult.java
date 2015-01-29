@@ -19,20 +19,23 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import magma.tools.benchmark.model.ISingleResult;
+import magma.tools.benchmark.model.ITeamResult;
 
 /**
  * 
  * @author kdorer
  */
-public abstract class TeamResult
+public abstract class TeamResult implements ITeamResult
 {
 	private String name;
 
-	protected List<SingleResult> results;
+	protected List<ISingleResult> results;
 
 	/**
 	 * @param name
@@ -40,26 +43,43 @@ public abstract class TeamResult
 	public TeamResult(String name)
 	{
 		this.name = name;
-		results = new ArrayList<SingleResult>();
+		results = new ArrayList<ISingleResult>();
 	}
 
-	public void addResult(SingleResult result)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * magma.tools.benchmark.model.ITeamResult#addResult(magma.tools.benchmark
+	 * .model.SingleResult)
+	 */
+	@Override
+	public void addResult(ISingleResult result)
 	{
 		results.add(result);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magma.tools.benchmark.model.ITeamResult#getAverageScore()
+	 */
+	@Override
 	public abstract float getAverageScore();
 
-	/**
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magma.tools.benchmark.model.ITeamResult#getFallenCount()
 	 */
+	@Override
 	public int getFallenCount()
 	{
 		if (results.isEmpty()) {
 			return 0;
 		}
 		int fallen = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			if (result.isFallen()) {
 				fallen++;
 			}
@@ -67,12 +87,18 @@ public abstract class TeamResult
 		return fallen;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magma.tools.benchmark.model.ITeamResult#isValid()
+	 */
+	@Override
 	public boolean isValid()
 	{
 		if (results.isEmpty()) {
 			return false;
 		}
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			if (!result.isValid()) {
 				return false;
 			}
@@ -80,22 +106,34 @@ public abstract class TeamResult
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magma.tools.benchmark.model.ITeamResult#size()
+	 */
+	@Override
 	public int size()
 	{
 		return results.size();
 	}
 
-	/**
-	 * @return the name
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magma.tools.benchmark.model.ITeamResult#getName()
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
-	/**
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magma.tools.benchmark.model.ITeamResult#getStatusText()
 	 */
+	@Override
 	public String getStatusText()
 	{
 		if (results.isEmpty()) {
@@ -103,7 +141,7 @@ public abstract class TeamResult
 		}
 		StringBuffer buffer = new StringBuffer(1000);
 		int i = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			if (!result.getStatusText().isEmpty()) {
 				buffer.append(i + 1).append(": ");
 				buffer.append(result.getStatusText()).append("\n");

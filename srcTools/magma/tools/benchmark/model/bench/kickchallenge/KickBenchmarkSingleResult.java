@@ -21,7 +21,7 @@
 
 package magma.tools.benchmark.model.bench.kickchallenge;
 
-import magma.tools.benchmark.model.SingleResult;
+import magma.tools.benchmark.model.bench.SingleResult;
 
 /**
  * 

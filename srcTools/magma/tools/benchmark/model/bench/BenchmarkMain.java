@@ -19,7 +19,7 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,6 +40,14 @@ import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.server.ServerController;
 import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
+import magma.tools.benchmark.model.BenchmarkConfiguration;
+import magma.tools.benchmark.model.IModelReadOnly;
+import magma.tools.benchmark.model.IModelReadWrite;
+import magma.tools.benchmark.model.ITeamResult;
+import magma.tools.benchmark.model.InvalidConfigFileException;
+import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.proxy.BenchmarkAgentProxy;
+import magma.tools.benchmark.model.proxy.BenchmarkAgentProxyServer;
 import magma.util.connection.ConnectionException;
 import magma.util.observer.IObserver;
 import magma.util.observer.IPublishSubscribe;
@@ -61,7 +69,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 
 	private ServerController server;
 
-	private List<TeamResult> results;
+	private List<ITeamResult> results;
 
 	private RunThread runThread;
 
@@ -75,7 +83,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	{
 		observer = new Subject<IModelReadOnly>();
 		runThread = null;
-		results = new ArrayList<TeamResult>();
+		results = new ArrayList<ITeamResult>();
 
 		URL resource = BenchmarkMain.class
 				.getResource("/runChallenge/rcssserver3d.rb");
@@ -97,7 +105,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	@Override
 	public void resetModel()
 	{
-		results = new ArrayList<TeamResult>();
+		results = new ArrayList<ITeamResult>();
 		currentTeam = 0;
 		statusText = "";
 	}
@@ -149,7 +157,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	/**
 	 * @return
 	 */
-	protected TeamResult getCurrentResult()
+	protected ITeamResult getCurrentResult()
 	{
 		return results.get(getCurrentTeam());
 	}
@@ -255,7 +263,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	}
 
 	@Override
-	public List<TeamResult> getTeamResults()
+	public List<ITeamResult> getTeamResults()
 	{
 		return Collections.unmodifiableList(results);
 	}

@@ -21,8 +21,8 @@
 
 package magma.tools.benchmark.model.bench.runchallenge;
 
-import magma.tools.benchmark.model.SingleResult;
-import magma.tools.benchmark.model.TeamResult;
+import magma.tools.benchmark.model.ISingleResult;
+import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class RunBenchmarkTeamResult extends TeamResult
 			return 0.0f;
 		}
 		float avg = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			avg += ((RunBenchmarkSingleResult) result).getSpeed();
 		}
 		return avg / results.size();
@@ -65,7 +65,7 @@ public class RunBenchmarkTeamResult extends TeamResult
 			return 0.0f;
 		}
 		float avg = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			avg += ((RunBenchmarkSingleResult) result).getOffGround();
 		}
 		return avg / results.size();
@@ -80,7 +80,7 @@ public class RunBenchmarkTeamResult extends TeamResult
 			return 0.0f;
 		}
 		float avg = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			avg += ((RunBenchmarkSingleResult) result).getOneLeg();
 		}
 		return avg / results.size();
@@ -95,7 +95,7 @@ public class RunBenchmarkTeamResult extends TeamResult
 			return 0.0f;
 		}
 		float avg = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			avg += ((RunBenchmarkSingleResult) result).getTwoLegs();
 		}
 		return avg / results.size();

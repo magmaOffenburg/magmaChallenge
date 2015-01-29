@@ -35,7 +35,7 @@ public interface IModelReadOnly
 	/**
 	 * @return the results per team
 	 */
-	List<TeamResult> getTeamResults();
+	List<ITeamResult> getTeamResults();
 
 	boolean isRunning();
 

@@ -21,8 +21,8 @@
 
 package magma.tools.benchmark.model.bench.kickchallenge;
 
-import magma.tools.benchmark.model.SingleResult;
-import magma.tools.benchmark.model.TeamResult;
+import magma.tools.benchmark.model.ISingleResult;
+import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class KickBenchmarkTeamResult extends TeamResult
 			return 0.0f;
 		}
 		float avg = 0;
-		for (SingleResult result : results) {
+		for (ISingleResult result : results) {
 			avg += ((KickBenchmarkSingleResult) result).getDistance();
 		}
 		return avg / results.size();

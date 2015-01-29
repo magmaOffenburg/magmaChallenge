@@ -19,7 +19,7 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import magma.tools.benchmark.model.InvalidConfigFileException;
+import magma.tools.benchmark.model.TeamConfiguration;
 import magma.util.file.CSVFileUtil;
 
 /**

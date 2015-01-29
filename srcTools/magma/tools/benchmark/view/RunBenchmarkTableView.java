@@ -46,8 +46,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import magma.tools.benchmark.model.IModelReadOnly;
+import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.TeamResult;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkTeamResult;
 import magma.util.observer.IObserver;
 
@@ -135,7 +135,7 @@ public class RunBenchmarkTableView implements IObserver<IModelReadOnly>
 	@Override
 	public void update(IModelReadOnly model)
 	{
-		List<TeamResult> teamResults = model.getTeamResults();
+		List<ITeamResult> teamResults = model.getTeamResults();
 
 		for (int i = 0; i < teamResults.size(); i++) {
 			RunBenchmarkTeamResult teamResult = (RunBenchmarkTeamResult) teamResults
@@ -190,9 +190,9 @@ public class RunBenchmarkTableView implements IObserver<IModelReadOnly>
 	 * @param name
 	 * @return
 	 */
-	private TeamResult getTeamEntry(String name, List<TeamResult> teamResults)
+	private ITeamResult getTeamEntry(String name, List<ITeamResult> teamResults)
 	{
-		for (TeamResult result : teamResults) {
+		for (ITeamResult result : teamResults) {
 			if (name.equals(result.getName())) {
 				return result;
 			}
@@ -266,9 +266,9 @@ public class RunBenchmarkTableView implements IObserver<IModelReadOnly>
 			int row = target.getSelectedRow();
 			int column = target.getSelectedColumn();
 			if (column == COLUMN_STATUS) {
-				List<TeamResult> teamResults = model.getTeamResults();
+				List<ITeamResult> teamResults = model.getTeamResults();
 				String team = (String) target.getValueAt(row, COLUMN_TEAMNAME);
-				TeamResult result = getTeamEntry(team, teamResults);
+				ITeamResult result = getTeamEntry(team, teamResults);
 				if (result != null) {
 					String text = result.getStatusText();
 					if (result.isValid()) {
@@ -364,9 +364,9 @@ public class RunBenchmarkTableView implements IObserver<IModelReadOnly>
 	 */
 	public ResultStatus getStatus(int row)
 	{
-		List<TeamResult> teamResults = model.getTeamResults();
+		List<ITeamResult> teamResults = model.getTeamResults();
 		String team = (String) table.getValueAt(row, COLUMN_TEAMNAME);
-		TeamResult entry = getTeamEntry(team, teamResults);
+		ITeamResult entry = getTeamEntry(team, teamResults);
 		if (entry == null) {
 			return ResultStatus.NO_RESULT;
 		}

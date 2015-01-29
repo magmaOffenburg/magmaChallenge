@@ -19,13 +19,15 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench;
+
+import magma.tools.benchmark.model.ISingleResult;
 
 /**
  * Common base class for all results of a single benchmark run
  * @author kdorer
  */
-public class SingleResult
+public class SingleResult implements ISingleResult
 {
 	private boolean fallen;
 
@@ -40,25 +42,28 @@ public class SingleResult
 		this.statusText = statusText;
 	}
 
-	/**
-	 * @return the fallen
+	/* (non-Javadoc)
+	 * @see magma.tools.benchmark.model.bench.ISingleResult#isFallen()
 	 */
+	@Override
 	public boolean isFallen()
 	{
 		return fallen;
 	}
 
-	/**
-	 * @return the fallen
+	/* (non-Javadoc)
+	 * @see magma.tools.benchmark.model.bench.ISingleResult#isValid()
 	 */
+	@Override
 	public boolean isValid()
 	{
 		return valid;
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see magma.tools.benchmark.model.bench.ISingleResult#getStatusText()
 	 */
+	@Override
 	public String getStatusText()
 	{
 		return statusText;
