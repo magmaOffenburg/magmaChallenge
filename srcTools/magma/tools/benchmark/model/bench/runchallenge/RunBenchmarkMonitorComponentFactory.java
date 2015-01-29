@@ -1,4 +1,4 @@
-package magma.tools.benchmark.model;
+package magma.tools.benchmark.model.bench.runchallenge;
 
 import magma.monitor.command.IServerCommander;
 import magma.monitor.general.impl.FactoryParameter;
@@ -7,14 +7,18 @@ import magma.monitor.referee.IReferee;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 
-public class BenchmarkMonitorComponentFactory extends MonitorComponentFactory
+public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 {
+	protected int currentRun;
+
 	/**
 	 * @param parameterObject TODO
 	 */
-	public BenchmarkMonitorComponentFactory(FactoryParameter parameterObject)
+	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
+			int currentRun)
 	{
 		super(parameterObject);
+		this.currentRun = currentRun;
 	}
 
 	/**
@@ -26,13 +30,14 @@ public class BenchmarkMonitorComponentFactory extends MonitorComponentFactory
 	 *        referee
 	 * @return New Referee
 	 */
+	@Override
 	public IReferee createReferee(IMonitorWorldModel worldModel,
 			IServerCommander serverCommander, int refereeID)
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Name(),
 				params.getTeam1Jar(), params.getTeam2Name());
-		return new BenchmarkReferee(worldModel, serverCommander,
+		return new RunBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
 				params.getDropHeight());
 	}

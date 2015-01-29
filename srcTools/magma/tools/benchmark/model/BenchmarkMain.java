@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.logging.Level;
 
 import magma.monitor.general.IMonitorRuntimeListener;
-import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorParameter;
 import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.server.ServerController;
 import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
+import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkMonitorComponentFactory;
 import magma.util.connection.ConnectionException;
 import magma.util.observer.IObserver;
 import magma.util.observer.IPublishSubscribe;
@@ -49,14 +49,15 @@ import magma.util.observer.Subject;
  * 
  * @author kdorer
  */
-public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
+public abstract class BenchmarkMain implements IMonitorRuntimeListener,
+		IModelReadWrite
 {
 	/** observers of model */
 	private final transient IPublishSubscribe<IModelReadOnly> observer;
 
-	private BenchmarkAgentProxyServer proxy;
+	protected BenchmarkAgentProxyServer proxy;
 
-	private MonitorRuntime monitor;
+	protected MonitorRuntime monitor;
 
 	private ServerController server;
 
@@ -66,7 +67,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 	private int currentTeam;
 
-	private String statusText;
+	protected String statusText;
 
 	private String scriptPath;
 
@@ -93,6 +94,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		statusText = "";
 	}
 
+	@Override
 	public void resetModel()
 	{
 		results = new ArrayList<TeamResult>();
@@ -119,6 +121,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	/**
 	 * @return
 	 */
+	@Override
 	public boolean isRunning()
 	{
 		return runThread != null;
@@ -129,40 +132,26 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	 */
 	private void collectResults()
 	{
-		float avgSpeed = 0;
-		float bothLegsOffGround = 0;
-		float oneLegOffGround = 0;
-		float noLegOffGround = 0;
-		boolean fallen = false;
-		boolean valid = false;
-		if (monitor != null) {
-			BenchmarkReferee referee = (BenchmarkReferee) monitor.getReferee();
-			if (referee.getState() == RefereeState.STOPPED) {
-				avgSpeed = referee.getAverageSpeed();
-				bothLegsOffGround = proxy.getBothLegsOffGround()
-						/ (referee.getRunTime() * 50f);
-				oneLegOffGround = proxy.getOneLegOffGround()
-						/ (referee.getRunTime() * 50f);
-				noLegOffGround = proxy.getNoLegOffGround()
-						/ (referee.getRunTime() * 50f);
-				fallen = referee.isHasFallen();
-				valid = true;
-			} else {
-				statusText += referee.getStatusText();
-			}
-		}
-		getCurrentResult().addResult(
-				new SingleRunResult(valid, avgSpeed, bothLegsOffGround,
-						oneLegOffGround, noLegOffGround, fallen, statusText));
+		benchmarkResults();
 		observer.onStateChange(this);
+	}
+
+	protected abstract void benchmarkResults();
+
+	/**
+	 * @return
+	 */
+	public int getCurrentTeam()
+	{
+		return currentTeam;
 	}
 
 	/**
 	 * @return
 	 */
-	private TeamResult getCurrentResult()
+	protected TeamResult getCurrentResult()
 	{
-		return results.get(currentTeam);
+		return results.get(getCurrentTeam());
 	}
 
 	/**
@@ -184,13 +173,10 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 	}
 
 	private boolean startTrainer(BenchmarkConfiguration config,
-			TeamConfiguration teamConfig)
+			TeamConfiguration teamConfig, int currentRun)
 	{
-		BenchmarkMonitorComponentFactory factory = new BenchmarkMonitorComponentFactory(
-				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()));
+		RunBenchmarkMonitorComponentFactory factory = createMonitorFactory(config,
+				teamConfig, currentRun);
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));
@@ -218,6 +204,10 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		}
 		return true;
 	}
+
+	protected abstract RunBenchmarkMonitorComponentFactory createMonitorFactory(
+			BenchmarkConfiguration config, TeamConfiguration teamConfig,
+			int currentRun);
 
 	/**
 	 * 
@@ -339,6 +329,32 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 			// start the proxy through which players should connect
 			startProxy(config);
 
+			int benchmarkRuns = getBenchmarkRuns();
+			for (int i = 0; i < benchmarkRuns; i++) {
+				performAverageOutRuns(benchmarkRuns);
+			}
+
+			proxy.shutdown();
+			runThread = null;
+			observer.onStateChange(BenchmarkMain.this);
+		}
+
+		/**
+		 * The number of different runs or phases this benchmark has.
+		 * @return the number of runs, default 1
+		 */
+		protected int getBenchmarkRuns()
+		{
+			return 1;
+		}
+
+		/**
+		 * Performs the specified number of runs to average out the result for
+		 * this benchmark run.
+		 * @param currentRun the current run/phase of the benchmark
+		 */
+		protected void performAverageOutRuns(int currentRun)
+		{
 			int avgRuns = config.getAverageOutRuns();
 
 			for (TeamConfiguration currentTeamConfig : teamConfig) {
@@ -354,7 +370,8 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 
 						server.startServer();
 
-						boolean success = startTrainer(config, currentTeamConfig);
+						boolean success = startTrainer(config, currentTeamConfig,
+								currentRun);
 						if (success) {
 							collectResults();
 						}
@@ -376,10 +393,6 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 					break;
 				}
 			}
-
-			proxy.shutdown();
-			runThread = null;
-			observer.onStateChange(BenchmarkMain.this);
 		}
 
 		public void stopAll()
@@ -399,6 +412,7 @@ public class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 		server.killAllServer();
 	}
 
+	@Override
 	public List<TeamConfiguration> loadConfigFile(File file)
 			throws InvalidConfigFileException
 	{

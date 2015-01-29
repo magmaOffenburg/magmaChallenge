@@ -28,10 +28,10 @@ import java.util.Collections;
 import java.util.List;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
-import magma.tools.benchmark.model.BenchmarkMain;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
 import magma.tools.benchmark.view.BenchmarkView;
 
 /**
@@ -46,7 +46,7 @@ public class BenchmarkController
 
 	public static void main(String[] args)
 	{
-		String defaultPath = "/host/Data/Programmierung/Robocup/magma/RoboCup3D/config/runChallenge/";
+		String defaultPath = "/host/Data/Programmierung/Magma/RoboCup3D/config/runChallenge/";
 		if (args.length > 0) {
 			defaultPath = args[0];
 		}
@@ -58,7 +58,7 @@ public class BenchmarkController
 	 */
 	public BenchmarkController(String defaultPath)
 	{
-		model = new BenchmarkMain();
+		model = new RunBenchmark();
 		view = BenchmarkView.getInstance(model, defaultPath);
 		view.addCompetitionButtonListener(new CompetitionListener(false));
 		view.addOpenScriptButtonListener(new LoadScriptFileListener());
@@ -86,6 +86,7 @@ public class BenchmarkController
 			this.isTest = isTest;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			BenchmarkConfiguration config = view.getBenchmarkConfiguration();
@@ -107,6 +108,7 @@ public class BenchmarkController
 	 */
 	class StopListener implements ActionListener
 	{
+		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			model.stop();
@@ -120,6 +122,7 @@ public class BenchmarkController
 	 */
 	class KillServerListener implements ActionListener
 	{
+		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			model.stopServer();
@@ -133,6 +136,7 @@ public class BenchmarkController
 	 */
 	class LoadConfigFileListener implements ActionListener
 	{
+		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			try {
@@ -157,6 +161,7 @@ public class BenchmarkController
 	 */
 	class LoadScriptFileListener implements ActionListener
 	{
+		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			File file = view.getFileName();
