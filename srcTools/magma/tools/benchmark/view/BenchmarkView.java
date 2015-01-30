@@ -33,6 +33,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +47,9 @@ import javax.swing.SwingConstants;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
+import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.view.bench.BenchmarkTableView;
 import magma.util.observer.IObserver;
 
 /**
@@ -57,31 +60,9 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
 	private static final String VERSION = "Version 2.0";
 
-	static final int COLUMN_TEAMNAME = 0;
-
-	static final int COLUMN_STATUS = 1;
-
-	static final int COLUMN_SCORE = 2;
-
-	static final int COLUMN_RUNS = 3;
-
-	static final int COLUMN_FALLS = 4;
-
-	static final int COLUMN_SPEED = 5;
-
-	static final int COLUMN_OFF_GROUND = 6;
-
-	static final int COLUMN_ONE_LEG = 7;
-
-	static final int COLUMN_TWO_LEGS = 8;
-
-	static final int COLUMN_PATH = 9;
-
-	static final int COLUMN_BINARY = 10;
-
-	static final int COLUMN_DROP_HEIGHT = 11;
-
 	private static final long serialVersionUID = 1L;
+
+	private JComboBox<String> challenge;
 
 	private JTextField runTime;
 
@@ -129,22 +110,22 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private JButton btnAbout;
 
-	private RunBenchmarkTableView tableView;
+	private BenchmarkTableView tableView;
 
 	public static BenchmarkView getInstance(IModelReadOnly model,
-			String defaultPath)
+			BenchmarkTableView tableView, String defaultPath)
 	{
-		BenchmarkView view = new BenchmarkView(model, defaultPath);
+		BenchmarkView view = new BenchmarkView(model, tableView, defaultPath);
 		model.attach(view);
 		return view;
 	}
 
-	private BenchmarkView(IModelReadOnly model, String defaultPath)
+	private BenchmarkView(IModelReadOnly model, BenchmarkTableView tableView,
+			String defaultPath)
 	{
 		this.model = model;
+		this.tableView = tableView;
 		fc = new JFileChooser(defaultPath);
-
-		tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Run Challenge Benchmark");
@@ -158,6 +139,10 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
+
+		String[] items = { "Kick Challenge", "Run Challenge" };
+		challenge = new JComboBox<String>(items);
+		panel.add(challenge);
 
 		JLabel lblRuntime = new JLabel("Runtime:");
 		panel.add(lblRuntime);
@@ -293,6 +278,11 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		}
 	}
 
+	public void addChallengeListener(ActionListener listener)
+	{
+		challenge.addActionListener(listener);
+	}
+
 	public void addOpenScriptButtonListener(ActionListener listener)
 	{
 		btnOpenScript.addActionListener(listener);
@@ -339,6 +329,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void disableEditing()
 	{
 		tableView.disableEditing();
+		challenge.setEnabled(false);
 		btnOpenScript.setEnabled(false);
 		btnOpen.setEnabled(false);
 		btnTest.setEnabled(false);
@@ -349,6 +340,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void enableEditing()
 	{
 		tableView.enableEditing();
+		challenge.setEnabled(true);
 		btnOpenScript.setEnabled(true);
 		btnOpen.setEnabled(true);
 		btnTest.setEnabled(true);
@@ -406,6 +398,19 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	public void updateConfigTable(List<TeamConfiguration> loadConfigFile)
 	{
 		tableView.updateConfigTable(loadConfigFile);
+	}
+
+	public void setDependencies(IModelReadWrite model2,
+			BenchmarkTableView tableView2)
+	{
+		model = model2;
+		tableView = tableView2;
+		getContentPane().remove(scrollPane);
+		scrollPane = new JScrollPane();
+		scrollPane.setViewportView(tableView.updateConfigTable(null));
+		model.attach(this);
+		model.attach(tableView2);
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 
 }

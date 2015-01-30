@@ -35,6 +35,11 @@ import magma.tools.benchmark.model.bench.TeamResult;
  */
 public class RunBenchmark extends BenchmarkMain
 {
+	public RunBenchmark()
+	{
+		System.out.println("RunBench");
+	}
+
 	@Override
 	protected void benchmarkResults()
 	{
@@ -79,6 +84,7 @@ public class RunBenchmark extends BenchmarkMain
 		return factory;
 	}
 
+	@Override
 	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
 	{
 		return new RunBenchmarkTeamResult(currentTeamConfig.getName());

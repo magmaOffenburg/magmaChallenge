@@ -27,12 +27,18 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JComboBox;
+
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmark;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
 import magma.tools.benchmark.view.BenchmarkView;
+import magma.tools.benchmark.view.bench.BenchmarkTableView;
+import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
+import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 
 /**
  * 
@@ -43,6 +49,8 @@ public class BenchmarkController
 	private IModelReadWrite model;
 
 	private BenchmarkView view;
+
+	private String defaultPath;
 
 	public static void main(String[] args)
 	{
@@ -58,8 +66,13 @@ public class BenchmarkController
 	 */
 	public BenchmarkController(String defaultPath)
 	{
-		model = new RunBenchmark();
-		view = BenchmarkView.getInstance(model, defaultPath);
+		this.defaultPath = defaultPath;
+		model = new KickBenchmark();
+		BenchmarkTableView tableView = KickBenchmarkTableView.getInstance(model,
+				defaultPath);
+		view = BenchmarkView.getInstance(model, tableView, defaultPath);
+
+		view.addChallengeListener(new ChallengeListener());
 		view.addCompetitionButtonListener(new CompetitionListener(false));
 		view.addOpenScriptButtonListener(new LoadScriptFileListener());
 		view.addOpenButtonListener(new LoadConfigFileListener());
@@ -67,6 +80,40 @@ public class BenchmarkController
 		view.addStopButtonListener(new StopListener());
 		view.addKillServerListener(new KillServerListener());
 		view.setVisible(true);
+	}
+
+	/**
+	 * listener for stop button
+	 * 
+	 * @author kdorer
+	 */
+	class ChallengeListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent event)
+		{
+			String challenge = (String) ((JComboBox<String>) event.getSource())
+					.getSelectedItem();
+
+			BenchmarkTableView tableView = null;
+			IModelReadWrite newModel = null;
+			switch (challenge) {
+			case "Run Challenge":
+				newModel = new RunBenchmark();
+				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
+				break;
+			case "Kick Challenge":
+			default:
+				newModel = new KickBenchmark();
+				tableView = KickBenchmarkTableView.getInstance(model, defaultPath);
+				break;
+			}
+
+			model.stop();
+			model = newModel;
+			view.setDependencies(model, tableView);
+			view.revalidate();
+		}
 	}
 
 	/**

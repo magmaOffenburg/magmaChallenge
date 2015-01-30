@@ -19,7 +19,7 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.view;
+package magma.tools.benchmark.view.bench.runchallenge;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +35,30 @@ import magma.tools.benchmark.model.TeamConfiguration;
 class RunBenchmarkTableModelExtension extends DefaultTableModel
 {
 	private static final long serialVersionUID = 1L;
+
+	static final int COLUMN_TEAMNAME = 0;
+
+	static final int COLUMN_STATUS = 1;
+
+	static final int COLUMN_SCORE = 2;
+
+	static final int COLUMN_RUNS = 3;
+
+	static final int COLUMN_FALLS = 4;
+
+	static final int COLUMN_SPEED = 5;
+
+	static final int COLUMN_OFF_GROUND = 6;
+
+	static final int COLUMN_ONE_LEG = 7;
+
+	static final int COLUMN_TWO_LEGS = 8;
+
+	static final int COLUMN_PATH = 9;
+
+	static final int COLUMN_BINARY = 10;
+
+	static final int COLUMN_DROP_HEIGHT = 11;
 
 	private Class<?>[] columnTypes;
 
@@ -55,18 +79,18 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 		Object[][] content = new Object[config.size()][COLUMNS];
 		int i = 0;
 		for (TeamConfiguration team : config) {
-			content[i][BenchmarkView.COLUMN_TEAMNAME] = team.getName();
-			content[i][BenchmarkView.COLUMN_STATUS] = null;
-			content[i][BenchmarkView.COLUMN_SCORE] = null;
-			content[i][BenchmarkView.COLUMN_RUNS] = null;
-			content[i][BenchmarkView.COLUMN_FALLS] = null;
-			content[i][BenchmarkView.COLUMN_SPEED] = null;
-			content[i][BenchmarkView.COLUMN_OFF_GROUND] = null;
-			content[i][BenchmarkView.COLUMN_ONE_LEG] = null;
-			content[i][BenchmarkView.COLUMN_TWO_LEGS] = null;
-			content[i][BenchmarkView.COLUMN_PATH] = team.getPath();
-			content[i][BenchmarkView.COLUMN_BINARY] = team.getLaunch();
-			content[i][BenchmarkView.COLUMN_DROP_HEIGHT] = team.getDropHeight();
+			content[i][COLUMN_TEAMNAME] = team.getName();
+			content[i][COLUMN_STATUS] = null;
+			content[i][COLUMN_SCORE] = null;
+			content[i][COLUMN_RUNS] = null;
+			content[i][COLUMN_FALLS] = null;
+			content[i][COLUMN_SPEED] = null;
+			content[i][COLUMN_OFF_GROUND] = null;
+			content[i][COLUMN_ONE_LEG] = null;
+			content[i][COLUMN_TWO_LEGS] = null;
+			content[i][COLUMN_PATH] = team.getPath();
+			content[i][COLUMN_BINARY] = team.getLaunch();
+			content[i][COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
