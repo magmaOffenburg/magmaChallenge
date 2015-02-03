@@ -6,23 +6,21 @@ import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
+import magma.tools.benchmark.model.bench.RunInformation;
 
 public class KickBenchmarkMonitorComponentFactory extends
 		MonitorComponentFactory
 {
-	protected int currentRun;
-
-	private long randomSeed;
+	private RunInformation runInfo;
 
 	/**
 	 * @param parameterObject TODO
 	 */
 	public KickBenchmarkMonitorComponentFactory(
-			FactoryParameter parameterObject, long randomSeed, int currentRun)
+			FactoryParameter parameterObject, RunInformation runInfo)
 	{
 		super(parameterObject);
-		this.randomSeed = randomSeed;
-		this.currentRun = currentRun;
+		this.runInfo = runInfo;
 	}
 
 	/**
@@ -43,6 +41,6 @@ public class KickBenchmarkMonitorComponentFactory extends
 				params.getTeam1Jar(), params.getTeam2Name());
 		return new KickBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), randomSeed, currentRun);
+				params.getDropHeight(), runInfo);
 	}
 }

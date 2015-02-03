@@ -154,4 +154,16 @@ public abstract class TeamResult implements ITeamResult
 		}
 		return result;
 	}
+
+	@Override
+	public boolean isFallen()
+	{
+		return getFallenCount() > 0;
+	}
+
+	@Override
+	public ISingleResult getResult(int n)
+	{
+		return results.get(n);
+	}
 }

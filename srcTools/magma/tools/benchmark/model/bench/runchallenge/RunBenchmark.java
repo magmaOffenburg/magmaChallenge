@@ -25,8 +25,10 @@ import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
+import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
+import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
@@ -41,7 +43,7 @@ public class RunBenchmark extends BenchmarkMain
 	}
 
 	@Override
-	protected void benchmarkResults()
+	protected ISingleResult benchmarkResults()
 	{
 		float avgSpeed = 0;
 		float bothLegsOffGround = 0;
@@ -66,21 +68,20 @@ public class RunBenchmark extends BenchmarkMain
 				statusText += referee.getStatusText();
 			}
 		}
-		getCurrentResult().addResult(
-				new RunBenchmarkSingleResult(valid, avgSpeed, bothLegsOffGround,
-						oneLegOffGround, noLegOffGround, fallen, statusText));
+		return new RunBenchmarkSingleResult(valid, avgSpeed, bothLegsOffGround,
+				oneLegOffGround, noLegOffGround, fallen, statusText);
 	}
 
 	@Override
 	protected MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			int currentRun)
+			RunInformation runInfo)
 	{
 		MonitorComponentFactory factory = new RunBenchmarkMonitorComponentFactory(
 				new FactoryParameter(null, config.getServerIP(),
 						config.getAgentPort(), teamConfig.getName(),
 						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()));
+						config.getRuntime(), teamConfig.getDropHeight()), runInfo);
 		return factory;
 	}
 

@@ -6,16 +6,21 @@ import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
+import magma.tools.benchmark.model.bench.RunInformation;
 
 public class RunBenchmarkMonitorComponentFactory extends
 		MonitorComponentFactory
 {
+	private RunInformation runInfo;
+
 	/**
 	 * @param parameterObject TODO
 	 */
-	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject)
+	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
+			RunInformation runInfo)
 	{
 		super(parameterObject);
+		this.runInfo = runInfo;
 	}
 
 	/**
@@ -36,6 +41,6 @@ public class RunBenchmarkMonitorComponentFactory extends
 				params.getTeam1Jar(), params.getTeam2Name());
 		return new RunBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight());
+				params.getDropHeight(), runInfo);
 	}
 }

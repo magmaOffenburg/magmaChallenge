@@ -94,7 +94,7 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 			i++;
 		}
 
-		String[] headers = new String[] { "team", "status", "score", "runs",
+		String[] headers = new String[] { "team", "status", "score", "kicks",
 				"falls", "speed", "off ground", "one leg", "two legs", "path",
 				"start script", "drop height" };
 

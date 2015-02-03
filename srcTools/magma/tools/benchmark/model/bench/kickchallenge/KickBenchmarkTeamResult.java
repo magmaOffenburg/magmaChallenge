@@ -51,7 +51,12 @@ public class KickBenchmarkTeamResult extends TeamResult
 		}
 		float avg = 0;
 		for (ISingleResult result : results) {
-			avg += ((KickBenchmarkSingleResult) result).getDistance();
+			// NOT NICE: stopped with compositum pattern half way through
+			if (result instanceof KickBenchmarkTeamResult) {
+				avg += ((KickBenchmarkTeamResult) result).getAverageDistance();
+			} else {
+				avg += ((KickBenchmarkSingleResult) result).getDistance();
+			}
 		}
 		return avg / results.size();
 	}

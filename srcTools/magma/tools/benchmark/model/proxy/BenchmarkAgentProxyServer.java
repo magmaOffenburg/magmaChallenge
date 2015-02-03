@@ -25,6 +25,7 @@ import java.net.Socket;
 
 import magma.tools.SAProxy.impl.AgentProxy;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer;
+import magma.tools.benchmark.model.bench.RunInformation;
 
 /**
  * 
@@ -32,6 +33,7 @@ import magma.tools.SAProxy.impl.SimsparkAgentProxyServer;
  */
 public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 {
+	private RunInformation runInfo;
 
 	/**
 	 * @param parameterObject
@@ -40,6 +42,7 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 			SimsparkAgentProxyServerParameter parameterObject)
 	{
 		super(parameterObject);
+		runInfo = new RunInformation();
 	}
 
 	@Override
@@ -50,7 +53,19 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 			System.out.println("Already one agent connected!");
 			return null;
 		}
-		return new BenchmarkAgentProxy(clientSocket, ssHost, ssPort, showMessages);
+		BenchmarkAgentProxy benchmarkAgentProxy = new BenchmarkAgentProxy(
+				clientSocket, ssHost, ssPort, showMessages);
+		benchmarkAgentProxy.updateProxy(runInfo);
+		return benchmarkAgentProxy;
+	}
+
+	public void updateProxy(RunInformation runInfo)
+	{
+		this.runInfo = runInfo;
+		BenchmarkAgentProxy agentProxy = getAgentProxy();
+		if (agentProxy != null) {
+			agentProxy.updateProxy(runInfo);
+		}
 	}
 
 	/**
@@ -61,7 +76,7 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		if (agentProxies.isEmpty()) {
 			return 0;
 		}
-		return ((BenchmarkAgentProxy) agentProxies.get(0)).getBothLegsOffGround();
+		return getAgentProxy().getBothLegsOffGround();
 	}
 
 	/**
@@ -72,7 +87,7 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		if (agentProxies.isEmpty()) {
 			return 0;
 		}
-		return ((BenchmarkAgentProxy) agentProxies.get(0)).getOneLegOffGround();
+		return getAgentProxy().getOneLegOffGround();
 	}
 
 	/**
@@ -83,7 +98,7 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		if (agentProxies.isEmpty()) {
 			return 0;
 		}
-		return ((BenchmarkAgentProxy) agentProxies.get(0)).getNoLegOffGround();
+		return getAgentProxy().getNoLegOffGround();
 	}
 
 	/**
@@ -94,6 +109,15 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		if (agentProxies.isEmpty()) {
 			return 0;
 		}
-		return ((BenchmarkAgentProxy) agentProxies.get(0)).getLegOnGround();
+		return getAgentProxy().getLegOnGround();
+	}
+
+	protected BenchmarkAgentProxy getAgentProxy()
+	{
+		if (agentProxies.isEmpty()) {
+			return null;
+		}
+
+		return (BenchmarkAgentProxy) agentProxies.get(0);
 	}
 }

@@ -51,7 +51,11 @@ public class RunBenchmarkTeamResult extends TeamResult
 		}
 		float avg = 0;
 		for (ISingleResult result : results) {
-			avg += ((RunBenchmarkSingleResult) result).getSpeed();
+			if (result instanceof RunBenchmarkTeamResult) {
+				avg += ((RunBenchmarkTeamResult) result).getAverageSpeed();
+			} else {
+				avg += ((RunBenchmarkSingleResult) result).getSpeed();
+			}
 		}
 		return avg / results.size();
 	}
@@ -66,7 +70,11 @@ public class RunBenchmarkTeamResult extends TeamResult
 		}
 		float avg = 0;
 		for (ISingleResult result : results) {
-			avg += ((RunBenchmarkSingleResult) result).getOffGround();
+			if (result instanceof RunBenchmarkTeamResult) {
+				avg += ((RunBenchmarkTeamResult) result).getAverageOffGround();
+			} else {
+				avg += ((RunBenchmarkSingleResult) result).getOffGround();
+			}
 		}
 		return avg / results.size();
 	}
@@ -81,7 +89,11 @@ public class RunBenchmarkTeamResult extends TeamResult
 		}
 		float avg = 0;
 		for (ISingleResult result : results) {
-			avg += ((RunBenchmarkSingleResult) result).getOneLeg();
+			if (result instanceof RunBenchmarkTeamResult) {
+				avg += ((RunBenchmarkTeamResult) result).getAverageOneLeg();
+			} else {
+				avg += ((RunBenchmarkSingleResult) result).getOneLeg();
+			}
 		}
 		return avg / results.size();
 	}
@@ -96,7 +108,11 @@ public class RunBenchmarkTeamResult extends TeamResult
 		}
 		float avg = 0;
 		for (ISingleResult result : results) {
-			avg += ((RunBenchmarkSingleResult) result).getTwoLegs();
+			if (result instanceof RunBenchmarkTeamResult) {
+				avg += ((RunBenchmarkTeamResult) result).getAverageTwoLegs();
+			} else {
+				avg += ((RunBenchmarkSingleResult) result).getTwoLegs();
+			}
 		}
 		return avg / results.size();
 	}

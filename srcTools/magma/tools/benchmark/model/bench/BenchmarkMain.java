@@ -30,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 
 import magma.monitor.general.IMonitorRuntimeListener;
@@ -43,6 +44,7 @@ import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServe
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.IModelReadWrite;
+import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
@@ -138,13 +140,14 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	/**
 	 * 
 	 */
-	private void collectResults()
+	private void collectResults(ITeamResult currentRunResult)
 	{
-		benchmarkResults();
+		ISingleResult result = benchmarkResults();
+		currentRunResult.addResult(result);
 		observer.onStateChange(this);
 	}
 
-	protected abstract void benchmarkResults();
+	protected abstract ISingleResult benchmarkResults();
 
 	/**
 	 * @return
@@ -157,7 +160,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	/**
 	 * @return
 	 */
-	protected ITeamResult getCurrentResult()
+	protected ITeamResult getCurrentTeamResult()
 	{
 		return results.get(getCurrentTeam());
 	}
@@ -181,10 +184,10 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	}
 
 	private boolean startTrainer(BenchmarkConfiguration config,
-			TeamConfiguration teamConfig, int currentRun)
+			TeamConfiguration teamConfig, RunInformation runInfo)
 	{
 		MonitorComponentFactory factory = createMonitorFactory(config,
-				teamConfig, currentRun);
+				teamConfig, runInfo);
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));
@@ -215,10 +218,24 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 
 	protected abstract MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			int currentRun);
+			RunInformation runInfo);
 
 	protected abstract TeamResult createTeamResult(
 			TeamConfiguration currentTeamConfig);
+
+	protected RunInformation createRunInformation(Random rand, int runID)
+	{
+		return new RunInformation(runID, -13.5, 0, 14.5, 0);
+	}
+
+	/**
+	 * The number of different runs or phases this benchmark has.
+	 * @return the number of runs, default 1
+	 */
+	protected int getBenchmarkRuns()
+	{
+		return 1;
+	}
 
 	/**
 	 * 
@@ -340,70 +357,80 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 			// start the proxy through which players should connect
 			startProxy(config);
 
-			int benchmarkRuns = getBenchmarkRuns();
-			for (int i = 0; i < benchmarkRuns; i++) {
-				performAverageOutRuns(benchmarkRuns);
-			}
+			boolean stopped = false;
+			// loop for all teams in the competition
+			for (TeamConfiguration currentTeamConfig : teamConfig) {
+				// note that all results of all benchmark runs are stored here
+				results.add(createTeamResult(currentTeamConfig));
 
+				int benchmarkRuns = getBenchmarkRuns();
+				Random rand = new Random(config.getRandomSeed());
+
+				// loop for the different benchmark runs
+				for (int i = 0; i < benchmarkRuns; i++) {
+					RunInformation info = createRunInformation(rand, i);
+					proxy.updateProxy(info);
+					stopped = performAverageOutRuns(currentTeamConfig, info);
+					if (stopped) {
+						break;
+					}
+				}
+				currentTeam++;
+				if (stopped) {
+					break;
+				}
+			}
 			proxy.shutdown();
 			runThread = null;
 			observer.onStateChange(BenchmarkMain.this);
 		}
 
 		/**
-		 * The number of different runs or phases this benchmark has.
-		 * @return the number of runs, default 1
-		 */
-		protected int getBenchmarkRuns()
-		{
-			return 1;
-		}
-
-		/**
 		 * Performs the specified number of runs to average out the result for
 		 * this benchmark run.
 		 * @param currentRun the current run/phase of the benchmark
+		 * @param currentTeamConfig the config for the currently running team
+		 * @return true if stopped
 		 */
-		protected void performAverageOutRuns(int currentRun)
+		protected boolean performAverageOutRuns(
+				TeamConfiguration currentTeamConfig, RunInformation runInfo)
 		{
 			int avgRuns = config.getAverageOutRuns();
 
-			for (TeamConfiguration currentTeamConfig : teamConfig) {
-				results.add(createTeamResult(currentTeamConfig));
-				stoppedTeam = false;
-				while (getCurrentResult().size() < avgRuns && !stopped
-						&& !stoppedTeam) {
-					try {
-						float dropHeight = currentTeamConfig.getDropHeight();
-						// System.out.println("dropheight: " +
-						// String.valueOf(dropHeight));
-						replace(scriptPath, dropHeight);
+			stoppedTeam = false;
+			ITeamResult currentRunResult = createTeamResult(currentTeamConfig);
+			getCurrentTeamResult().addResult(currentRunResult);
+			while (currentRunResult.size() < avgRuns && !stopped && !stoppedTeam) {
+				try {
+					float dropHeight = currentTeamConfig.getDropHeight();
+					// System.out.println("dropheight: " +
+					// String.valueOf(dropHeight));
+					replace(scriptPath, dropHeight);
 
-						server.startServer();
+					server.startServer();
 
-						boolean success = startTrainer(config, currentTeamConfig,
-								currentRun);
-						if (success) {
-							collectResults();
-						}
-
-					} catch (ServerException e) {
-						statusText += e.getMessage();
-						collectResults();
-
-					} catch (RuntimeException e) {
-						e.printStackTrace();
-					} finally {
-						server.stopServer();
+					boolean success = startTrainer(config, currentTeamConfig,
+							runInfo);
+					if (success) {
+						collectResults(currentRunResult);
 					}
-				}
-				System.out.println("Overall Score: "
-						+ getCurrentResult().getAverageScore());
-				currentTeam++;
-				if (stopped) {
-					break;
+
+				} catch (ServerException e) {
+					statusText += e.getMessage();
+					collectResults(currentRunResult);
+
+				} catch (RuntimeException e) {
+					e.printStackTrace();
+				} finally {
+					server.stopServer();
 				}
 			}
+			System.out.println("Average Score: "
+					+ currentRunResult.getAverageScore());
+			if (stopped) {
+				return true;
+			}
+			return false;
 		}
 
 		public void stopAll()

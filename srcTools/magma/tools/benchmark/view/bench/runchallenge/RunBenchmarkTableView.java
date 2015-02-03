@@ -98,7 +98,7 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 			table.setValueAt(averageScore, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_SCORE);
 
-			int runs = teamResult.size();
+			int runs = ((ITeamResult) teamResult.getResult(0)).size();
 			table.setValueAt(runs, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_RUNS);
 

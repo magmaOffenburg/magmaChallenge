@@ -173,7 +173,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		});
 		averageRuns.setEnabled(true);
 		averageRuns.setEditable(true);
-		averageRuns.setText("3");
+		averageRuns.setText("1");
 		panel.add(averageRuns);
 		averageRuns.setColumns(4);
 

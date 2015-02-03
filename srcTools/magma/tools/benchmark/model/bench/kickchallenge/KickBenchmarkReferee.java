@@ -4,37 +4,37 @@ import magma.monitor.command.IServerCommander;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
+import magma.tools.benchmark.model.bench.RunInformation;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class KickBenchmarkReferee extends BenchmarkRefereeBase
 {
 	/** the time we wait the player to cross the line before we start counting */
 	private static final double TIME_UNTIL_BENCH_STARTS = 3.0;
 
-	private double distanceError;
+	/** distance to ball below which time starts to count */
+	private static final double START_LINE_DISTANCE = 0.4;
 
-	private float startX;
+	/** distance to ball above which run ends */
+	private static final double MAX_BALL_DISTANCE = 2.0;
+
+	private double distanceError;
 
 	private int startCycleCount;
 
-	/** the current run/phase of the benchmark indicating the kick distance */
-	private int currentRun;
-
-	/** random seed to use to start random number generator */
-	private long randomSeed;
+	private RunInformation runInfo;
 
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			long randomSeed, int currentRun)
+			RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				dropHeight);
-		this.randomSeed = randomSeed;
-		this.currentRun = currentRun;
+		this.runInfo = runInfo;
 		distanceError = 0;
-		startX = 0;
 		startCycleCount = 0;
 	}
 
@@ -49,8 +49,9 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 
 		// determine ball position
 
-		if (startCycleCount >= 200) {
-			String msg = "(playMode PlayOn)(ball (pos 14.75 0 0.042) (vel 0 0 0))";
+		if (startCycleCount >= 50) {
+			String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
+					+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
 			serverCommander.sendMessage(msg);
 			return true;
 		} else {
@@ -64,25 +65,30 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected boolean onDuringBenchmark()
 	{
-		float FARTHEST_DISTANCE_ALLOWED = 14.5f;
 		float time = worldModel.getTime();
 		float currentTime = time - startTime;
-		Vector3D position = getAgent().getPosition();
-		if (currentTime > runTime || position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
+		Vector3D posPlayer = getAgent().getPosition();
+		Vector3D posBall = getBall().getPosition();
+		Vector2D playerInitial = new Vector2D(runInfo.getBeamX(),
+				runInfo.getBeamY());
+		Vector2D ballInitial = new Vector2D(runInfo.getBallX(),
+				runInfo.getBallY());
+		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
+		Vector2D ballNow = new Vector2D(posBall.getX(), posBall.getY());
+
+		if (currentTime > runTime) {
 			// finished this run
 			runTime = currentTime;
 			return true;
 		}
 
 		if (state == RefereeState.CONNECTED
-				&& Math.abs(position.getX() - startX) < 0.1
-				&& Math.abs(position.getY()) < 0.1) {
-			// serverCommander.dropBall();
+				&& playerNow.distance(playerInitial) < 0.1) {
 			state = RefereeState.BEAMED;
 		}
 
 		if (state == RefereeState.BEAMED && startTime < 0) {
-			if (position.getX() > startX + 0.5) {
+			if (playerNow.distance(ballNow) < START_LINE_DISTANCE) {
 				// player has crossed the start line
 				startTime = time;
 				state = RefereeState.STARTED;
@@ -93,9 +99,10 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 			}
 		}
 
-		if (hasFallen()) {
-			// agent is on ground
-			return true;
+		if (state == RefereeState.STARTED) {
+			if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
+				return true;
+			}
 		}
 
 		return false;

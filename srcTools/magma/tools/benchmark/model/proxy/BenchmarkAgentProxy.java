@@ -24,6 +24,7 @@ package magma.tools.benchmark.model.proxy;
 import java.net.Socket;
 
 import magma.tools.SAProxy.impl.AgentProxy;
+import magma.tools.benchmark.model.bench.RunInformation;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -52,6 +53,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private boolean beaming;
 
+	private RunInformation runInfo;
+
 	/**
 	 * @param clientSocket
 	 * @param ssHost
@@ -63,6 +66,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 	{
 		super(clientSocket, ssHost, ssPort, showMessages);
 		beaming = true;
+		runInfo = new RunInformation();
 	}
 
 	public void startCount()
@@ -179,7 +183,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 		}
 
 		if (beaming) {
-			msgString += "(beam -13.5 0 0)";
+			msgString += "(beam " + runInfo.getBeamX() + " " + runInfo.getBeamY()
+					+ " 0)";
 			message = msgString.getBytes();
 		}
 
@@ -219,5 +224,10 @@ public class BenchmarkAgentProxy extends AgentProxy
 			return 100;
 		}
 		return legOnGround;
+	}
+
+	public void updateProxy(RunInformation runInfo)
+	{
+		this.runInfo = runInfo;
 	}
 }

@@ -4,6 +4,7 @@ import magma.monitor.command.IServerCommander;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
+import magma.tools.benchmark.model.bench.RunInformation;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -18,14 +19,18 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int startCycleCount;
 
+	private RunInformation runInfo;
+
 	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight)
+			SinglePlayerLauncher launcher, float runTime, float dropHeight,
+			RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				dropHeight);
+		this.runInfo = runInfo;
 		averageSpeed = 0;
-		startX = -13.5f;
+		startX = (float) runInfo.getBeamX();
 		startCycleCount = 0;
 	}
 
@@ -43,7 +48,8 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		// dropHeight, -90);
 		state = RefereeState.CONNECTED;
 		if (startCycleCount >= 200) {
-			String msg = "(playMode PlayOn)(ball (pos 14.75 0 0.042) (vel 0 0 0))";
+			String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
+					+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
 			serverCommander.sendMessage(msg);
 			return true;
 		} else {
