@@ -20,11 +20,12 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	/** distance to ball above which run ends */
 	private static final double MAX_BALL_DISTANCE = 2.0;
 
+	/** distance to ball above which run ends */
+	private static final double PENALTY_LEAVING_CIRCLE = 5.0;
+
 	private double distanceError;
 
 	private int startCycleCount;
-
-	private RunInformation runInfo;
 
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
@@ -32,10 +33,22 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 			RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				dropHeight);
-		this.runInfo = runInfo;
+				dropHeight, runInfo);
 		distanceError = 0;
 		startCycleCount = 0;
+	}
+
+	/**
+	 * Beams the ball to the next kick start position
+	 */
+	@Override
+	protected boolean onDuringLaunching()
+	{
+		// we beam the ball early
+		String msg = "(ball (pos " + runInfo.getBallX() + " "
+				+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
+		serverCommander.sendMessage(msg);
+		return super.onDuringLaunching();
 	}
 
 	/**
@@ -50,8 +63,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		// determine ball position
 
 		if (startCycleCount >= 50) {
-			String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
-					+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
+			String msg = "(playMode PlayOn)";
 			serverCommander.sendMessage(msg);
 			return true;
 		} else {
@@ -114,9 +126,19 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected void onStopBenchmark()
 	{
+		// evaluation function
 		Vector3D position = getBall().getPosition();
 		distanceError = position.getNorm();
 		state = RefereeState.STOPPED;
+
+		// we give a penalty if player left circle around ball
+		Vector3D posPlayer = getAgent().getPosition();
+		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
+		Vector2D ballInitial = new Vector2D(runInfo.getBallX(),
+				runInfo.getBallY());
+		if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
+			distanceError += PENALTY_LEAVING_CIRCLE;
+		}
 	}
 
 	/**

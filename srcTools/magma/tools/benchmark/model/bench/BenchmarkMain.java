@@ -368,6 +368,9 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 
 				// loop for the different benchmark runs
 				for (int i = 0; i < benchmarkRuns; i++) {
+					// reset status text for each run
+					statusText = "";
+
 					RunInformation info = createRunInformation(rand, i);
 					proxy.updateProxy(info);
 					stopped = performAverageOutRuns(currentTeamConfig, info);

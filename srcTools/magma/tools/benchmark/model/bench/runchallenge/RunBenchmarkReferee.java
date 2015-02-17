@@ -19,16 +19,13 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int startCycleCount;
 
-	private RunInformation runInfo;
-
 	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
 			RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				dropHeight);
-		this.runInfo = runInfo;
+				dropHeight, runInfo);
 		averageSpeed = 0;
 		startX = (float) runInfo.getBeamX();
 		startCycleCount = 0;

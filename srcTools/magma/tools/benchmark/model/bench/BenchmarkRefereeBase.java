@@ -31,11 +31,16 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	protected boolean hasFallen;
 
+	/** the setup information for this run of the benchmark */
+	protected RunInformation runInfo;
+
 	public BenchmarkRefereeBase(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight)
+			SinglePlayerLauncher launcher, float runTime, float dropHeight,
+			RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid);
+		this.runInfo = runInfo;
 
 		stopBenchmarkCalled = false;
 		timer = null;
@@ -56,14 +61,9 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		boolean stop = false;
 		if (cycleCount < 1) {
 			if (launching) {
-				if (decisionCount > 300) {
-					// timeout, launching did not work
-					state = RefereeState.FAILED;
-					statusText = "Timeout when launching player\n"
-							+ launcher.getStatusText();
+				if (onDuringLaunching()) {
 					return true;
 				}
-				launching = launcher.launchPlayer(getNumberOfPlayers());
 			} else {
 				// game is not running, so lets start it
 				boolean finishedStarting = onStartBenchmark();
@@ -83,6 +83,24 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 			launcher.stopPlayer();
 			return true;
 		}
+		return false;
+	}
+
+	/**
+	 * Called during the launch phase of a player. The default implementation
+	 * launches a single player and stops if a timeout is reached
+	 * @return true if a timeout is reached
+	 */
+	protected boolean onDuringLaunching()
+	{
+		if (decisionCount > 300) {
+			// timeout, launching did not work
+			state = RefereeState.FAILED;
+			statusText = "Timeout when launching player\n"
+					+ launcher.getStatusText();
+			return true;
+		}
+		launching = launcher.launchPlayer(runInfo, getNumberOfPlayers());
 		return false;
 	}
 
