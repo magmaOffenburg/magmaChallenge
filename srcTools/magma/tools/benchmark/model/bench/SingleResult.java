@@ -42,7 +42,9 @@ public class SingleResult implements ISingleResult
 		this.statusText = statusText;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see magma.tools.benchmark.model.bench.ISingleResult#isFallen()
 	 */
 	@Override
@@ -51,7 +53,9 @@ public class SingleResult implements ISingleResult
 		return fallen;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see magma.tools.benchmark.model.bench.ISingleResult#isValid()
 	 */
 	@Override
@@ -60,7 +64,9 @@ public class SingleResult implements ISingleResult
 		return valid;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see magma.tools.benchmark.model.bench.ISingleResult#getStatusText()
 	 */
 	@Override
