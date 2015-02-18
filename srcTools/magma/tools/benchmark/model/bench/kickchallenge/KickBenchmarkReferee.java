@@ -25,8 +25,6 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 
 	private double distanceError;
 
-	private int startCycleCount;
-
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
@@ -35,7 +33,6 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				dropHeight, runInfo);
 		distanceError = 0;
-		startCycleCount = 0;
 	}
 
 	/**
@@ -57,18 +54,12 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected boolean onStartBenchmark()
 	{
-		startCycleCount++;
 		state = RefereeState.CONNECTED;
 
-		// determine ball position
-
-		if (startCycleCount >= 50) {
-			String msg = "(playMode PlayOn)";
-			serverCommander.sendMessage(msg);
-			return true;
-		} else {
-			return false;
-		}
+		String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
+				+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
+		serverCommander.sendMessage(msg);
+		return true;
 	}
 
 	/**

@@ -66,7 +66,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
 					"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-					"startPlayerRunning.sh", 0.4f);
+					"startChallengePlayer.sh", 0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
