@@ -39,7 +39,6 @@ public class RunBenchmark extends BenchmarkMain
 {
 	public RunBenchmark()
 	{
-		System.out.println("RunBench");
 	}
 
 	@Override

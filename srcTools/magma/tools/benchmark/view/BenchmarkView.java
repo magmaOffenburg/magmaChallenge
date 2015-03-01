@@ -252,11 +252,11 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				String text = "Run Challenge Benchmark Tool.\n\n";
+				String text = "Magma Challenge Benchmark Tool.\n\n";
 				text += "Provided by the magmaOffenburg team.\n";
 				text += VERSION;
 				JOptionPane.showMessageDialog(BenchmarkView.this, text,
-						"Run Challenge Benchmark Tool",
+						"Magma Challenge Benchmark Tool",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
