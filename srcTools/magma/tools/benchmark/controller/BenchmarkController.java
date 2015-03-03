@@ -89,6 +89,7 @@ public class BenchmarkController
 	 */
 	class ChallengeListener implements ActionListener
 	{
+		@SuppressWarnings("unchecked")
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
