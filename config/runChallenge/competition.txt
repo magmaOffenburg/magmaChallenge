@@ -1,0 +1,3 @@
+magma;/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/;startPlayerRunning.sh;0.4
+magma2;/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/;startTeam2.sh;0.4
+magmaFail;/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/;startTe.sh;0.4
