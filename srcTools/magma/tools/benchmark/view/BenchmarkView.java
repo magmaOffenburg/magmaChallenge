@@ -397,7 +397,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	public void updateConfigTable(List<TeamConfiguration> loadConfigFile)
 	{
-		tableView.updateConfigTable(loadConfigFile);
+		scrollPane.setViewportView(tableView.updateConfigTable(loadConfigFile));
 	}
 
 	public void setDependencies(IModelReadWrite model2,
