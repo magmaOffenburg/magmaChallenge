@@ -26,9 +26,9 @@
 ###########################################
 
 # for Ubuntu
-# CLSEP=:
+CLSEP=:
 # for Cygwin
-CLSEP=\;
+#CLSEP=\;
 
 CLSPTH=build/classes
 CLSPTH=${CLSPTH}${CLSEP}build/config
@@ -39,6 +39,6 @@ CLSPTH=${CLSPTH}${CLSEP}lib/SAProxy.jar
 CLSPTH=${CLSPTH}${CLSEP}lib/magmaChallenge.jar
 
 cd ..
-echo $CLSPTH
+# echo $CLSPTH
 java -cp $CLSPTH magma.tools.benchmark.controller.BenchmarkController /host/Data/Programmierung/Magma/magmaChallenge/config/runChallenge/  
 cd bin
