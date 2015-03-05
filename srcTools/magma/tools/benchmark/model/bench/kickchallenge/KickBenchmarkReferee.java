@@ -11,19 +11,29 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class KickBenchmarkReferee extends BenchmarkRefereeBase
 {
-	/** the time we wait the player to cross the line before we start counting */
+	/**
+	 * the time we wait the player to cross the line before we start counting (in
+	 * s)
+	 */
 	private static final double TIME_UNTIL_BENCH_STARTS = 3.0;
 
-	/** distance to ball below which time starts to count */
+	/** distance to ball below which time starts to count (in m) */
 	private static final double START_LINE_DISTANCE = 0.4;
 
-	/** distance to ball above which run ends */
+	/** distance to ball above which run ends (in m) */
 	private static final double MAX_BALL_DISTANCE = 2.0;
 
-	/** distance to ball above which run ends */
+	/** penalty assigned if player leaves circle */
 	private static final double PENALTY_LEAVING_CIRCLE = 5.0;
 
+	/** speed below which the ball is considered in rest (in m/cycle) */
+	private static final double BALL_STOPPED_SPEED = 0.001;
+
+	/** the distance of the ball from the target when stopped */
 	private double distanceError;
+
+	/** position of ball in last cycle */
+	private Vector2D oldBallPos;
 
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
@@ -33,6 +43,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				dropHeight, runInfo);
 		distanceError = 0;
+		oldBallPos = Vector2D.ZERO;
 	}
 
 	/**
@@ -103,11 +114,19 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		}
 
 		if (state == RefereeState.STARTED) {
+			// stop if player runs too far
 			if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
 				return true;
 			}
+			// stop if ball has left radius and has stopped
+			if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
+				if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
+					return true;
+				}
+			}
 		}
 
+		oldBallPos = ballNow;
 		return false;
 	}
 

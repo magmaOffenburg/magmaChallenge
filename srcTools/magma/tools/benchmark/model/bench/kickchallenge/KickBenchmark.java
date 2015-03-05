@@ -39,12 +39,16 @@ import magma.tools.benchmark.model.bench.TeamResult;
  */
 public class KickBenchmark extends BenchmarkMain
 {
+	/** how many attempts each team has */
 	static final int BENCHMARK_RUNS = 10;
 
+	/** x-axis delta of player to ball (in m) */
 	static final double DISTANCE_BEHIND_BALL = 0.6;
 
+	/** half opening angle of ball positions (in degrees) */
 	static final double BEAM_ANGLE = 30;
 
+	/** noise in player beam position (in m) */
 	static final double BEAM_NOISE = 0.1;
 
 	@Override
