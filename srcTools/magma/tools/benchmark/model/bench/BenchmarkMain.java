@@ -87,17 +87,20 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 		runThread = null;
 		results = new ArrayList<ITeamResult>();
 
-		URL resource = BenchmarkMain.class
-				.getResource("/runChallenge/rcssserver3d.rb");
+		// build environment
+		URL resource = BenchmarkMain.class.getResource("/rcssserver3d.rb");
 		if (resource != null) {
 			scriptPath = resource.getPath();
 		}
 
+		// release environment / jar
 		if (scriptPath == null || scriptPath.contains("jar!")) {
 			String absPath = getClass().getProtectionDomain().getCodeSource()
 					.getLocation().getPath();
-			scriptPath = absPath.substring(0, absPath.lastIndexOf(File.separator))
-					+ "/rcssserver3d.rb";
+			String libPath = absPath.substring(0,
+					absPath.lastIndexOf(File.separator));
+			scriptPath = libPath.substring(0, libPath.lastIndexOf(File.separator))
+					+ "/config/rcssserver3d.rb";
 		}
 
 		server = new ServerController(3100, 3200, false, scriptPath);

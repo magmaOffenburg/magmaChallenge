@@ -126,9 +126,6 @@ public class BenchmarkController
 	{
 		private boolean isTest;
 
-		/**
-		 * @param b
-		 */
 		public CompetitionListener(boolean isTest)
 		{
 			this.isTest = isTest;
