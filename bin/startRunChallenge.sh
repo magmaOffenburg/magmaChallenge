@@ -37,6 +37,7 @@ CLSPTH=${CLSPTH}${CLSEP}lib/magmaMonitor.jar
 CLSPTH=${CLSPTH}${CLSEP}lib/SAProxy.jar
 # only needed if not in build environment
 CLSPTH=${CLSPTH}${CLSEP}lib/magmaChallenge.jar
+CLSPTH=${CLSPTH}${CLSEP}config
 
 cd ..
 # echo $CLSPTH
