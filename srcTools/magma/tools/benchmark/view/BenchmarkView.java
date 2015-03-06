@@ -128,7 +128,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		fc = new JFileChooser(defaultPath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Run Challenge Benchmark");
+		setTitle("Magma Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
@@ -356,21 +356,15 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	public File getFileName()
 	{
-		int returnVal = fc.showOpenDialog(null);
+		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			return fc.getSelectedFile();
 		}
 		return null;
 	}
 
-	/**
-	 * @param message
-	 */
 	public void showErrorMessage(String message)
 	{
 		JTextArea jta = new JTextArea(message);
