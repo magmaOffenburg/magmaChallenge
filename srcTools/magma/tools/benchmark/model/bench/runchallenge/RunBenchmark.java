@@ -49,6 +49,7 @@ public class RunBenchmark extends BenchmarkMain
 		float oneLegOffGround = 0;
 		float noLegOffGround = 0;
 		boolean fallen = false;
+		boolean penalty = false;
 		boolean valid = false;
 		if (monitor != null) {
 			RunBenchmarkReferee referee = (RunBenchmarkReferee) monitor
@@ -62,13 +63,14 @@ public class RunBenchmark extends BenchmarkMain
 				noLegOffGround = proxy.getNoLegOffGround()
 						/ (referee.getRunTime() * 50f);
 				fallen = referee.isHasFallen();
+				penalty = referee.hasPenalty();
 				valid = true;
 			} else {
 				statusText += referee.getStatusText();
 			}
 		}
 		return new RunBenchmarkSingleResult(valid, avgSpeed, bothLegsOffGround,
-				oneLegOffGround, noLegOffGround, fallen, statusText);
+				oneLegOffGround, noLegOffGround, fallen, penalty, statusText);
 	}
 
 	@Override

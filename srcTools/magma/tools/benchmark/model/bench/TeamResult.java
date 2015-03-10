@@ -87,6 +87,21 @@ public abstract class TeamResult implements ITeamResult
 		return fallen;
 	}
 
+	@Override
+	public int getPenaltyCount()
+	{
+		if (results.isEmpty()) {
+			return 0;
+		}
+		int penalties = 0;
+		for (ISingleResult result : results) {
+			if (result.hasPenalty()) {
+				penalties++;
+			}
+		}
+		return penalties;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -159,6 +174,12 @@ public abstract class TeamResult implements ITeamResult
 	public boolean isFallen()
 	{
 		return getFallenCount() > 0;
+	}
+
+	@Override
+	public boolean hasPenalty()
+	{
+		return getPenaltyCount() > 0;
 	}
 
 	@Override

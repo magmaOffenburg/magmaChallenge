@@ -31,6 +31,8 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	protected boolean hasFallen;
 
+	protected boolean hasPenalty;
+
 	/** the setup information for this run of the benchmark */
 	protected RunInformation runInfo;
 
@@ -51,6 +53,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		startTime = -1;
 		this.runTime = runTime;
 		hasFallen = false;
+		hasPenalty = false;
 		statusText = "";
 	}
 
@@ -155,6 +158,14 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 	public boolean isHasFallen()
 	{
 		return hasFallen;
+	}
+
+	/**
+	 * @return true if a penalty has been assigned
+	 */
+	public boolean hasPenalty()
+	{
+		return hasPenalty;
 	}
 
 	/**

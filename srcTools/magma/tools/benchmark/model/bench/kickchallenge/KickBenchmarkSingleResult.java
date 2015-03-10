@@ -36,9 +36,9 @@ public class KickBenchmarkSingleResult extends SingleResult
 	 * @param offGround
 	 */
 	public KickBenchmarkSingleResult(boolean valid, boolean fallen,
-			String statusText, float distance)
+			boolean penalty, String statusText, float distance)
 	{
-		super(valid, fallen, statusText);
+		super(valid, fallen, penalty, statusText);
 		this.distance = distance;
 	}
 

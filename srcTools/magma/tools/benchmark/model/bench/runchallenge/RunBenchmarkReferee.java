@@ -109,6 +109,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		if (hasFallen()) {
 			endX -= 2;
 			hasFallen = true;
+			hasPenalty = true;
 		}
 		if (endX < realStartX) {
 			endX = realStartX;

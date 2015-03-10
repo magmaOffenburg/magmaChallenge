@@ -159,6 +159,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 				runInfo.getBallY());
 		if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
 			distanceError += PENALTY_LEAVING_CIRCLE;
+			hasPenalty = true;
 		}
 	}
 

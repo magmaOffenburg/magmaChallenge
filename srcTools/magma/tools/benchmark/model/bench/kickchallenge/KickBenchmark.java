@@ -56,6 +56,7 @@ public class KickBenchmark extends BenchmarkMain
 	{
 		float avgScore = 0;
 		boolean fallen = false;
+		boolean penalty = false;
 		boolean valid = false;
 		if (monitor != null) {
 			KickBenchmarkReferee referee = (KickBenchmarkReferee) monitor
@@ -63,12 +64,14 @@ public class KickBenchmark extends BenchmarkMain
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgScore = (float) referee.getDistanceError();
 				fallen = referee.isHasFallen();
+				penalty = referee.hasPenalty();
 				valid = true;
 			} else {
 				statusText += referee.getStatusText();
 			}
 		}
-		return new KickBenchmarkSingleResult(valid, fallen, statusText, avgScore);
+		return new KickBenchmarkSingleResult(valid, fallen, penalty, statusText,
+				avgScore);
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public class KickBenchmark extends BenchmarkMain
 	protected RunInformation createRunInformation(Random rand, int runID)
 	{
 		double radius = (runID + 3);
-		double angle = noise(rand, BEAM_ANGLE);
+		double angle = Math.toRadians(noise(rand, BEAM_ANGLE));
 		double ballX = -radius * Math.cos(angle);
 		double ballY = radius * Math.sin(angle);
 		double beamX = ballX - DISTANCE_BEHIND_BALL + noise(rand, BEAM_NOISE);
@@ -104,7 +107,7 @@ public class KickBenchmark extends BenchmarkMain
 
 	protected double noise(Random rand, double noise)
 	{
-		return Math.toRadians((rand.nextDouble() - 0.5) * 2 * noise);
+		return (rand.nextDouble() - 0.5) * 2 * noise;
 	}
 
 	/**

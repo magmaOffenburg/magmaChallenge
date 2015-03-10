@@ -44,7 +44,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_RUNS = 3;
 
-	static final int COLUMN_FALLS = 4;
+	static final int COLUMN_PENALTIES = 4;
 
 	static final int COLUMN_DISTANCE = 5;
 
@@ -77,7 +77,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 			content[i][COLUMN_STATUS] = null;
 			content[i][COLUMN_SCORE] = null;
 			content[i][COLUMN_RUNS] = null;
-			content[i][COLUMN_FALLS] = null;
+			content[i][COLUMN_PENALTIES] = null;
 			content[i][COLUMN_DISTANCE] = null;
 			content[i][COLUMN_PATH] = team.getPath();
 			content[i][COLUMN_BINARY] = team.getLaunch();
@@ -86,7 +86,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 		}
 
 		String[] headers = new String[] { "team", "status", "score", "runs",
-				"falls", "distance", "path", "start script", "drop height" };
+				"penalties", "distance", "path", "start script", "drop height" };
 
 		return new KickBenchmarkTableModelExtension(content, headers);
 	}

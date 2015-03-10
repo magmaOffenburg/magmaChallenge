@@ -60,4 +60,17 @@ public class KickBenchmarkTeamResult extends TeamResult
 		}
 		return avg / results.size();
 	}
+
+	public float getLastDistance()
+	{
+		if (results.isEmpty()) {
+			return 0.0f;
+		}
+		ISingleResult result = results.get(results.size() - 1);
+		if (result instanceof KickBenchmarkTeamResult) {
+			return ((KickBenchmarkTeamResult) result).getLastDistance();
+		} else {
+			return ((KickBenchmarkSingleResult) result).getDistance();
+		}
+	}
 }

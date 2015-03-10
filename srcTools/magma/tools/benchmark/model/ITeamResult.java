@@ -8,6 +8,8 @@ public interface ITeamResult extends ISingleResult
 
 	int getFallenCount();
 
+	int getPenaltyCount();
+
 	@Override
 	boolean isValid();
 

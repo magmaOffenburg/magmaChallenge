@@ -42,9 +42,10 @@ public class RunBenchmarkSingleResult extends SingleResult
 	 * @param offGround
 	 */
 	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround,
-			float oneLeg, float twoLegs, boolean fallen, String statusText)
+			float oneLeg, float twoLegs, boolean fallen, boolean penalty,
+			String statusText)
 	{
-		super(valid, fallen, statusText);
+		super(valid, fallen, penalty, statusText);
 		this.speed = speed;
 		this.offGround = offGround;
 		this.oneLeg = oneLeg;

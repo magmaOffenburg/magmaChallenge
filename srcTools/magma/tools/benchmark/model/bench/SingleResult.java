@@ -31,14 +31,18 @@ public class SingleResult implements ISingleResult
 {
 	private boolean fallen;
 
+	private boolean penalty;
+
 	private boolean valid;
 
 	private String statusText;
 
-	public SingleResult(boolean valid, boolean fallen, String statusText)
+	public SingleResult(boolean valid, boolean fallen, boolean penalty,
+			String statusText)
 	{
 		this.valid = valid;
 		this.fallen = fallen;
+		this.penalty = penalty;
 		this.statusText = statusText;
 	}
 
@@ -73,5 +77,11 @@ public class SingleResult implements ISingleResult
 	public String getStatusText()
 	{
 		return statusText;
+	}
+
+	@Override
+	public boolean hasPenalty()
+	{
+		return penalty;
 	}
 }
