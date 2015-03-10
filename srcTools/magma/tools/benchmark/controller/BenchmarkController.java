@@ -138,6 +138,7 @@ public class BenchmarkController
 			if (isTest) {
 				config.setRuntime(4);
 				config.setAverageOutRuns(1);
+				config.setIsTest(true);
 			}
 			List<TeamConfiguration> teamConfigurations = view
 					.getTeamConfiguration();

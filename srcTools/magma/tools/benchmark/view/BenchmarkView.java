@@ -323,7 +323,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int time = getNumber(runTime.getText(), 2, 20);
 		boolean verbose = chckbxVerbose.isSelected();
 		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
-				averageOutRuns, time, verbose, 123l);
+				averageOutRuns, time, verbose, false, 123l);
 	}
 
 	public void disableEditing()

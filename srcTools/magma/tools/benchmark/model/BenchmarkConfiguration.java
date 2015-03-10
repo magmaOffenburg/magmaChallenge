@@ -41,6 +41,8 @@ public class BenchmarkConfiguration
 
 	private boolean verbose;
 
+	private boolean isTest;
+
 	private long randomSeed;
 
 	/**
@@ -54,7 +56,7 @@ public class BenchmarkConfiguration
 	 */
 	public BenchmarkConfiguration(String serverIP, int serverPort,
 			int agentPort, int trainerPort, int averageOutRuns, int runtime,
-			boolean verbose, long randomSeed)
+			boolean verbose, boolean isTest, long randomSeed)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
@@ -63,6 +65,7 @@ public class BenchmarkConfiguration
 		this.averageOutRuns = averageOutRuns;
 		this.runtime = runtime;
 		this.verbose = verbose;
+		this.isTest = isTest;
 		this.randomSeed = randomSeed;
 	}
 
@@ -115,11 +118,27 @@ public class BenchmarkConfiguration
 	}
 
 	/**
-	 * @return the runtime in seconds
+	 * @return true if debug information should be printed
 	 */
 	public boolean isVerbose()
 	{
 		return verbose;
+	}
+
+	/**
+	 * @return true if this is a test run
+	 */
+	public boolean isTest()
+	{
+		return isTest;
+	}
+
+	/**
+	 * @param value true if this is a test run
+	 */
+	public void setIsTest(boolean value)
+	{
+		isTest = value;
 	}
 
 	/**

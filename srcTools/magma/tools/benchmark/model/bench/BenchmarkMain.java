@@ -367,6 +367,9 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 				results.add(createTeamResult(currentTeamConfig));
 
 				int benchmarkRuns = getBenchmarkRuns();
+				if (config.isTest()) {
+					benchmarkRuns = 1;
+				}
 				Random rand = new Random(config.getRandomSeed());
 
 				// loop for the different benchmark runs
