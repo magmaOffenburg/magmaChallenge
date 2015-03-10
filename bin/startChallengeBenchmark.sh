@@ -21,8 +21,8 @@
 #*******************************************************************************
 #!/bin/bash
 ###########################################
-# Starts the magma run challenge tool
-# example: ./startRunChallenge.sh
+# Starts the magma challenge benchmark tool
+# example: ./startChallengeBenchmark.sh
 ###########################################
 
 # for Ubuntu
