@@ -12,11 +12,11 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class KickBenchmarkReferee extends BenchmarkRefereeBase
 {
-	/**
-	 * the time we wait the player to cross the line before we start counting (in
-	 * s)
-	 */
+	/** time we wait the player to cross the line before we start counting (in s) */
 	private static final double TIME_UNTIL_BENCH_STARTS = 3.0;
+
+	/** if after this time the ball is still in the 2m circle we stop (in s) */
+	private static final double TIME_BALL_HAS_TO_LEAVE_CIRCLE = 7.0;
 
 	/** distance to ball below which time starts to count (in m) */
 	private static final double START_LINE_DISTANCE = 0.4;
@@ -41,8 +41,9 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
 			RunInformation runInfo)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				dropHeight, runInfo);
+		// ignoring passed runtime since the check should anyhow not fire
+		super(mWorldModel, serverCommander, serverPid, launcher, 20, dropHeight,
+				runInfo);
 		distanceError = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 	}
@@ -123,6 +124,11 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 			// stop if ball has left radius and has stopped
 			if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
 				if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
+					return true;
+				}
+			} else {
+				// stop if the ball did not leave the circle for too long
+				if (time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
 					return true;
 				}
 			}
