@@ -1,5 +1,6 @@
 package magma.tools.benchmark.model.bench.kickchallenge;
 
+import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
@@ -43,7 +44,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				dropHeight, runInfo);
 		distanceError = 0;
-		oldBallPos = Vector2D.ZERO;
+		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 	}
 
 	/**
@@ -106,6 +107,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 				// player has crossed the start line
 				startTime = time;
 				state = RefereeState.STARTED;
+
 			} else if (time > TIME_UNTIL_BENCH_STARTS) {
 				// 2 seconds to start are over
 				startTime = time;
@@ -124,6 +126,10 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 					return true;
 				}
 			}
+			// stop if playmode changes (e.g. because someone scored an own goal)
+			if (worldModel.getPlayMode() != PlayMode.PLAY_ON) {
+				return true;
+			}
 		}
 
 		oldBallPos = ballNow;
@@ -137,8 +143,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	protected void onStopBenchmark()
 	{
 		// evaluation function
-		Vector3D position = getBall().getPosition();
-		distanceError = position.getNorm();
+		distanceError = oldBallPos.getNorm();
 		state = RefereeState.STOPPED;
 
 		// we give a penalty if player left circle around ball

@@ -4,7 +4,7 @@
 	<classpathentry kind="src" output="build/config" path="config"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-math3-3.3.jar"/>
-	<classpathentry kind="lib" path="lib/magmaMonitor.jar"/>
+	<classpathentry kind="lib" path="lib/magmaMonitor.jar" sourcepath="/RoboCup3D/srcMonitor"/>
 	<classpathentry kind="lib" path="lib/SAProxy.jar"/>
 	<classpathentry kind="output" path="build/"/>
 </classpath>
