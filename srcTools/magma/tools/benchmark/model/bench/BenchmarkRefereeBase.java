@@ -2,7 +2,6 @@ package magma.tools.benchmark.model.bench;
 
 import magma.monitor.command.IServerCommander;
 import magma.monitor.referee.impl.RefereeBase;
-import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.monitor.worldmodel.ISoccerAgent;
 import magma.monitor.worldmodel.ISoccerBall;

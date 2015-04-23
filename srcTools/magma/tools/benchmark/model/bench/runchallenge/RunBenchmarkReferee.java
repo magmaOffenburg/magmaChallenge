@@ -1,10 +1,10 @@
 package magma.tools.benchmark.model.bench.runchallenge;
 
 import magma.monitor.command.IServerCommander;
-import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 

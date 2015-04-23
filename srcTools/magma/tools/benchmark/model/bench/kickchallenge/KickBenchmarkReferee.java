@@ -2,10 +2,10 @@ package magma.tools.benchmark.model.bench.kickchallenge;
 
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
-import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;

@@ -4,9 +4,9 @@ import magma.monitor.command.IServerCommander;
 import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee;
-import magma.monitor.referee.impl.SinglePlayerLauncher;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
 public class RunBenchmarkMonitorComponentFactory extends
 		MonitorComponentFactory
