@@ -44,6 +44,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
@@ -356,8 +358,14 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		}
 	}
 
-	public File getFileName()
+	public File getFileName(final String extension)
 	{
+		fc.resetChoosableFileFilters();
+		if (extension != null) {
+			fc.setFileFilter(new FileNameExtensionFilter("*" + extension,
+					extension));
+		}
+
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			return fc.getSelectedFile();

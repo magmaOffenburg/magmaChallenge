@@ -61,9 +61,6 @@ public class BenchmarkController
 		new BenchmarkController(defaultPath);
 	}
 
-	/**
-	 * 
-	 */
 	public BenchmarkController(String defaultPath)
 	{
 		this.defaultPath = defaultPath;
@@ -82,11 +79,6 @@ public class BenchmarkController
 		view.setVisible(true);
 	}
 
-	/**
-	 * listener for stop button
-	 * 
-	 * @author kdorer
-	 */
 	class ChallengeListener implements ActionListener
 	{
 		@SuppressWarnings("unchecked")
@@ -117,11 +109,6 @@ public class BenchmarkController
 		}
 	}
 
-	/**
-	 * listener for competition button
-	 * 
-	 * @author kdorer
-	 */
 	class CompetitionListener implements ActionListener
 	{
 		private boolean isTest;
@@ -147,11 +134,6 @@ public class BenchmarkController
 		}
 	}
 
-	/**
-	 * listener for stop button
-	 * 
-	 * @author kdorer
-	 */
 	class StopListener implements ActionListener
 	{
 		@Override
@@ -161,11 +143,6 @@ public class BenchmarkController
 		}
 	}
 
-	/**
-	 * listener for stop button
-	 * 
-	 * @author kdorer
-	 */
 	class KillServerListener implements ActionListener
 	{
 		@Override
@@ -175,18 +152,13 @@ public class BenchmarkController
 		}
 	}
 
-	/**
-	 * listener for stop button
-	 * 
-	 * @author kdorer
-	 */
 	class LoadConfigFileListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			try {
-				File file = view.getFileName();
+				File file = view.getFileName(null);
 				if (file == null) {
 					return;
 				}
@@ -200,17 +172,12 @@ public class BenchmarkController
 		}
 	}
 
-	/**
-	 * listener for stop button
-	 * 
-	 * @author kdorer
-	 */
 	class LoadScriptFileListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
-			File file = view.getFileName();
+			File file = view.getFileName("sh");
 			if (file == null) {
 				return;
 			}
