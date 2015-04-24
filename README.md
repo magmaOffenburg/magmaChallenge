@@ -28,7 +28,7 @@ The script receives the following arguments:
 4. start y position (float)
 5. name of the challenge
 
-Beams are not permitted (commands including a beam will be entirely ignored by the server).
+Beams are not permitted (commands including a beam will be entirely ignored by the server). Usage of the start position is optional, it can be useful to initialize localization.
 
 ## Usage
 
