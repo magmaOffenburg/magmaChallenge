@@ -70,4 +70,15 @@ The final sum is rounded to 3 digits. Equal scores will result in the same place
 
 ### Evaluation
 
-TODO
+The score of the team is evaluated as the average of the distances to the target position (0, 0).
+
+The accuracy is measured over ten kicks. Each kick, the player starts from a random position in his own half within 45 degrees seen from (0, 0). The start positions of the player are of ever increasing distance (3-12 meters) to the destination spot. They are the same for all teams.
+
+The time starts when the player gets closer than 0.5m to the ball or 3 seconds after the player was beamed (by the automated referee) to its start position roughly 1m behind the ball (whichever happens first).
+
+An attempt is over, if 
+- the player leaves a 2m circle around the initial ball position (which also results in a score penalty of 5m),
+- the ball leaves that circle and stops,
+- or the ball does not leave the circle 5 seconds after start of the run.
+
+The final sum is rounded to 3 digits. Equal scores will result in the same place. 
