@@ -28,96 +28,108 @@ import magma.util.file.StreamBufferer;
 
 public class SinglePlayerLauncher
 {
-    /** number of cycles to wait before next player starts */
-    // for more than one player
-    // private static final int WAIT_CYCLES_LAUNCHING = 10;
+	/** number of cycles to wait before next player starts */
+	// for more than one player
+	// private static final int WAIT_CYCLES_LAUNCHING = 10;
 
-    private static final int WAIT_CYCLES_LAUNCHING = 1;
+	private static final int WAIT_CYCLES_LAUNCHING = 1;
 
-    private String serverIP;
+	private String serverIP;
 
-    private int agentPort;
+	private int agentPort;
 
-    private String binary;
+	private String binary;
 
-    private int cyclesToWait;
+	private int cyclesToWait;
 
-    private boolean started;
+	private boolean started;
 
-    private String path;
+	private String path;
 
-    private StreamBufferer stdOut;
+	private StreamBufferer stdOut;
 
-    private StreamBufferer stdErr;
+	private StreamBufferer stdErr;
 
-    // private String teamname;
+	public SinglePlayerLauncher(String serverIP, int agentPort, String path,
+			String binary)
+	{
+		this.serverIP = serverIP;
+		this.agentPort = agentPort;
+		this.path = path;
+		this.binary = binary;
+		started = false;
+		cyclesToWait = WAIT_CYCLES_LAUNCHING;
+	}
 
-    public SinglePlayerLauncher(String serverIP, int agentPort, String teamname,
-                                String path, String binary)
-    {
-        this.serverIP = serverIP;
-        this.agentPort = agentPort;
-        // this.teamname = teamname;
-        this.path = path;
-        this.binary = binary;
-        started = false;
-        cyclesToWait = WAIT_CYCLES_LAUNCHING;
-    }
+	/**
+	 * Launches the player
+	 * @return false if no more players have to be launched
+	 */
+	public boolean launchPlayer(RunInformation runInfo, int playersOnField)
+	{
+		if (playersOnField == 1) {
+			cyclesToWait--;
+			if (cyclesToWait < 0) {
+				cyclesToWait = WAIT_CYCLES_LAUNCHING;
+				started = false;
+				return false;
+			}
+		}
+		if (!started) {
+			startPlayer(runInfo);
+			started = true;
+		}
+		return true;
+	}
 
-    /**
-     * Launches the player
-     * @return false if no more players have to be launched
-     */
-    public boolean launchPlayer(RunInformation runInfo, int playersOnField)
-    {
-        if (playersOnField == 1) {
-            cyclesToWait--;
-            if (cyclesToWait < 0) {
-                cyclesToWait = WAIT_CYCLES_LAUNCHING;
-                started = false;
-                return false;
-            }
-        }
-        if (!started) {
-            startPlayer(runInfo);
-            started = true;
-        }
-        return true;
-    }
+	private void startPlayer(RunInformation runInfo)
+	{
+		String fullPath = path + binary;
+		if (!validatePath(fullPath)) {
+			return;
+		}
 
-    private void startPlayer(RunInformation runInfo)
-    {
-        // String command = "./runTeam.sh " + teamname + " " + path + " " +
-        // binary;
-        String command = "bash " + path + binary + " " + serverIP + " "
-                + agentPort + " " + runInfo.getBeamX() + " " + runInfo.getBeamY();
-        System.out.println(command);
+		String command = "bash " + path + binary + " " + serverIP + " "
+				+ agentPort + " " + runInfo.getBeamX() + " " + runInfo.getBeamY();
+		System.out.println(command);
 
-        File workingDir = new File(path);
-        // File workingDir = new File("/home/robocup/magmaRunChallenge");
-        // File workingDir = new File("/home/kdorer");
-        Process ps = UnixCommandUtil.launch(command, null, workingDir);
-        stdOut = new StreamBufferer(ps.getInputStream(), 5000);
-        stdErr = new StreamBufferer(ps.getErrorStream(), 5000);
-    }
+		File workingDir = new File(path);
+		Process ps = UnixCommandUtil.launch(command, null, workingDir);
+		stdOut = new StreamBufferer(ps.getInputStream(), 5000);
+		stdErr = new StreamBufferer(ps.getErrorStream(), 5000);
+	}
 
-    public void stopPlayer()
-    {
-        // String command = "./stopTeam.sh " + teamname + " " + path;
-        String command = "bash " + path + "kill.sh";
-        System.out.println(command);
-        File workingDir = new File(path);
-        // File workingDir = new File("/home/robocup/magmaRunChallenge");
-        // File workingDir = new File("/home/kdorer");
-        // Process ps = UnixCommandUtil.launch(command, null, workingDir);
-        Process ps = UnixCommandUtil.launch(command, null, workingDir);
-        stdOut = new StreamBufferer(ps.getInputStream(), 5000);
-        stdErr = new StreamBufferer(ps.getErrorStream(), 5000);
-    }
+	public void stopPlayer()
+	{
+		if (!validatePath(path)) {
+			return;
+		}
 
-    public String getStatusText()
-    {
-        return "stderr: " + stdErr.getBuffer() + "\nstdout: "
-                + stdOut.getBuffer();
-    }
+		String command = "bash " + path + "kill.sh";
+		System.out.println(command);
+		File workingDir = new File(path);
+
+		Process ps = UnixCommandUtil.launch(command, null, workingDir);
+		stdOut = new StreamBufferer(ps.getInputStream(), 5000);
+		stdErr = new StreamBufferer(ps.getErrorStream(), 5000);
+	}
+
+	public String getStatusText()
+	{
+		if (stdOut == null || stdErr == null) {
+			return "";
+		}
+		return "stderr: " + stdErr.getBuffer() + "\nstdout: "
+				+ stdOut.getBuffer();
+	}
+
+	private boolean validatePath(String path)
+	{
+		File file = new File(path);
+		if (file.exists()) {
+			return true;
+		}
+		System.out.println("Path " + file.getAbsolutePath() + " does not exist.");
+		return false;
+	}
 }
