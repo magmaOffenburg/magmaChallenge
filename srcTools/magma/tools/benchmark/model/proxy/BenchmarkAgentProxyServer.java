@@ -35,9 +35,6 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 {
 	private RunInformation runInfo;
 
-	/**
-	 * @param parameterObject
-	 */
 	public BenchmarkAgentProxyServer(
 			SimsparkAgentProxyServerParameter parameterObject)
 	{

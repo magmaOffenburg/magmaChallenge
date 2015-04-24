@@ -38,7 +38,7 @@ public class RunBenchmarkMonitorComponentFactory extends
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
-				params.getTeam2Name());
+				params.getTeam2Name(), "RunChallenge");
 		return new RunBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
 				params.getDropHeight(), runInfo);

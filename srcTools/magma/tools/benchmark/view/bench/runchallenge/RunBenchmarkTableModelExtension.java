@@ -72,7 +72,7 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
 					"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-					"startPlayerRunning.sh", 0.4f);
+					"startChallengePlayer.sh", 0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -101,10 +101,6 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 		return new RunBenchmarkTableModelExtension(content, headers);
 	}
 
-	/**
-	 * @param data
-	 * @param columnNames
-	 */
 	private RunBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
 	{
 		super(data, columnNames);

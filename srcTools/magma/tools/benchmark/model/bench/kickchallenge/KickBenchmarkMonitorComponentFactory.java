@@ -13,9 +13,6 @@ public class KickBenchmarkMonitorComponentFactory extends
 {
 	private RunInformation runInfo;
 
-	/**
-	 * @param parameterObject TODO
-	 */
 	public KickBenchmarkMonitorComponentFactory(
 			FactoryParameter parameterObject, RunInformation runInfo)
 	{
@@ -38,7 +35,7 @@ public class KickBenchmarkMonitorComponentFactory extends
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
-				params.getTeam2Name());
+				params.getTeam2Name(), "KickChallenge");
 		return new KickBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
 				params.getDropHeight(), runInfo);

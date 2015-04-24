@@ -34,29 +34,32 @@ public class SinglePlayerLauncher
 
 	private static final int WAIT_CYCLES_LAUNCHING = 1;
 
-	private String serverIP;
+	private final String serverIP;
 
-	private int agentPort;
+	private final int agentPort;
 
-	private String binary;
+	private final String path;
+
+	private final String binary;
+
+	private final String challengeName;
 
 	private int cyclesToWait;
 
 	private boolean started;
-
-	private String path;
 
 	private StreamBufferer stdOut;
 
 	private StreamBufferer stdErr;
 
 	public SinglePlayerLauncher(String serverIP, int agentPort, String path,
-			String binary)
+			String binary, String challengeName)
 	{
 		this.serverIP = serverIP;
 		this.agentPort = agentPort;
 		this.path = path;
 		this.binary = binary;
+		this.challengeName = challengeName;
 		started = false;
 		cyclesToWait = WAIT_CYCLES_LAUNCHING;
 	}
@@ -84,14 +87,15 @@ public class SinglePlayerLauncher
 
 	private void startPlayer(RunInformation runInfo)
 	{
-        File workingDir = new File(path);
-        File fullPath = new File(workingDir, binary);
+		File workingDir = new File(path);
+		File fullPath = new File(workingDir, binary);
 		if (!validatePath(fullPath)) {
 			return;
 		}
 
 		String command = "bash " + fullPath.getPath() + " " + serverIP + " "
-				+ agentPort + " " + runInfo.getBeamX() + " " + runInfo.getBeamY();
+				+ agentPort + " " + runInfo.getBeamX() + " " + runInfo.getBeamY()
+				+ " " + challengeName;
 		System.out.println(command);
 
 		Process ps = UnixCommandUtil.launch(command, null, workingDir);
@@ -101,7 +105,7 @@ public class SinglePlayerLauncher
 
 	public void stopPlayer()
 	{
-        File workingDir = new File(path);
+		File workingDir = new File(path);
 		if (!validatePath(workingDir)) {
 			return;
 		}
