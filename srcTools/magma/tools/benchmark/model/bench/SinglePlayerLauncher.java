@@ -84,16 +84,16 @@ public class SinglePlayerLauncher
 
 	private void startPlayer(RunInformation runInfo)
 	{
-		String fullPath = path + binary;
+        File workingDir = new File(path);
+        File fullPath = new File(workingDir, binary);
 		if (!validatePath(fullPath)) {
 			return;
 		}
 
-		String command = "bash " + path + binary + " " + serverIP + " "
+		String command = "bash " + fullPath.getPath() + " " + serverIP + " "
 				+ agentPort + " " + runInfo.getBeamX() + " " + runInfo.getBeamY();
 		System.out.println(command);
 
-		File workingDir = new File(path);
 		Process ps = UnixCommandUtil.launch(command, null, workingDir);
 		stdOut = new StreamBufferer(ps.getInputStream(), 5000);
 		stdErr = new StreamBufferer(ps.getErrorStream(), 5000);
@@ -101,13 +101,13 @@ public class SinglePlayerLauncher
 
 	public void stopPlayer()
 	{
-		if (!validatePath(path)) {
+        File workingDir = new File(path);
+		if (!validatePath(workingDir)) {
 			return;
 		}
 
-		String command = "bash " + path + "kill.sh";
+		String command = "bash " + workingDir.getPath() + "kill.sh";
 		System.out.println(command);
-		File workingDir = new File(path);
 
 		Process ps = UnixCommandUtil.launch(command, null, workingDir);
 		stdOut = new StreamBufferer(ps.getInputStream(), 5000);
@@ -123,13 +123,12 @@ public class SinglePlayerLauncher
 				+ stdOut.getBuffer();
 	}
 
-	private boolean validatePath(String path)
+	private boolean validatePath(File path)
 	{
-		File file = new File(path);
-		if (file.exists()) {
+		if (path.exists()) {
 			return true;
 		}
-		System.out.println("Path " + file.getAbsolutePath() + " does not exist.");
+		System.out.println("Path " + path.getAbsolutePath() + " does not exist.");
 		return false;
 	}
 }
