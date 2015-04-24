@@ -3,6 +3,14 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 
 ![](screenshot.png)
 
+## Contents
+
+- [Installation](#installation)
+- [Preparation](#preparation)
+- [Usage](#usage)
+- [RunChallenge](#run-challenge)
+- [KickChallenge](#kick-challenge)
+
 ## Installation
 
 - Clone the repository: `git clone https://github.com/klausdorer/magmaChallenge`.
