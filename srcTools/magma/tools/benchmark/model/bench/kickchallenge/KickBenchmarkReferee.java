@@ -1,11 +1,15 @@
 package magma.tools.benchmark.model.bench.kickchallenge;
 
+import java.awt.Color;
+
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
+import magma.util.roboviz.RoboVizDraw;
+import magma.util.roboviz.RoboVizParameters;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -61,9 +65,6 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		return super.onDuringLaunching();
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected boolean onStartBenchmark()
 	{
@@ -72,12 +73,16 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
 				+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
 		serverCommander.sendMessage(msg);
+
+		RoboVizDraw.initialize(new RoboVizParameters(true, 0));
+		RoboVizDraw.drawCircle("kickChallenge.penaltyCircle", new Vector3D(
+				runInfo.getBallX(), runInfo.getBallY(), 0),
+				(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
+		RoboVizDraw.drawCircle("kickChallenge.targetPosition", Vector3D.ZERO,
+				0.1f, 3, new Color(0xFFd2d2d2));
 		return true;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected boolean onDuringBenchmark()
 	{
@@ -142,9 +147,6 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		return false;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected void onStopBenchmark()
 	{

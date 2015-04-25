@@ -106,17 +106,11 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 				JOptionPane.ERROR_MESSAGE);
 	}
 
-	/**
-	 * @param loadConfigFile
-	 */
 	public JTable updateConfigTable(List<TeamConfiguration> loadConfigFile)
 	{
 		return createTeamTable(loadConfigFile);
 	}
 
-	/**
-	 * 
-	 */
 	protected abstract JTable createTeamTable(List<TeamConfiguration> config);
 
 	public abstract ResultStatus getStatus(int row);
