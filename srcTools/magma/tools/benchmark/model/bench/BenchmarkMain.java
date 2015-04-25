@@ -65,6 +65,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	/** observers of model */
 	private final transient IPublishSubscribe<IModelReadOnly> observer;
 
+	private final String roboVizServer;
+
 	protected BenchmarkAgentProxyServer proxy;
 
 	protected MonitorRuntime monitor;
@@ -81,11 +83,13 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 
 	private String scriptPath;
 
-	public BenchmarkMain()
+	public BenchmarkMain(String roboVizServer)
 	{
-		observer = new Subject<IModelReadOnly>();
+		this.roboVizServer = roboVizServer;
+
+		observer = new Subject<>();
 		runThread = null;
-		results = new ArrayList<ITeamResult>();
+		results = new ArrayList<>();
 
 		// build environment
 		URL resource = BenchmarkMain.class.getResource("/rcssserver3d.rb");
@@ -110,7 +114,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	@Override
 	public void resetModel()
 	{
-		results = new ArrayList<ITeamResult>();
+		results = new ArrayList<>();
 		currentTeam = 0;
 		statusText = "";
 	}
@@ -131,18 +135,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 		runThread.start();
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public boolean isRunning()
 	{
 		return runThread != null;
 	}
 
-	/**
-	 * 
-	 */
 	private void collectResults(ITeamResult currentRunResult)
 	{
 		ISingleResult result = benchmarkResults();
@@ -152,25 +150,16 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 
 	protected abstract ISingleResult benchmarkResults();
 
-	/**
-	 * @return
-	 */
 	public int getCurrentTeam()
 	{
 		return currentTeam;
 	}
 
-	/**
-	 * @return
-	 */
 	protected ITeamResult getCurrentTeamResult()
 	{
 		return results.get(getCurrentTeam());
 	}
 
-	/**
-	 * @param args
-	 */
 	private void startProxy(BenchmarkConfiguration config)
 	{
 		// start proxy to get force information
@@ -187,10 +176,11 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	}
 
 	private boolean startTrainer(BenchmarkConfiguration config,
-			TeamConfiguration teamConfig, RunInformation runInfo)
+			TeamConfiguration teamConfig, RunInformation runInfo,
+			String roboVizServer)
 	{
 		MonitorComponentFactory factory = createMonitorFactory(config,
-				teamConfig, runInfo);
+				teamConfig, runInfo, roboVizServer);
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));
@@ -213,15 +203,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 				}
 			}
 		}
-		if (tryCount >= 10) {
-			return false;
-		}
-		return true;
+		return tryCount < 10;
 	}
 
 	protected abstract MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo);
+			RunInformation runInfo, String roboVizServer);
 
 	protected abstract TeamResult createTeamResult(
 			TeamConfiguration currentTeamConfig);
@@ -419,7 +406,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 					server.startServer();
 
 					boolean success = startTrainer(config, currentTeamConfig,
-							runInfo);
+							runInfo, roboVizServer);
 					if (success) {
 						collectResults(currentRunResult);
 					}
@@ -436,10 +423,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 			}
 			System.out.println("Average Score: "
 					+ currentRunResult.getAverageScore());
-			if (stopped) {
-				return true;
-			}
-			return false;
+			return stopped;
 		}
 
 		public void stopAll()

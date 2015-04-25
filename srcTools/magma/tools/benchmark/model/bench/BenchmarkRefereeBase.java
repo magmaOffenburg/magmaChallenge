@@ -116,9 +116,6 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 	 */
 	protected abstract boolean onDuringBenchmark();
 
-	/**
-	 * 
-	 */
 	protected abstract void onStopBenchmark();
 
 	protected boolean hasFallen()
@@ -129,10 +126,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		}
 
 		Vector3D position = getAgent().getPosition();
-		if (position.getZ() < 0.25) {
-			return true;
-		}
-		return false;
+		return position.getZ() < 0.25;
 	}
 
 	/**
@@ -167,17 +161,11 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		return hasPenalty;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getStatusText()
 	{
 		return statusText;
 	}
 
-	/**
-	 * @return
-	 */
 	public float getRunTime()
 	{
 		return runTime;

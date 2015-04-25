@@ -37,8 +37,9 @@ import magma.tools.benchmark.model.bench.TeamResult;
  */
 public class RunBenchmark extends BenchmarkMain
 {
-	public RunBenchmark()
+	public RunBenchmark(String roboVizServer)
 	{
+		super(roboVizServer);
 	}
 
 	@Override
@@ -76,14 +77,13 @@ public class RunBenchmark extends BenchmarkMain
 	@Override
 	protected MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo)
+			RunInformation runInfo, String roboVizServer)
 	{
-		MonitorComponentFactory factory = new RunBenchmarkMonitorComponentFactory(
-				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()), runInfo);
-		return factory;
+		return new RunBenchmarkMonitorComponentFactory(new FactoryParameter(null,
+				config.getServerIP(), config.getAgentPort(), teamConfig.getName(),
+				teamConfig.getPath(), teamConfig.getLaunch(), null,
+				config.getRuntime(), teamConfig.getDropHeight()), runInfo,
+				roboVizServer);
 	}
 
 	@Override
@@ -91,5 +91,4 @@ public class RunBenchmark extends BenchmarkMain
 	{
 		return new RunBenchmarkTeamResult(currentTeamConfig.getName());
 	}
-
 }

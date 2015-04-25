@@ -45,18 +45,14 @@ public class BenchmarkConfiguration
 
 	private long randomSeed;
 
+	private String roboVizServer;
+
 	/**
-	 * @param serverIP
-	 * @param path
-	 * @param launch
-	 * @param agentPort
-	 * @param trainerPort
-	 * @param averageOutRuns
 	 * @param runtime time to run in seconds
 	 */
 	public BenchmarkConfiguration(String serverIP, int serverPort,
 			int agentPort, int trainerPort, int averageOutRuns, int runtime,
-			boolean verbose, boolean isTest, long randomSeed)
+			boolean verbose, boolean isTest, long randomSeed, String roboVizServer)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
@@ -67,6 +63,7 @@ public class BenchmarkConfiguration
 		this.verbose = verbose;
 		this.isTest = isTest;
 		this.randomSeed = randomSeed;
+		this.roboVizServer = roboVizServer;
 	}
 
 	/**
@@ -163,5 +160,10 @@ public class BenchmarkConfiguration
 	public long getRandomSeed()
 	{
 		return randomSeed;
+	}
+
+	public String getRoboVizServer()
+	{
+		return roboVizServer;
 	}
 }

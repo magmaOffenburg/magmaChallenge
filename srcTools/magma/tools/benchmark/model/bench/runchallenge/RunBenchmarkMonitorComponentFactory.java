@@ -13,11 +13,8 @@ public class RunBenchmarkMonitorComponentFactory extends
 {
 	private RunInformation runInfo;
 
-	/**
-	 * @param parameterObject TODO
-	 */
 	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
-			RunInformation runInfo)
+			RunInformation runInfo, String roboVizServer)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;

@@ -34,6 +34,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	/** speed below which the ball is considered in rest (in m/cycle) */
 	private static final double BALL_STOPPED_SPEED = 0.001;
 
+	private final String roboVizServer;
+
 	/** the distance of the ball from the target when stopped */
 	private double distanceError;
 
@@ -43,11 +45,12 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			RunInformation runInfo)
+			RunInformation runInfo, String roboVizServer)
 	{
 		// ignoring passed runtime since the check should anyhow not fire
 		super(mWorldModel, serverCommander, serverPid, launcher, 20, dropHeight,
 				runInfo);
+		this.roboVizServer = roboVizServer;
 		distanceError = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 	}
@@ -74,7 +77,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 				+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
 		serverCommander.sendMessage(msg);
 
-		RoboVizDraw.initialize(new RoboVizParameters(true, 0));
+		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,
+				RoboVizDraw.DEFAULT_PORT));
 		RoboVizDraw.drawCircle("kickChallenge.penaltyCircle", new Vector3D(
 				runInfo.getBallX(), runInfo.getBallY(), 0),
 				(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));

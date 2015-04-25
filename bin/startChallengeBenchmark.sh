@@ -39,7 +39,10 @@ CLSPTH=${CLSPTH}${CLSEP}lib/SAProxy.jar
 CLSPTH=${CLSPTH}${CLSEP}lib/magmaChallenge.jar
 CLSPTH=${CLSPTH}${CLSEP}config
 
+DEFAULT_PATH=/host/Data/Programmierung/Magma/magmaChallenge/config/runChallenge/
+ROBO_VIZ_SERVER=localhost
+
 cd ..
 # echo $CLSPTH
-java -cp $CLSPTH magma.tools.benchmark.controller.BenchmarkController /host/Data/Programmierung/Magma/magmaChallenge/config/runChallenge/  
+java -cp $CLSPTH magma.tools.benchmark.controller.BenchmarkController --defaultPath=$DEFAULT_PATH --roboVizServer=$ROBO_VIZ_SERVER
 cd bin

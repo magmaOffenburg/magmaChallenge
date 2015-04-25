@@ -13,11 +13,15 @@ public class KickBenchmarkMonitorComponentFactory extends
 {
 	private RunInformation runInfo;
 
+	private final String roboVizServer;
+
 	public KickBenchmarkMonitorComponentFactory(
-			FactoryParameter parameterObject, RunInformation runInfo)
+			FactoryParameter parameterObject, RunInformation runInfo,
+			String roboVizServer)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;
+		this.roboVizServer = roboVizServer;
 	}
 
 	/**
@@ -38,6 +42,6 @@ public class KickBenchmarkMonitorComponentFactory extends
 				params.getTeam2Name(), "KickChallenge");
 		return new KickBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo);
+				params.getDropHeight(), runInfo, roboVizServer);
 	}
 }

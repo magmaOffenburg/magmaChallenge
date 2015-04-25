@@ -51,6 +51,11 @@ public class KickBenchmark extends BenchmarkMain
 	/** noise in player beam position (in m) */
 	static final double BEAM_NOISE = 0.1;
 
+	public KickBenchmark(String roboVizServer)
+	{
+		super(roboVizServer);
+	}
+
 	@Override
 	protected ISingleResult benchmarkResults()
 	{
@@ -77,14 +82,13 @@ public class KickBenchmark extends BenchmarkMain
 	@Override
 	protected MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo)
+			RunInformation runInfo, String roboVizServer)
 	{
-		MonitorComponentFactory factory = new KickBenchmarkMonitorComponentFactory(
-				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()), runInfo);
-		return factory;
+		return new KickBenchmarkMonitorComponentFactory(new FactoryParameter(
+				null, config.getServerIP(), config.getAgentPort(),
+				teamConfig.getName(), teamConfig.getPath(), teamConfig.getLaunch(),
+				null, config.getRuntime(), teamConfig.getDropHeight()), runInfo,
+				roboVizServer);
 	}
 
 	@Override

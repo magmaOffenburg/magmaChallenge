@@ -113,19 +113,23 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private BenchmarkTableView tableView;
 
+	private final String roboVizServer;
+
 	public static BenchmarkView getInstance(IModelReadOnly model,
-			BenchmarkTableView tableView, String defaultPath)
+			BenchmarkTableView tableView, String defaultPath, String roboVizServer)
 	{
-		BenchmarkView view = new BenchmarkView(model, tableView, defaultPath);
+		BenchmarkView view = new BenchmarkView(model, tableView, defaultPath,
+				roboVizServer);
 		model.attach(view);
 		return view;
 	}
 
 	private BenchmarkView(IModelReadOnly model, BenchmarkTableView tableView,
-			String defaultPath)
+			String defaultPath, String roboVizServer)
 	{
 		this.model = model;
 		this.tableView = tableView;
+		this.roboVizServer = roboVizServer;
 		fc = new JFileChooser(defaultPath);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,7 +146,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		String[] items = { "Kick Challenge", "Run Challenge" };
-		challenge = new JComboBox<String>(items);
+		challenge = new JComboBox<>(items);
 		panel.add(challenge);
 
 		JLabel lblRuntime = new JLabel("Runtime:");
@@ -324,7 +328,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int time = getNumber(runTime.getText(), 2, 20);
 		boolean verbose = chckbxVerbose.isSelected();
 		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
-				averageOutRuns, time, verbose, false, 123l);
+				averageOutRuns, time, verbose, false, 123l, roboVizServer);
 	}
 
 	public void disableEditing()
@@ -387,10 +391,6 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				JOptionPane.ERROR_MESSAGE);
 	}
 
-	enum ResultStatus {
-		NO_RESULT, SUCCESS, FAILED
-	};
-
 	public List<TeamConfiguration> getTeamConfiguration()
 	{
 		return tableView.getTeamConfiguration();
@@ -413,5 +413,4 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		model.attach(tableView2);
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
-
 }

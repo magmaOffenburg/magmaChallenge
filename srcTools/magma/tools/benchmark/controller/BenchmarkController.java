@@ -39,9 +39,10 @@ import magma.tools.benchmark.view.BenchmarkView;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
+import magma.util.commandline.Argument;
+import magma.util.commandline.StringArgument;
 
 /**
- * 
  * @author kdorer
  */
 public class BenchmarkController
@@ -50,24 +51,33 @@ public class BenchmarkController
 
 	private BenchmarkView view;
 
-	private String defaultPath;
+	private final String defaultPath;
+
+	private final String roboVizServer;
 
 	public static void main(String[] args)
 	{
-		String defaultPath = "/host/Data/Programmierung/Magma/RoboCup3D/config/runChallenge/";
-		if (args.length > 0) {
-			defaultPath = args[0];
-		}
-		new BenchmarkController(defaultPath);
+		StringArgument DEFAULT_PATH = new StringArgument("defaultPath",
+				"/host/Data/Programmierung/Magma/RoboCup3D/config/runChallenge/");
+		StringArgument ROBO_VIZ_SERVER = new StringArgument("roboVizServer",
+				"localhost");
+
+		String defaultPath = DEFAULT_PATH.parse(args);
+		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
+		Argument.endParse(args);
+
+		new BenchmarkController(defaultPath, roboVizServer);
 	}
 
-	public BenchmarkController(String defaultPath)
+	public BenchmarkController(String defaultPath, String roboVizServer)
 	{
 		this.defaultPath = defaultPath;
-		model = new KickBenchmark();
+		this.roboVizServer = roboVizServer;
+		model = new KickBenchmark(roboVizServer);
 		BenchmarkTableView tableView = KickBenchmarkTableView.getInstance(model,
 				defaultPath);
-		view = BenchmarkView.getInstance(model, tableView, defaultPath);
+		view = BenchmarkView.getInstance(model, tableView, defaultPath,
+				roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
 		view.addCompetitionButtonListener(new CompetitionListener(false));
@@ -92,12 +102,12 @@ public class BenchmarkController
 			IModelReadWrite newModel = null;
 			switch (challenge) {
 			case "Run Challenge":
-				newModel = new RunBenchmark();
+				newModel = new RunBenchmark(roboVizServer);
 				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
 				break;
 			case "Kick Challenge":
 			default:
-				newModel = new KickBenchmark();
+				newModel = new KickBenchmark(roboVizServer);
 				tableView = KickBenchmarkTableView.getInstance(model, defaultPath);
 				break;
 			}
