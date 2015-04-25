@@ -22,7 +22,7 @@
 #!/bin/bash
 ###########################################
 # Starts the magma challenge benchmark tool
-# example: ./startChallengeBenchmark.sh
+# example: sh startChallengeBenchmark.sh
 ###########################################
 
 # for Ubuntu

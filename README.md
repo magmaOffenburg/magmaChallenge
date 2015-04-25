@@ -36,7 +36,7 @@ Beams are not permitted (commands including a beam will be entirely ignored by t
 
 ```bash
 cd magmaChallenge/bin
-./startChallengeBenchmark.sh
+sh startChallengeBenchmark.sh
 ```
 
 The script has can be used to configure the following arguments that are passed to `BenchmarkController`:
