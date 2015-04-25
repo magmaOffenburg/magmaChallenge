@@ -1,7 +1,7 @@
 # magmaChallenge
 Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wiki.robocup.org/wiki/Soccer_Simulation_League) created by the [magmaOffenburg team](http://robocup.hs-offenburg.de/).
 
-![](screenshot.png)
+![](screenshots/userInterface.png)
 
 ## Contents
 
@@ -83,6 +83,8 @@ The final sum is rounded to 3 digits. Equal scores will result in the same place
 ### Requirements
 
 - The start player script has to start a player that kicks the ball towards (0, 0) when it receives "KickChallenge" as the challenge name argument.
+
+![](screenshots/kickChallenge.png)
 
 ### Evaluation
 
