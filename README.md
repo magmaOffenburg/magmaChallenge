@@ -32,14 +32,22 @@ Beams are not permitted (commands including a beam will be entirely ignored by t
 
 ## Usage
 
+### Start script
+
 ```bash
 cd magmaChallenge/bin
 ./startChallengeBenchmark.sh
 ```
 
+The script has can be used to configure the following arguments that are passed to `BenchmarkController`:
+- `--defaultPath=`: the path used for the file dialogs.
+- `--roboVizServer=`: the IP to connect to for RoboViz drawings (only used in the Kick Challenge at the moment).
+
+### User Interface
+
 The `Open Start Script...` button allows you to open your start script and test your team. Alternatively you can manually edit the path and name of the start script in the table.
 
-The `Open Competition...` button allows you to load a file with the configuration of the teams for a competition (`teamName;startScriptDirectory;startScriptName;playerDropHeight`, see [/examples](/examples)).  The initial path of the file dialog can be passed to `startChallengeBenchmark.sh` as an argument.
+The `Open Competition...` button allows you to load a file with the configuration of the teams for a competition (`teamName;startScriptDirectory;startScriptName;playerDropHeight`, see [/examples](/examples)).
 
 The `Test` button will try to start each team once and run it for 3 seconds to check if the team works. If it does not, a click on the status column of that team should provide an error message.
 
