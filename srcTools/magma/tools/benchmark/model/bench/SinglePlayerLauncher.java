@@ -106,11 +106,12 @@ public class SinglePlayerLauncher
 	public void stopPlayer()
 	{
 		File workingDir = new File(path);
-		if (!validatePath(workingDir)) {
+		File fullPath = new File(workingDir, "kill.sh");
+		if (!validatePath(fullPath)) {
 			return;
 		}
 
-		String command = "bash " + workingDir.getPath() + "kill.sh";
+		String command = "bash " + fullPath.getPath();
 		System.out.println(command);
 
 		Process ps = UnixCommandUtil.launch(command, null, workingDir);
