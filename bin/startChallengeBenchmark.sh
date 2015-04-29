@@ -33,6 +33,7 @@ CLSEP=:
 CLSPTH=build/classes
 CLSPTH=${CLSPTH}${CLSEP}build/config
 CLSPTH=${CLSPTH}${CLSEP}lib/commons-math3-3.3.jar
+CLSPTH=${CLSPTH}${CLSEP}lib/commons-lang3-3.4.jar
 CLSPTH=${CLSPTH}${CLSEP}lib/magmaMonitor.jar
 CLSPTH=${CLSPTH}${CLSEP}lib/SAProxy.jar
 # only needed if not in build environment

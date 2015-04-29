@@ -26,6 +26,9 @@ import java.io.File;
 import magma.util.UnixCommandUtil;
 import magma.util.file.StreamBufferer;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 public class SinglePlayerLauncher
 {
 	/** number of cycles to wait before next player starts */
@@ -87,31 +90,37 @@ public class SinglePlayerLauncher
 
 	private void startPlayer(RunInformation runInfo)
 	{
-		File workingDir = new File(path);
-		File fullPath = new File(workingDir, binary);
-		if (!validatePath(fullPath)) {
-			return;
-		}
-
-		String command = "bash " + fullPath.getPath() + " " + serverIP + " "
-				+ agentPort + " " + runInfo.getBeamX() + " " + runInfo.getBeamY()
-				+ " " + challengeName;
-		System.out.println(command);
-
-		Process ps = UnixCommandUtil.launch(command, null, workingDir);
-		stdOut = new StreamBufferer(ps.getInputStream(), 5000);
-		stdErr = new StreamBufferer(ps.getErrorStream(), 5000);
+		// @formatter:off
+		runScript(binary, new Object[] {
+				serverIP,
+				agentPort,
+				runInfo.getBeamX(),
+				runInfo.getBallY(),
+				challengeName });
+		// @formatter:on
 	}
 
 	public void stopPlayer()
 	{
+		runScript("kill.sh");
+	}
+
+	private void runScript(String scriptName)
+	{
+		runScript(scriptName, null);
+	}
+
+	private void runScript(String scriptName, Object[] arguments)
+	{
 		File workingDir = new File(path);
-		File fullPath = new File(workingDir, "kill.sh");
+		File fullPath = new File(workingDir, scriptName);
 		if (!validatePath(fullPath)) {
 			return;
 		}
 
-		String command = "bash " + fullPath.getPath();
+		Object[] commands = ArrayUtils.addAll(
+				new Object[] { "bash", fullPath.getPath() }, arguments);
+		String command = StringUtils.join(commands, " ");
 		System.out.println(command);
 
 		Process ps = UnixCommandUtil.launch(command, null, workingDir);
