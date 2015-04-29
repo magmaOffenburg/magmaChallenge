@@ -1,5 +1,6 @@
 package magma.tools.benchmark.model.bench.runchallenge;
 
+import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
@@ -38,16 +39,11 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	protected boolean onStartBenchmark()
 	{
 		startCycleCount++;
-		// int playerID = getAgent().getPlayerID();
-		// serverCommander.setPlaymode(PlayMode.PLAY_ON);
-		// serverCommander.beamBall(14.75f, 0f);
-		// serverCommander.moveRotatePlayer(Team.LEFT, playerID, startX, 0f,
-		// dropHeight, -90);
 		state = RefereeState.CONNECTED;
 		if (startCycleCount >= 200) {
-			String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
-					+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
-			serverCommander.sendMessage(msg);
+			serverCommander.setPlaymode(PlayMode.PLAY_ON);
+			serverCommander.beamBall((float) runInfo.getBallX(),
+					(float) runInfo.getBallY());
 			return true;
 		} else {
 			return false;

@@ -166,7 +166,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	/**
 	 * Called before a client message has been forwarded to the server
-	 * @param message the message received fromt the client
+	 * @param message the message received from the client
 	 * @return true if the message should be forwarded to the server
 	 */
 	@Override

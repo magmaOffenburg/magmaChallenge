@@ -62,9 +62,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	protected boolean onDuringLaunching()
 	{
 		// we beam the ball early
-		String msg = "(ball (pos " + runInfo.getBallX() + " "
-				+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
-		serverCommander.sendMessage(msg);
+		serverCommander.beamBall((float) runInfo.getBallX(),
+				(float) runInfo.getBallY());
 		return super.onDuringLaunching();
 	}
 
@@ -73,9 +72,9 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	{
 		state = RefereeState.CONNECTED;
 
-		String msg = "(playMode PlayOn)(ball (pos " + runInfo.getBallX() + " "
-				+ runInfo.getBallY() + " 0.042) (vel 0 0 0))";
-		serverCommander.sendMessage(msg);
+		serverCommander.setPlaymode(PlayMode.PLAY_ON);
+		serverCommander.beamBall((float) runInfo.getBallX(),
+				(float) runInfo.getBallY());
 
 		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,
 				RoboVizDraw.DEFAULT_PORT));
