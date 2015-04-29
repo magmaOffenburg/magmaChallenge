@@ -31,10 +31,6 @@ public class KickBenchmarkSingleResult extends SingleResult
 {
 	private float distance;
 
-	/**
-	 * @param speed
-	 * @param offGround
-	 */
 	public KickBenchmarkSingleResult(boolean valid, boolean fallen,
 			boolean penalty, String statusText, float distance)
 	{

@@ -37,41 +37,21 @@ public abstract class TeamResult implements ITeamResult
 
 	protected List<ISingleResult> results;
 
-	/**
-	 * @param name
-	 */
 	public TeamResult(String name)
 	{
 		this.name = name;
 		results = new ArrayList<ISingleResult>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * magma.tools.benchmark.model.ITeamResult#addResult(magma.tools.benchmark
-	 * .model.SingleResult)
-	 */
 	@Override
 	public void addResult(ISingleResult result)
 	{
 		results.add(result);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.ITeamResult#getAverageScore()
-	 */
 	@Override
 	public abstract float getAverageScore();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.ITeamResult#getFallenCount()
-	 */
 	@Override
 	public int getFallenCount()
 	{
@@ -102,11 +82,6 @@ public abstract class TeamResult implements ITeamResult
 		return penalties;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.ITeamResult#isValid()
-	 */
 	@Override
 	public boolean isValid()
 	{
@@ -121,33 +96,18 @@ public abstract class TeamResult implements ITeamResult
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.ITeamResult#size()
-	 */
 	@Override
 	public int size()
 	{
 		return results.size();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.ITeamResult#getName()
-	 */
 	@Override
 	public String getName()
 	{
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.ITeamResult#getStatusText()
-	 */
 	@Override
 	public String getStatusText()
 	{

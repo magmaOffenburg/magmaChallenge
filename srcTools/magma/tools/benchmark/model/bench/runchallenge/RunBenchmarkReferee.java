@@ -32,9 +32,6 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		startCycleCount = 0;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected boolean onStartBenchmark()
 	{
@@ -50,9 +47,6 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		}
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected boolean onDuringBenchmark()
 	{
@@ -85,17 +79,9 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 			}
 		}
 
-		if (hasFallen()) {
-			// agent is on ground
-			return true;
-		}
-
-		return false;
+		return hasFallen();
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected void onStopBenchmark()
 	{
@@ -114,9 +100,6 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		state = RefereeState.STOPPED;
 	}
 
-	/**
-	 * @return the averageSpeed
-	 */
 	public float getAverageSpeed()
 	{
 		return averageSpeed;

@@ -297,9 +297,6 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 
 		private List<TeamConfiguration> teamConfig;
 
-		/**
-		 * @param config
-		 */
 		public RunThread(BenchmarkConfiguration config,
 				List<TeamConfiguration> teamConfig)
 		{

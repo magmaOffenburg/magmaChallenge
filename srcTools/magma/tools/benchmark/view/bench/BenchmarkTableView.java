@@ -74,10 +74,6 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		table.setEnabled(true);
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	private ITeamResult getTeamEntry(String name, List<ITeamResult> teamResults)
 	{
 		for (ITeamResult result : teamResults) {
@@ -88,9 +84,6 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		return null;
 	}
 
-	/**
-	 * @param message
-	 */
 	public void showErrorMessage(String message)
 	{
 		JTextArea jta = new JTextArea(message);
@@ -175,13 +168,9 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		}
 	}
 
-	/**
-	 * Special table cell that can contain a button
-	 */
 	protected class BenchmarkTableCell extends AbstractCellEditor implements
 			TableCellEditor, TableCellRenderer
 	{
-		/**  */
 		private static final long serialVersionUID = 1L;
 
 		JPanel panel;

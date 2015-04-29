@@ -91,10 +91,6 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 		return new KickBenchmarkTableModelExtension(content, headers);
 	}
 
-	/**
-	 * @param data
-	 * @param columnNames
-	 */
 	private KickBenchmarkTableModelExtension(Object[][] data,
 			Object[] columnNames)
 	{

@@ -27,30 +27,18 @@ package magma.tools.benchmark.model;
  */
 public class InvalidConfigFileException extends Exception
 {
-
-	/**  */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param message
-	 */
 	public InvalidConfigFileException(String message)
 	{
 		super(message);
 	}
 
-	/**
-	 * @param cause
-	 */
 	public InvalidConfigFileException(Throwable cause)
 	{
 		super(cause);
 	}
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
 	public InvalidConfigFileException(String message, Throwable cause)
 	{
 		super(message, cause);

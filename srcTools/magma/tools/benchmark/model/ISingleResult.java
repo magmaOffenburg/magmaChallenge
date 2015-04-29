@@ -2,9 +2,6 @@ package magma.tools.benchmark.model;
 
 public interface ISingleResult
 {
-	/**
-	 * @return the fallen
-	 */
 	boolean isFallen();
 
 	/**
@@ -12,13 +9,7 @@ public interface ISingleResult
 	 */
 	boolean hasPenalty();
 
-	/**
-	 * @return the fallen
-	 */
 	boolean isValid();
 
-	/**
-	 * @return
-	 */
 	String getStatusText();
 }

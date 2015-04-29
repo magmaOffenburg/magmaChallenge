@@ -131,10 +131,6 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		}
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	private int getTeamRow(String name)
 	{
 		for (int i = 0; i < table.getRowCount(); i++) {
@@ -146,9 +142,6 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		return -1;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected JTable createTeamTable(List<TeamConfiguration> config)
 	{
@@ -180,10 +173,6 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		return table;
 	}
 
-	/**
-	 * @param row
-	 * @return
-	 */
 	@Override
 	public ResultStatus getStatus(int row)
 	{

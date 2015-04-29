@@ -41,9 +41,6 @@ public class KickBenchmarkTeamResult extends TeamResult
 		return getAverageDistance();
 	}
 
-	/**
-	 * @return
-	 */
 	public float getAverageDistance()
 	{
 		if (results.isEmpty()) {

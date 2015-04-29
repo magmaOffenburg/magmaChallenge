@@ -37,10 +37,6 @@ public class RunBenchmarkSingleResult extends SingleResult
 
 	private float twoLegs;
 
-	/**
-	 * @param speed
-	 * @param offGround
-	 */
 	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround,
 			float oneLeg, float twoLegs, boolean fallen, boolean penalty,
 			String statusText)
@@ -52,33 +48,21 @@ public class RunBenchmarkSingleResult extends SingleResult
 		this.twoLegs = twoLegs;
 	}
 
-	/**
-	 * @return the speed of this run
-	 */
 	public float getSpeed()
 	{
 		return speed;
 	}
 
-	/**
-	 * @return the offGround of this run
-	 */
 	public float getOffGround()
 	{
 		return offGround;
 	}
 
-	/**
-	 * @return the oneLeg
-	 */
 	public float getOneLeg()
 	{
 		return oneLeg;
 	}
 
-	/**
-	 * @return the twoLegs
-	 */
 	public float getTwoLegs()
 	{
 		return twoLegs;

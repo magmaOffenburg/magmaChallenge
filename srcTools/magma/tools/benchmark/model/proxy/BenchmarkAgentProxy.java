@@ -55,12 +55,6 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private RunInformation runInfo;
 
-	/**
-	 * @param clientSocket
-	 * @param ssHost
-	 * @param ssPort
-	 * @param showMessages
-	 */
 	public BenchmarkAgentProxy(Socket clientSocket, String ssHost, int ssPort,
 			boolean showMessages)
 	{
@@ -138,9 +132,6 @@ public class BenchmarkAgentProxy extends AgentProxy
 		return msg;
 	}
 
-	/**
-	 * @param message
-	 */
 	private Vector3D getForce(String message, String which)
 	{
 		int forceIndex = message.indexOf(which);

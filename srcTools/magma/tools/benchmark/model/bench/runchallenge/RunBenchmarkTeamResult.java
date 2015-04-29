@@ -41,9 +41,6 @@ public class RunBenchmarkTeamResult extends TeamResult
 		return getAverageSpeed() + getAverageOffGround();
 	}
 
-	/**
-	 * @return
-	 */
 	public float getAverageSpeed()
 	{
 		if (results.isEmpty()) {
@@ -60,9 +57,6 @@ public class RunBenchmarkTeamResult extends TeamResult
 		return avg / results.size();
 	}
 
-	/**
-	 * @return
-	 */
 	public float getAverageOffGround()
 	{
 		if (results.isEmpty()) {
@@ -79,9 +73,6 @@ public class RunBenchmarkTeamResult extends TeamResult
 		return avg / results.size();
 	}
 
-	/**
-	 * @return
-	 */
 	public float getAverageOneLeg()
 	{
 		if (results.isEmpty()) {
@@ -98,9 +89,6 @@ public class RunBenchmarkTeamResult extends TeamResult
 		return avg / results.size();
 	}
 
-	/**
-	 * @return
-	 */
 	public float getAverageTwoLegs()
 	{
 		if (results.isEmpty()) {
