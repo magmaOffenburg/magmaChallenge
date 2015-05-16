@@ -181,7 +181,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		{
 			statusButton = new JButton();
 			statusButton.setIcon(new ImageIcon(BenchmarkTableView.class
-					.getResource("/images/runChallenge/info_16.png")));
+					.getResource("/images/info_16.png")));
 			statusButton.setSize(30, 30);
 			statusButton.addActionListener(new ActionListener() {
 				@Override

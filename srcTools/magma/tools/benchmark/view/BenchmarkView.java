@@ -222,33 +222,33 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 		btnOpenScript = new JButton("Open Start Script...");
 		btnOpenScript.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/documentOpen_16.png")));
+				.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpenScript);
 
 		btnOpen = new JButton("Open Competition...");
 		btnOpen.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/documentOpen_16.png")));
+				.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpen);
 
 		btnTest = new JButton("Test");
 		btnTest.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/info_16.png")));
+				.getResource("/images/info_16.png")));
 		toolBar.add(btnTest);
 
 		btnCompetition = new JButton("Competition");
 		btnCompetition.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/execute_16.png")));
+				.getResource("/images/execute_16.png")));
 		toolBar.add(btnCompetition);
 
 		btnStop = new JButton("Stop");
 		btnStop.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/processStop_16.png")));
+				.getResource("/images/processStop_16.png")));
 		btnStop.setEnabled(false);
 		toolBar.add(btnStop);
 
 		btnStopServer = new JButton("Stop Server");
 		btnStopServer.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/helpAbout_16.png")));
+				.getResource("/images/helpAbout_16.png")));
 		toolBar.add(btnStopServer);
 
 		btnAbout = new JButton("About");
@@ -266,7 +266,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			}
 		});
 		btnAbout.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/runChallenge/helpContents_16.png")));
+				.getResource("/images/helpContents_16.png")));
 		toolBar.add(btnAbout);
 	}
 
