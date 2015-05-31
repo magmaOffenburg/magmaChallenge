@@ -2,20 +2,20 @@ Version 2.2 (German Open 2015)
 ---------------------
 - only perform single run if test is selected
 - add RoboViz visualization for the penalty circle and the target position
-- Add --roboVizServer command line argument
+- Add `--roboVizServer` command line argument
 - couple of GUI improvements
 - distance column shows last distance instead of average
 - added separated timeout for ball to leave circle
 - fixed a problem that kill script has not been called
 - waiting a bit longer before starting play on
-- added readme to github page
+- added readme to GitHub page
 
 Version 2.1
 ---------------------
-- Made challenge selectable in GUI
-- Added KickChallenge Referee
-- Fixed a bug that open competition did not update table
-- Stopping benchmark if ball has left circle and stopped (0.001)
+- made challenge selectable in GUI
+- added KickChallenge Referee
+- fixed a bug that open competition did not update table
+- stopping benchmark if ball has left circle and stopped (0.001)
 
 Version 2.0
 ---------------------
