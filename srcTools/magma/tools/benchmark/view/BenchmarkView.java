@@ -28,8 +28,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -137,6 +139,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
+		try {
+			setIconImage(ImageIO.read(BenchmarkView.class
+					.getResource("/images/magma32.png")));
+		} catch (IOException e) {
+
+		}
 
 		scrollPane = new JScrollPane();
 		scrollPane.setViewportView(tableView.updateConfigTable(null));
