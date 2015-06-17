@@ -5,11 +5,11 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 
 ## Contents
 
-- [Installation](#Installation)
-- [Preparation](#Preparation)
-- [Usage](#Usage)
-- [Run Challenge](#RunChallenge)
-- [Kick Challenge](#KickChallenge)
+- [Installation](#installation)
+- [Preparation](#preparation)
+- [Usage](#usage)
+- [Run Challenge](#run-challenge)
+- [Kick Challenge](#kick-challenge)
 
 ## Installation
 
