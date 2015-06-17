@@ -5,20 +5,20 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 
 ## Contents
 
-- [Installation](#installation)
-- [Preparation](#preparation)
-- [Usage](#usage)
-- [Run Challenge](#run-challenge)
-- [Kick Challenge](#kick-challenge)
+- [Installation](#Installation)
+- [Preparation](#Preparation)
+- [Usage](#Usage)
+- [Run Challenge](#RunChallenge)
+- [Kick Challenge](#KickChallenge)
 
 ## Installation
 
-- Clone the repository: `git clone https://github.com/klausdorer/magmaChallenge`.
+- Clone the repository: `git clone https://github.com/magmaOffenburg/magmaChallenge`.
 - Make sure you have Java installed and available on your command line.
 - Make sure you have [simspark and rcsserver3d](http://simspark.sourceforge.net/wiki/index.php/Main_Page) installed and the command `rcssserver3d` is available on your command line.
 
 ## Preparation
-Before you can use the challenge tool, you have to create a `.sh` start script for your team that starts a single player.
+Before you can use the challenge tool, you have to create a `startChallengePlayer.sh` start script for your team that starts a single player.
 
 The script receives the following arguments:
 
@@ -41,7 +41,7 @@ cd magmaChallenge/bin
 sh startChallengeBenchmark.sh
 ```
 
-The script has can be used to configure the following arguments that are passed to `BenchmarkController`:
+The script can be used to configure the following arguments that are passed to `BenchmarkController`:
 - `--defaultPath=`: the path used for the file dialogs.
 - `--roboVizServer=`: the IP to connect to for RoboViz drawings (only used in the Kick Challenge at the moment).
 
