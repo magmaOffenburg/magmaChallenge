@@ -6,10 +6,10 @@
 $recordLogfile = false
 
 # toggle the internal monitor
-$enableInternalMonitor = (ENV['SPARK_OPT'] == "true" and ENV['ONCONDOR'] != "true")
+$enableInternalMonitor = false
 
 # toggle the real time mode
-$enableRealTimeMode = ENV['SPARK_FAST_TIME'] != "true"
+$enableRealTimeMode = true
 
 sparkSetupServer()
 if ($enableInternalMonitor)
@@ -77,6 +77,8 @@ def addSoccerVar(name, value)
 end
 # default beam height value
 addSoccerVar('AgentRadius', 0.4)
+addSoccerVar('BeamNoiseXY', 0.0)
+addSoccerVar('BeamNoiseAngle', 0.0)
 
 # setup the integrated agent
 #sparkSetupTrain()
