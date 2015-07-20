@@ -1,3 +1,7 @@
+Version 2.3 (RoboCup 2015)
+---------------------
+- disabled beam noise
+
 Version 2.2 (German Open 2015)
 ---------------------
 - only perform single run if test is selected
