@@ -49,6 +49,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import magma.tools.benchmark.ChallengeConstants;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.IModelReadWrite;
@@ -154,7 +155,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		String[] items = { "Kick Challenge", "Run Challenge" };
+		String[] items = { ChallengeConstants.KEEP_AWAY, ChallengeConstants.KICK,
+				ChallengeConstants.RUN };
 		challenge = new JComboBox<>(items);
 		panel.add(challenge);
 

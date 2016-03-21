@@ -23,11 +23,11 @@ package magma.tools.benchmark.model.bench;
 
 import java.io.File;
 
-import magma.util.UnixCommandUtil;
-import magma.util.file.StreamBufferer;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import magma.util.UnixCommandUtil;
+import magma.util.file.StreamBufferer;
 
 public class SinglePlayerLauncher
 {

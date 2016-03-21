@@ -56,7 +56,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 
 	private Class<?>[] columnTypes;
 
-	private boolean[] columnEditables;
+	private boolean[] editableColumns;
 
 	public static KickBenchmarkTableModelExtension getInstance(
 			List<TeamConfiguration> config)
@@ -100,7 +100,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 				Integer.class, Integer.class, Float.class, String.class,
 				String.class, Float.class };
 
-		columnEditables = new boolean[] { true, false, false, false, false, false,
+		editableColumns = new boolean[] { true, false, false, false, false, false,
 				true, true, true };
 	}
 
@@ -113,6 +113,6 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 	@Override
 	public boolean isCellEditable(int row, int column)
 	{
-		return columnEditables[column];
+		return editableColumns[column];
 	}
 }

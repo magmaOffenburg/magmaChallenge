@@ -29,14 +29,17 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
+import magma.tools.benchmark.ChallengeConstants;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmark;
 import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmark;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
 import magma.tools.benchmark.view.BenchmarkView;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
+import magma.tools.benchmark.view.bench.keepawaychallenge.KeepAwayBenchmarkTableView;
 import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 import magma.util.commandline.Argument;
@@ -73,9 +76,9 @@ public class BenchmarkController
 	{
 		this.defaultPath = defaultPath;
 		this.roboVizServer = roboVizServer;
-		model = new KickBenchmark(roboVizServer);
-		BenchmarkTableView tableView = KickBenchmarkTableView.getInstance(model,
-				defaultPath);
+		model = new KeepAwayBenchmark(roboVizServer);
+		BenchmarkTableView tableView = KeepAwayBenchmarkTableView
+				.getInstance(model, defaultPath);
 		view = BenchmarkView.getInstance(model, tableView, defaultPath,
 				roboVizServer);
 
@@ -101,15 +104,20 @@ public class BenchmarkController
 			BenchmarkTableView tableView = null;
 			IModelReadWrite newModel = null;
 			switch (challenge) {
-			case "Run Challenge":
+			case ChallengeConstants.RUN:
 				newModel = new RunBenchmark(roboVizServer);
 				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
 				break;
-			case "Kick Challenge":
-			default:
+			case ChallengeConstants.KICK:
 				newModel = new KickBenchmark(roboVizServer);
 				tableView = KickBenchmarkTableView.getInstance(model, defaultPath);
 				break;
+			case ChallengeConstants.KEEP_AWAY:
+				newModel = new KeepAwayBenchmark(roboVizServer);
+				tableView = KeepAwayBenchmarkTableView.getInstance(model,
+						defaultPath);
+				break;
+			default:
 			}
 
 			model.stop();
