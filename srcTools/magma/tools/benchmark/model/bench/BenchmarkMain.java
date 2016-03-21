@@ -59,8 +59,8 @@ import magma.util.observer.Subject;
  * 
  * @author kdorer
  */
-public abstract class BenchmarkMain implements IMonitorRuntimeListener,
-		IModelReadWrite
+public abstract class BenchmarkMain
+		implements IMonitorRuntimeListener, IModelReadWrite
 {
 	/** observers of model */
 	private final transient IPublishSubscribe<IModelReadOnly> observer;
@@ -164,8 +164,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 	{
 		// start proxy to get force information
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
-				config.getAgentPort(), config.getServerIP(),
-				config.getServerPort(), config.isVerbose());
+				config.getAgentPort(), config.getServerIP(), config.getServerPort(),
+				config.isVerbose());
 		proxy = new BenchmarkAgentProxyServer(parameterObject);
 		proxy.start();
 		try {
@@ -179,8 +179,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 			TeamConfiguration teamConfig, RunInformation runInfo,
 			String roboVizServer)
 	{
-		MonitorComponentFactory factory = createMonitorFactory(config,
-				teamConfig, runInfo, roboVizServer);
+		MonitorComponentFactory factory = createMonitorFactory(config, teamConfig,
+				runInfo, roboVizServer);
 
 		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
 				config.getTrainerPort(), Level.WARNING, 3, factory));
@@ -306,29 +306,26 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 			stoppedTeam = false;
 		}
 
-		public void replace(String path, float dropheight)
+		public void replace(String path, float dropHeight)
 		{
 			try {
-				// System.out.println(path);
 				FileReader fr = new FileReader(path);
 				BufferedReader br = new BufferedReader(fr);
 				String line = null;
-				ArrayList<String> myLines = new ArrayList<String>();
+				ArrayList<String> lines = new ArrayList<>();
 
 				while ((line = br.readLine()) != null) {
-					// System.out.println(line);
-					if (line.indexOf("AgentRadius") >= 0) {
+					if (line.contains("AgentRadius")) {
 						line = "addSoccerVar('AgentRadius', "
-								+ String.valueOf(dropheight) + ")";
+								+ String.valueOf(dropHeight) + ")";
 					}
-					myLines.add(line);
+					lines.add(line);
 				}
 				br.close();
 				FileWriter fw = new FileWriter(path);
 				BufferedWriter bw = new BufferedWriter(fw);
-				for (int i = 0; i < myLines.size(); i++) {
-					// System.out.println(myLines.get(i));
-					bw.write(myLines.get(i) + '\n');
+				for (String l : lines) {
+					bw.write(l + '\n');
 				}
 				bw.close();
 
@@ -418,8 +415,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener,
 					server.stopServer();
 				}
 			}
-			System.out.println("Average Score: "
-					+ currentRunResult.getAverageScore());
+			System.out
+					.println("Average Score: " + currentRunResult.getAverageScore());
 			return stopped;
 		}
 

@@ -118,8 +118,8 @@ public class SinglePlayerLauncher
 			return;
 		}
 
-		Object[] commands = ArrayUtils.addAll(
-				new Object[] { "bash", fullPath.getPath() }, arguments);
+		Object[] commands = ArrayUtils
+				.addAll(new Object[] { "bash", fullPath.getPath() }, arguments);
 		String command = StringUtils.join(commands, " ");
 		System.out.println(command);
 

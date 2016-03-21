@@ -8,8 +8,7 @@ import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
-public class RunBenchmarkMonitorComponentFactory extends
-		MonitorComponentFactory
+public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 {
 	private RunInformation runInfo;
 

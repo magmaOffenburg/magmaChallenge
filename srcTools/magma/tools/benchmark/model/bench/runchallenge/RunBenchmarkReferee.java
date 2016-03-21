@@ -54,7 +54,8 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		float time = worldModel.getTime();
 		float currentTime = time - startTime;
 		Vector3D position = getAgent().getPosition();
-		if (currentTime > runTime || position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
+		if (currentTime > runTime
+				|| position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
 			// finished this run
 			runTime = currentTime;
 			return true;

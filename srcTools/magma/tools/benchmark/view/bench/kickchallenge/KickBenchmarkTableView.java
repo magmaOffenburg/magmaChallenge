@@ -58,7 +58,7 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 	@Override
 	public List<TeamConfiguration> getTeamConfiguration()
 	{
-		List<TeamConfiguration> result = new ArrayList<TeamConfiguration>();
+		List<TeamConfiguration> result = new ArrayList<>();
 		int teamid = 0;
 		String teamName;
 		float dropHeight = 0.4f;
@@ -72,8 +72,8 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 			dropHeight = (Float) table.getValueAt(teamid,
 					KickBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
-				TeamConfiguration config = new TeamConfiguration(teamName,
-						teamPath, teamBinary, dropHeight);
+				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
+						teamBinary, dropHeight);
 				result.add(config);
 				teamid++;
 			}

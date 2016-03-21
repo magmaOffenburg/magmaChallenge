@@ -44,7 +44,8 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 	public static RunBenchmarkTableView getInstance(IModelReadOnly model,
 			String defaultPath)
 	{
-		RunBenchmarkTableView view = new RunBenchmarkTableView(model, defaultPath);
+		RunBenchmarkTableView view = new RunBenchmarkTableView(model,
+				defaultPath);
 		view.createTeamTable(null);
 		model.attach(view);
 		return view;
@@ -58,7 +59,7 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 	@Override
 	public List<TeamConfiguration> getTeamConfiguration()
 	{
-		List<TeamConfiguration> result = new ArrayList<TeamConfiguration>();
+		List<TeamConfiguration> result = new ArrayList<>();
 		int teamid = 0;
 		String teamName;
 		float dropHeight = 0.4f;
@@ -72,8 +73,8 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 			dropHeight = (Float) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
-				TeamConfiguration config = new TeamConfiguration(teamName,
-						teamPath, teamBinary, dropHeight);
+				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
+						teamBinary, dropHeight);
 				result.add(config);
 				teamid++;
 			}

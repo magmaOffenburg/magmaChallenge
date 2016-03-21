@@ -100,8 +100,8 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 				Integer.class, Integer.class, Float.class, String.class,
 				String.class, Float.class };
 
-		columnEditables = new boolean[] { true, false, false, false, false,
-				false, true, true, true };
+		columnEditables = new boolean[] { true, false, false, false, false, false,
+				true, true, true };
 	}
 
 	@Override

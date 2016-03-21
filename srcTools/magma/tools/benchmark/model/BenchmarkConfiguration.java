@@ -50,9 +50,9 @@ public class BenchmarkConfiguration
 	/**
 	 * @param runtime time to run in seconds
 	 */
-	public BenchmarkConfiguration(String serverIP, int serverPort,
-			int agentPort, int trainerPort, int averageOutRuns, int runtime,
-			boolean verbose, boolean isTest, long randomSeed, String roboVizServer)
+	public BenchmarkConfiguration(String serverIP, int serverPort, int agentPort,
+			int trainerPort, int averageOutRuns, int runtime, boolean verbose,
+			boolean isTest, long randomSeed, String roboVizServer)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;

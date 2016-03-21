@@ -40,7 +40,7 @@ public abstract class TeamResult implements ITeamResult
 	public TeamResult(String name)
 	{
 		this.name = name;
-		results = new ArrayList<ISingleResult>();
+		results = new ArrayList<>();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public abstract class TeamResult implements ITeamResult
 		if (results.isEmpty()) {
 			return "No results.";
 		}
-		StringBuffer buffer = new StringBuffer(1000);
+		StringBuilder buffer = new StringBuilder(1000);
 		int i = 0;
 		for (ISingleResult result : results) {
 			if (!result.getStatusText().isEmpty()) {

@@ -44,8 +44,7 @@ public class ConfigLoader
 		try {
 			List<String[]> readCsvFile = csvFileHandler.readCsvFile();
 
-			List<TeamConfiguration> result = new ArrayList<TeamConfiguration>(
-					readCsvFile.size());
+			List<TeamConfiguration> result = new ArrayList<>(readCsvFile.size());
 			for (String[] line : readCsvFile) {
 				if (line.length != 4) {
 					String error = "Invalid config file format, expected 4 columns, but was: "

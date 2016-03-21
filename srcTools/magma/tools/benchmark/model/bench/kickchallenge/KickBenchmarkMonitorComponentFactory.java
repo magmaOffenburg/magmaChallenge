@@ -8,16 +8,15 @@ import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
-public class KickBenchmarkMonitorComponentFactory extends
-		MonitorComponentFactory
+public class KickBenchmarkMonitorComponentFactory
+		extends MonitorComponentFactory
 {
 	private RunInformation runInfo;
 
 	private final String roboVizServer;
 
-	public KickBenchmarkMonitorComponentFactory(
-			FactoryParameter parameterObject, RunInformation runInfo,
-			String roboVizServer)
+	public KickBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
+			RunInformation runInfo, String roboVizServer)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;

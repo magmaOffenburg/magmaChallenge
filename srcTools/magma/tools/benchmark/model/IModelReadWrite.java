@@ -31,7 +31,8 @@ public interface IModelReadWrite extends IModelReadOnly
 {
 	void resetModel();
 
-	void start(BenchmarkConfiguration config, List<TeamConfiguration> teamConfig);
+	void start(BenchmarkConfiguration config,
+			List<TeamConfiguration> teamConfig);
 
 	void stop();
 

@@ -168,8 +168,8 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		}
 	}
 
-	protected class BenchmarkTableCell extends AbstractCellEditor implements
-			TableCellEditor, TableCellRenderer
+	protected class BenchmarkTableCell extends AbstractCellEditor
+			implements TableCellEditor, TableCellRenderer
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -180,8 +180,8 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		public BenchmarkTableCell()
 		{
 			statusButton = new JButton();
-			statusButton.setIcon(new ImageIcon(BenchmarkTableView.class
-					.getResource("/images/info_16.png")));
+			statusButton.setIcon(new ImageIcon(
+					BenchmarkTableView.class.getResource("/images/info_16.png")));
 			statusButton.setSize(30, 30);
 			statusButton.addActionListener(new ActionListener() {
 				@Override
@@ -229,9 +229,8 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column)
+		public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column)
 		{
 			String text = (String) value;
 			updateData(text, isSelected, table, row);

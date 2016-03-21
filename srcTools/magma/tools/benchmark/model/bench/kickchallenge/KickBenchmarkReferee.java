@@ -16,7 +16,9 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class KickBenchmarkReferee extends BenchmarkRefereeBase
 {
-	/** time we wait the player to cross the line before we start counting (in s) */
+	/**
+	 * time we wait the player to cross the line before we start counting (in s)
+	 */
 	private static final double TIME_UNTIL_BENCH_STARTS = 3.0;
 
 	/** if after this time the ball is still in the 2m circle we stop (in s) */
@@ -78,8 +80,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 
 		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,
 				RoboVizDraw.DEFAULT_PORT));
-		RoboVizDraw.drawCircle("kickChallenge.penaltyCircle", new Vector3D(
-				runInfo.getBallX(), runInfo.getBallY(), 0),
+		RoboVizDraw.drawCircle("kickChallenge.penaltyCircle",
+				new Vector3D(runInfo.getBallX(), runInfo.getBallY(), 0),
 				(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
 		RoboVizDraw.drawCircle("kickChallenge.targetPosition", Vector3D.ZERO,
 				0.1f, 3, new Color(0xFFd2d2d2));

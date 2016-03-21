@@ -101,16 +101,17 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 		return new RunBenchmarkTableModelExtension(content, headers);
 	}
 
-	private RunBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
+	private RunBenchmarkTableModelExtension(Object[][] data,
+			Object[] columnNames)
 	{
 		super(data, columnNames);
 
 		columnTypes = new Class[] { String.class, Object.class, Float.class,
-				Integer.class, Integer.class, Float.class, Float.class,
-				Float.class, Float.class, String.class, String.class, Float.class };
+				Integer.class, Integer.class, Float.class, Float.class, Float.class,
+				Float.class, String.class, String.class, Float.class };
 
-		columnEditables = new boolean[] { true, false, false, false, false,
-				false, false, false, false, true, true, true };
+		columnEditables = new boolean[] { true, false, false, false, false, false,
+				false, false, false, true, true, true };
 	}
 
 	@Override

@@ -84,11 +84,12 @@ public class KickBenchmark extends BenchmarkMain
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
 			RunInformation runInfo, String roboVizServer)
 	{
-		return new KickBenchmarkMonitorComponentFactory(new FactoryParameter(
-				null, config.getServerIP(), config.getAgentPort(),
-				teamConfig.getName(), teamConfig.getPath(), teamConfig.getLaunch(),
-				null, config.getRuntime(), teamConfig.getDropHeight()), runInfo,
-				roboVizServer);
+		return new KickBenchmarkMonitorComponentFactory(
+				new FactoryParameter(null, config.getServerIP(),
+						config.getAgentPort(), teamConfig.getName(),
+						teamConfig.getPath(), teamConfig.getLaunch(), null,
+						config.getRuntime(), teamConfig.getDropHeight()),
+				runInfo, roboVizServer);
 	}
 
 	@Override

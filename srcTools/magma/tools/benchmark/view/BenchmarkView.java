@@ -46,6 +46,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import magma.tools.benchmark.model.BenchmarkConfiguration;
@@ -134,14 +135,14 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		this.roboVizServer = roboVizServer;
 		fc = new JFileChooser(defaultPath);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Magma Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(1000, 600);
 		setLocationRelativeTo(null);
 		try {
-			setIconImage(ImageIO.read(BenchmarkView.class
-					.getResource("/images/magma32.png")));
+			setIconImage(ImageIO
+					.read(BenchmarkView.class.getResource("/images/magma32.png")));
 		} catch (IOException e) {
 
 		}
@@ -229,34 +230,34 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		getContentPane().add(toolBar, BorderLayout.SOUTH);
 
 		btnOpenScript = new JButton("Open Start Script...");
-		btnOpenScript.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/documentOpen_16.png")));
+		btnOpenScript.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpenScript);
 
 		btnOpen = new JButton("Open Competition...");
-		btnOpen.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/documentOpen_16.png")));
+		btnOpen.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpen);
 
 		btnTest = new JButton("Test");
-		btnTest.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/info_16.png")));
+		btnTest.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/info_16.png")));
 		toolBar.add(btnTest);
 
 		btnCompetition = new JButton("Competition");
-		btnCompetition.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/execute_16.png")));
+		btnCompetition.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/execute_16.png")));
 		toolBar.add(btnCompetition);
 
 		btnStop = new JButton("Stop");
-		btnStop.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/processStop_16.png")));
+		btnStop.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/processStop_16.png")));
 		btnStop.setEnabled(false);
 		toolBar.add(btnStop);
 
 		btnStopServer = new JButton("Stop Server");
-		btnStopServer.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/helpAbout_16.png")));
+		btnStopServer.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/helpAbout_16.png")));
 		toolBar.add(btnStopServer);
 
 		btnAbout = new JButton("About");
@@ -273,8 +274,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		btnAbout.setIcon(new ImageIcon(BenchmarkView.class
-				.getResource("/images/helpContents_16.png")));
+		btnAbout.setIcon(new ImageIcon(
+				BenchmarkView.class.getResource("/images/helpContents_16.png")));
 		toolBar.add(btnAbout);
 	}
 
@@ -336,7 +337,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int time = getNumber(runTime.getText(), 2, 20);
 		boolean verbose = chckbxVerbose.isSelected();
 		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
-				averageOutRuns, time, verbose, false, 123l, roboVizServer);
+				averageOutRuns, time, verbose, false, 123L, roboVizServer);
 	}
 
 	public void disableEditing()
@@ -373,8 +374,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 	{
 		fc.resetChoosableFileFilters();
 		if (extension != null) {
-			fc.setFileFilter(new FileNameExtensionFilter("*" + extension,
-					extension));
+			fc.setFileFilter(
+					new FileNameExtensionFilter("*" + extension, extension));
 		}
 
 		int returnVal = fc.showOpenDialog(this);

@@ -79,11 +79,12 @@ public class RunBenchmark extends BenchmarkMain
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
 			RunInformation runInfo, String roboVizServer)
 	{
-		return new RunBenchmarkMonitorComponentFactory(new FactoryParameter(null,
-				config.getServerIP(), config.getAgentPort(), teamConfig.getName(),
-				teamConfig.getPath(), teamConfig.getLaunch(), null,
-				config.getRuntime(), teamConfig.getDropHeight()), runInfo,
-				roboVizServer);
+		return new RunBenchmarkMonitorComponentFactory(
+				new FactoryParameter(null, config.getServerIP(),
+						config.getAgentPort(), teamConfig.getName(),
+						teamConfig.getPath(), teamConfig.getLaunch(), null,
+						config.getRuntime(), teamConfig.getDropHeight()),
+				runInfo, roboVizServer);
 	}
 
 	@Override
