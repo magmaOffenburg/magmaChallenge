@@ -112,7 +112,7 @@ public abstract class BenchmarkMain
 					+ "/config/rcssserver3d.rb";
 		}
 
-		server = new ServerController(3100, 3200, false, scriptPath);
+		server = new ServerController(3100, 3200, false, scriptPath, 0);
 		statusText = "";
 	}
 
@@ -134,7 +134,7 @@ public abstract class BenchmarkMain
 
 		resetModel();
 		server = new ServerController(config.getServerPort(),
-				config.getTrainerPort(), false, scriptPath);
+				config.getTrainerPort(), false, scriptPath, 0);
 
 		runThread = new RunThread(config, teamConfig);
 		runThread.start();
@@ -407,7 +407,7 @@ public abstract class BenchmarkMain
 					float dropHeight = currentTeamConfig.getDropHeight();
 					replace(scriptPath, dropHeight);
 
-					server.startServer();
+					server.startServer(0);
 
 					boolean success = startTrainer(config, currentTeamConfig,
 							runInfo, roboVizServer);

@@ -7,6 +7,7 @@ import magma.monitor.referee.impl.RefereeBase;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.monitor.worldmodel.ISoccerAgent;
 import magma.monitor.worldmodel.ISoccerBall;
+import magma.monitor.worldmodel.SoccerAgentBodyPart;
 
 public abstract class BenchmarkRefereeBase extends RefereeBase
 {
@@ -120,7 +121,8 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	protected boolean hasFallen()
 	{
-		double zOfUpVector = getAgent().getTorsoOrientation().getMatrix()[2][2];
+		double zOfUpVector = getAgent().getBodyPartPose(SoccerAgentBodyPart.BODY)
+				.getOrientation().getMatrix()[2][2];
 		if (zOfUpVector < 0.6) {
 			return true;
 		}
