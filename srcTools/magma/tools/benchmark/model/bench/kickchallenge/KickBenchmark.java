@@ -119,5 +119,4 @@ public class KickBenchmark extends BenchmarkMain
 	{
 		return BENCHMARK_RUNS;
 	}
-
 }

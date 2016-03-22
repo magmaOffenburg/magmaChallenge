@@ -182,33 +182,21 @@ public class BenchmarkAgentProxy extends AgentProxy
 		return message;
 	}
 
-	/**
-	 * @return the bothLegsOffGround
-	 */
 	public int getBothLegsOffGround()
 	{
 		return bothLegsOffGround;
 	}
 
-	/**
-	 * @return the bothLegsOffGround
-	 */
 	public int getOneLegOffGround()
 	{
 		return oneLegOffGround;
 	}
 
-	/**
-	 * @return the bothLegsOffGround
-	 */
 	public int getNoLegOffGround()
 	{
 		return noLegOffGround;
 	}
 
-	/**
-	 * @return the legOnGround
-	 */
 	public int getLegOnGround()
 	{
 		if (legOnGround < 100) {

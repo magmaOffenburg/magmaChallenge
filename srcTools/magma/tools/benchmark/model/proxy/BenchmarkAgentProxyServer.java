@@ -35,19 +35,22 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 {
 	private RunInformation runInfo;
 
+	private int allowedPlayers;
+
 	public BenchmarkAgentProxyServer(
-			SimsparkAgentProxyServerParameter parameterObject)
+			SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers)
 	{
 		super(parameterObject);
 		runInfo = new RunInformation();
+		this.allowedPlayers = allowedPlayers;
 	}
 
 	@Override
 	protected AgentProxy createAgentProxy(Socket clientSocket)
 	{
-		if (agentProxies.size() > 0) {
-			// for benchmarks we only allow a single agent to connect
-			System.out.println("Already one agent connected!");
+		if (agentProxies.size() > allowedPlayers) {
+			System.out
+					.println("Already " + allowedPlayers + " agent(s) connected!");
 			return null;
 		}
 		BenchmarkAgentProxy benchmarkAgentProxy = new BenchmarkAgentProxy(

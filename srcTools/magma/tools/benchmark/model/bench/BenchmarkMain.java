@@ -84,6 +84,8 @@ public abstract class BenchmarkMain
 
 	private String scriptPath;
 
+	protected int allowedPlayers = 1;
+
 	public BenchmarkMain(String roboVizServer)
 	{
 		this.roboVizServer = roboVizServer;
@@ -167,7 +169,7 @@ public abstract class BenchmarkMain
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
 				config.getAgentPort(), config.getServerIP(), config.getServerPort(),
 				config.isVerbose());
-		proxy = new BenchmarkAgentProxyServer(parameterObject);
+		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers);
 		proxy.start();
 		try {
 			Thread.sleep(1000);
@@ -261,8 +263,9 @@ public abstract class BenchmarkMain
 		}
 
 		int countMonitor = monitor.getWorldModel().getSoccerAgents().size();
-		if (countMonitor > 1) {
-			statusText += "More than one player on the field\n";
+		if (countMonitor > allowedPlayers) {
+			statusText += "More than " + allowedPlayers
+					+ " player(s) on the field\n";
 			monitor.stopMonitor();
 			runThread.stopTeam();
 			return;
@@ -399,8 +402,6 @@ public abstract class BenchmarkMain
 			while (currentRunResult.size() < avgRuns && !stopped && !stoppedTeam) {
 				try {
 					float dropHeight = currentTeamConfig.getDropHeight();
-					// System.out.println("dropheight: " +
-					// String.valueOf(dropHeight));
 					replace(scriptPath, dropHeight);
 
 					server.startServer();

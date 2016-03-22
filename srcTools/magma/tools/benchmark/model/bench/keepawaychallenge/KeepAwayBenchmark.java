@@ -15,6 +15,7 @@ public class KeepAwayBenchmark extends BenchmarkMain
 	public KeepAwayBenchmark(String roboVizServer)
 	{
 		super(roboVizServer);
+		allowedPlayers = 4;
 	}
 
 	@Override
