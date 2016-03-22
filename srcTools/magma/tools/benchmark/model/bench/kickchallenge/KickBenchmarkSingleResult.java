@@ -38,9 +38,6 @@ public class KickBenchmarkSingleResult extends SingleResult
 		this.distance = distance;
 	}
 
-	/**
-	 * @return the speed of this run
-	 */
 	public float getDistance()
 	{
 		return distance;

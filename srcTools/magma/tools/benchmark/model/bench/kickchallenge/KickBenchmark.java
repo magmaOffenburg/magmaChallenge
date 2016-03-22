@@ -23,7 +23,6 @@ package magma.tools.benchmark.model.bench.kickchallenge;
 
 import java.util.Random;
 
-import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
@@ -85,11 +84,7 @@ public class KickBenchmark extends BenchmarkMain
 			RunInformation runInfo, String roboVizServer)
 	{
 		return new KickBenchmarkMonitorComponentFactory(
-				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()),
-				runInfo, roboVizServer);
+				createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
 	}
 
 	@Override

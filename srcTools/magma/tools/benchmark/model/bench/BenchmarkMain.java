@@ -34,6 +34,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import magma.monitor.general.IMonitorRuntimeListener;
+import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.general.impl.MonitorParameter;
 import magma.monitor.general.impl.MonitorRuntime;
@@ -210,6 +211,15 @@ public abstract class BenchmarkMain
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
 			RunInformation runInfo, String roboVizServer);
 
+	protected FactoryParameter createFactoryParameter(
+			BenchmarkConfiguration config, TeamConfiguration teamConfig)
+	{
+		return new FactoryParameter(null, config.getServerIP(),
+				config.getAgentPort(), teamConfig.getName(), teamConfig.getPath(),
+				teamConfig.getLaunch(), null, config.getRuntime(),
+				teamConfig.getDropHeight());
+	}
+
 	protected abstract TeamResult createTeamResult(
 			TeamConfiguration currentTeamConfig);
 
@@ -227,9 +237,6 @@ public abstract class BenchmarkMain
 		return 1;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public void stop()
 	{
@@ -265,7 +272,6 @@ public abstract class BenchmarkMain
 			statusText += "Player did not connect through proxy\n";
 			monitor.stopMonitor();
 			runThread.stopTeam();
-			return;
 		}
 	}
 

@@ -46,7 +46,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		stopBenchmarkCalled = false;
 		timer = null;
 		this.launcher = launcher;
-		launching = (launcher == null) ? false : true;
+		launching = launcher != null;
 		decisionCount = 0;
 		cycleCount = 0;
 		startTime = -1;
@@ -137,17 +137,11 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		return worldModel.getSoccerAgents().get(0);
 	}
 
-	/**
-	 * @return the ball
-	 */
 	protected ISoccerBall getBall()
 	{
 		return worldModel.getBall();
 	}
 
-	/**
-	 * @return the hasFallen
-	 */
 	public boolean isHasFallen()
 	{
 		return hasFallen;

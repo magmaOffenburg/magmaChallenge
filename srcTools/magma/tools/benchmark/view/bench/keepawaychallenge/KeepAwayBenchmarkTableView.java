@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmarkTeamResult;
+import magma.tools.benchmark.model.bench.TeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
 /**
@@ -68,8 +68,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		List<ITeamResult> teamResults = model.getTeamResults();
 
 		for (int i = 0; i < teamResults.size(); i++) {
-			KickBenchmarkTeamResult teamResult = (KickBenchmarkTeamResult) teamResults
-					.get(i);
+			TeamResult teamResult = (TeamResult) teamResults.get(i);
 
 			int teamRow = getTeamRow(teamResult.getName());
 

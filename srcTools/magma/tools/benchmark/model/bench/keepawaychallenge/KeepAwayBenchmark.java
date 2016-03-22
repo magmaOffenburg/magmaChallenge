@@ -1,11 +1,13 @@
 package magma.tools.benchmark.model.bench.keepawaychallenge;
 
 import magma.monitor.general.impl.MonitorComponentFactory;
+import magma.monitor.referee.IReferee;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 public class KeepAwayBenchmark extends BenchmarkMain
@@ -18,7 +20,18 @@ public class KeepAwayBenchmark extends BenchmarkMain
 	@Override
 	protected ISingleResult benchmarkResults()
 	{
-		return null;
+		boolean valid = false;
+		if (monitor != null) {
+			KeepAwayBenchmarkReferee referee = (KeepAwayBenchmarkReferee) monitor
+					.getReferee();
+			if (referee.getState() == IReferee.RefereeState.STOPPED) {
+				valid = true;
+			} else {
+				statusText += referee.getStatusText();
+			}
+		}
+
+		return new SingleResult(valid, false, false, statusText);
 	}
 
 	@Override
@@ -26,12 +39,19 @@ public class KeepAwayBenchmark extends BenchmarkMain
 			BenchmarkConfiguration config, TeamConfiguration teamConfig,
 			RunInformation runInfo, String roboVizServer)
 	{
-		return null;
+		return new KeepAwayMonitorComponentFactory(
+				createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
 	}
 
 	@Override
 	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
 	{
-		return null;
+		return new TeamResult(currentTeamConfig.getName()) {
+			@Override
+			public float getAverageScore()
+			{
+				return 0;
+			}
+		};
 	}
 }

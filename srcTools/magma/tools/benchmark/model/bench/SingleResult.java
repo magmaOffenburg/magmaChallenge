@@ -46,33 +46,18 @@ public class SingleResult implements ISingleResult
 		this.statusText = statusText;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.bench.ISingleResult#isFallen()
-	 */
 	@Override
 	public boolean isFallen()
 	{
 		return fallen;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.bench.ISingleResult#isValid()
-	 */
 	@Override
 	public boolean isValid()
 	{
 		return valid;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magma.tools.benchmark.model.bench.ISingleResult#getStatusText()
-	 */
 	@Override
 	public String getStatusText()
 	{

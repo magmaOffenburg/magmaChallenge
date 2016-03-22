@@ -21,7 +21,6 @@
 
 package magma.tools.benchmark.model.bench.runchallenge;
 
-import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
@@ -80,11 +79,7 @@ public class RunBenchmark extends BenchmarkMain
 			RunInformation runInfo, String roboVizServer)
 	{
 		return new RunBenchmarkMonitorComponentFactory(
-				new FactoryParameter(null, config.getServerIP(),
-						config.getAgentPort(), teamConfig.getName(),
-						teamConfig.getPath(), teamConfig.getLaunch(), null,
-						config.getRuntime(), teamConfig.getDropHeight()),
-				runInfo, roboVizServer);
+				createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
 	}
 
 	@Override

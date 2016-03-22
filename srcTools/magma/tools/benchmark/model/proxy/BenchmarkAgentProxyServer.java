@@ -65,9 +65,6 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		}
 	}
 
-	/**
-	 * @return the bothLegsOffGround
-	 */
 	public int getBothLegsOffGround()
 	{
 		if (agentProxies.isEmpty()) {
@@ -76,9 +73,6 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		return getAgentProxy().getBothLegsOffGround();
 	}
 
-	/**
-	 * @return the bothLegsOffGround
-	 */
 	public int getOneLegOffGround()
 	{
 		if (agentProxies.isEmpty()) {
@@ -87,9 +81,6 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		return getAgentProxy().getOneLegOffGround();
 	}
 
-	/**
-	 * @return the bothLegsOffGround
-	 */
 	public int getNoLegOffGround()
 	{
 		if (agentProxies.isEmpty()) {
@@ -98,9 +89,6 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 		return getAgentProxy().getNoLegOffGround();
 	}
 
-	/**
-	 * @return the legOnGround
-	 */
 	public int getLegOnGround()
 	{
 		if (agentProxies.isEmpty()) {
