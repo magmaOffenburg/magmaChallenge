@@ -37,12 +37,16 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 
 	private int allowedPlayers;
 
+	private boolean allowedPlayerBeaming;
+
 	public BenchmarkAgentProxyServer(
-			SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers)
+			SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers,
+			boolean allowPlayerBeaming)
 	{
 		super(parameterObject);
 		runInfo = new RunInformation();
 		this.allowedPlayers = allowedPlayers;
+		this.allowedPlayerBeaming = allowPlayerBeaming;
 	}
 
 	@Override
@@ -54,7 +58,7 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 			return null;
 		}
 		BenchmarkAgentProxy benchmarkAgentProxy = new BenchmarkAgentProxy(
-				clientSocket, ssHost, ssPort, showMessages);
+				clientSocket, ssHost, ssPort, showMessages, allowedPlayerBeaming);
 		benchmarkAgentProxy.updateProxy(runInfo);
 		return benchmarkAgentProxy;
 	}

@@ -86,6 +86,8 @@ public abstract class BenchmarkMain
 
 	protected int allowedPlayers = 1;
 
+	protected boolean allowPlayerBeaming = false;
+
 	public BenchmarkMain(String roboVizServer)
 	{
 		this.roboVizServer = roboVizServer;
@@ -169,7 +171,8 @@ public abstract class BenchmarkMain
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
 				config.getAgentPort(), config.getServerIP(), config.getServerPort(),
 				config.isVerbose());
-		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers);
+		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers,
+				allowPlayerBeaming);
 		proxy.start();
 		try {
 			Thread.sleep(1000);

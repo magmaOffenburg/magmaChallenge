@@ -34,7 +34,6 @@ import magma.tools.benchmark.model.bench.RunInformation;
  */
 public class BenchmarkAgentProxy extends AgentProxy
 {
-
 	/** counts the number of cycles both legs do not have force */
 	private int bothLegsOffGround;
 
@@ -53,12 +52,15 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private boolean beaming;
 
+	private boolean allowPlayerBeaming;
+
 	private RunInformation runInfo;
 
 	public BenchmarkAgentProxy(Socket clientSocket, String ssHost, int ssPort,
-			boolean showMessages)
+			boolean showMessages, boolean allowPlayerBeaming)
 	{
 		super(clientSocket, ssHost, ssPort, showMessages);
+		this.allowPlayerBeaming = allowPlayerBeaming;
 		beaming = true;
 		runInfo = new RunInformation();
 	}
@@ -163,6 +165,10 @@ public class BenchmarkAgentProxy extends AgentProxy
 	@Override
 	public byte[] onNewClientMessage(byte[] message)
 	{
+		if (allowPlayerBeaming) {
+			return message;
+		}
+
 		String msgString = new String(message);
 		if (msgString.contains("(beam")) {
 			System.out.println("Agent may not beam! Message ignored.");

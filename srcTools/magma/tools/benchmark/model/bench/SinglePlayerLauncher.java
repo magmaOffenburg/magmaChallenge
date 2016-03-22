@@ -32,9 +32,6 @@ import magma.util.file.StreamBufferer;
 public class SinglePlayerLauncher
 {
 	/** number of cycles to wait before next player starts */
-	// for more than one player
-	// private static final int WAIT_CYCLES_LAUNCHING = 10;
-
 	private static final int WAIT_CYCLES_LAUNCHING = 10;
 
 	private final String serverIP;

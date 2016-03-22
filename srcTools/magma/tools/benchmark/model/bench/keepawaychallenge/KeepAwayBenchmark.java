@@ -12,10 +12,13 @@ import magma.tools.benchmark.model.bench.TeamResult;
 
 public class KeepAwayBenchmark extends BenchmarkMain
 {
+	public static final int PLAYERS = 4;
+
 	public KeepAwayBenchmark(String roboVizServer)
 	{
 		super(roboVizServer);
-		allowedPlayers = 4;
+		allowedPlayers = PLAYERS;
+		allowPlayerBeaming = true;
 	}
 
 	@Override
