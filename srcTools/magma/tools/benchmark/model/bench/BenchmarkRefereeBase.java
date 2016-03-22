@@ -13,7 +13,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 	/** flag to prevent printing the score multiple times */
 	private boolean stopBenchmarkCalled;
 
-	private boolean launching;
+	protected boolean launching;
 
 	private SinglePlayerLauncher launcher;
 

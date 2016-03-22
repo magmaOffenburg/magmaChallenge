@@ -70,7 +70,7 @@ public class SinglePlayerLauncher
 	 */
 	public boolean launchPlayer(RunInformation runInfo, int playersOnField)
 	{
-		if (playersOnField == 1) {
+		if (playersOnField > 1) {
 			cyclesToWait--;
 			if (cyclesToWait < 0) {
 				cyclesToWait = WAIT_CYCLES_LAUNCHING;

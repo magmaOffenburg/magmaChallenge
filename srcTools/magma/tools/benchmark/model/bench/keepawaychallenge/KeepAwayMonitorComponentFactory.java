@@ -31,6 +31,7 @@ public class KeepAwayMonitorComponentFactory extends MonitorComponentFactory
 				params.getTeam2Name(), "KeepAwayChallenge");
 		return new KeepAwayBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo, roboVizServer);
+				params.getDropHeight(), runInfo, roboVizServer,
+				params.getServerIP(), params.getAgentPort());
 	}
 }
