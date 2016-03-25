@@ -7,7 +7,6 @@ import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
-import magma.tools.benchmark.model.bench.SingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 public class KeepAwayBenchmark extends BenchmarkMain
@@ -24,18 +23,21 @@ public class KeepAwayBenchmark extends BenchmarkMain
 	@Override
 	protected ISingleResult benchmarkResults()
 	{
+		float time = 0;
 		boolean valid = false;
 		if (monitor != null) {
 			KeepAwayBenchmarkReferee referee = (KeepAwayBenchmarkReferee) monitor
 					.getReferee();
 			if (referee.getState() == IReferee.RefereeState.STOPPED) {
 				valid = true;
+				time = referee.getTime();
 			} else {
 				statusText += referee.getStatusText();
 			}
 		}
 
-		return new SingleResult(valid, false, false, statusText);
+		return new KeepAwayBenchmarkSingleResult(valid, false, false, statusText,
+				time);
 	}
 
 	@Override
@@ -50,12 +52,6 @@ public class KeepAwayBenchmark extends BenchmarkMain
 	@Override
 	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
 	{
-		return new TeamResult(currentTeamConfig.getName()) {
-			@Override
-			public float getAverageScore()
-			{
-				return 0;
-			}
-		};
+		return new KeepAwayBenchmarkTeamResult(currentTeamConfig.getName());
 	}
 }

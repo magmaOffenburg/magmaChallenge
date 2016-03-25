@@ -67,12 +67,18 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 		}
 
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
+		state = RefereeState.STARTED;
 		return true;
 	}
 
 	@Override
 	protected boolean onDuringBenchmark()
 	{
+		if (state == RefereeState.STARTED
+				&& worldModel.getPlayMode() == PlayMode.GAME_OVER) {
+			return true;
+		}
+
 		drawArea();
 		return false;
 	}
@@ -103,6 +109,11 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected void onStopBenchmark()
 	{
+		state = RefereeState.STOPPED;
+	}
 
+	public float getTime()
+	{
+		return worldModel.getTime();
 	}
 }
