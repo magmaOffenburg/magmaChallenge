@@ -31,6 +31,8 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 	private SinglePlayerLauncher opponentLauncher;
 
 	private boolean opponentLaunched = false;
+	
+	private int delay = 10;
 
 	public KeepAwayBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
@@ -66,6 +68,12 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 			return false;
 		}
 
+		// give the opponent time to beam before starting
+		if (delay > 0) {
+			delay--;
+			return false;
+		}
+		
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
 		state = RefereeState.STARTED;
 		return true;
