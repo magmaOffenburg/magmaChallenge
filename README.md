@@ -10,6 +10,7 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 - [Usage](#usage)
 - [Run Challenge](#run-challenge)
 - [Kick Challenge](#kick-challenge)
+- [Keep Away Challenge](#keep-away-challenge)
 
 ## Installation
 
@@ -84,7 +85,7 @@ The final sum is rounded to 3 digits. Equal scores will result in the same place
 
 ### Requirements
 
-- The start player script has to start a player that kicks the ball towards (0, 0) when it receives "KickChallenge" as the challenge name argument.
+The start player script has to start a player that kicks the ball towards (0, 0) when it receives "KickChallenge" as the challenge name argument.
 
 ![](screenshots/kickChallenge.png)
 
@@ -102,3 +103,50 @@ An attempt is over, if
 - or the ball does not leave the circle 5 seconds after start of the run.
 
 The final sum is rounded to 3 digits. Equal scores will result in the same place. 
+
+## Keep Away Challenge
+
+### Requirements
+
+The start script has to start three players when it receives "KeepAwayChallenge" as the challenge name argument. Beaming is allowed in this challenge, so the "start x position" and "start y position" arguments the script receives can be ignored.
+
+![](screenshots/keepAwayChallenge.png)
+
+### Evaluation
+
+An attempt ends if:
+
+- the ball leaves the keep away area
+- the opponent player touches the ball
+
+These conditions are checkd by the server (has to be run in keep away mode), which switches the play mode to `GameOver` if either is true.
+
+The keep away area's size decreases over time and is calculated like this:
+
+```java
+float time = worldModel.getTime() / 60f;
+float widthReduction = WIDTH_REDUCTION_RATE / 2.0f * time;
+float lengthReduction = LENGTH_REDUCTION_RATE / 2.0f * time;
+
+float areaMinX = AREA_CENTER_X - AREA_LENGTH / 2.0f + lengthReduction;
+float areaMaxX = AREA_CENTER_X + AREA_LENGTH / 2.0f - lengthReduction;
+float areaMinY = AREA_CENTER_Y - AREA_WIDTH / 2.0f + widthReduction;
+float areaMaxY = AREA_CENTER_Y + AREA_WIDTH / 2.0f - widthReduction;
+```
+
+with the following constants:
+
+```java
+AREA_CENTER_X = 0;
+AREA_CENTER_Y = 0;
+AREA_WIDTH = 20;
+AREA_LENGTH = 20;
+WIDTH_REDUCTION_RATE = 4;
+LENGTH_REDUCTION_RATE = 4;
+```
+
+The score is determined by the server time at the moment the play mode switches to `GameOver`.
+
+The opponent player is a magmaOffenburg agent that runs to the ball at full speed.
+
+This challenge is inspired by [UT Austin Villa's submission](https://www.youtube.com/watch?v=65t9_YRsUMc) to the free challenge for RoboCup 2015 in Hefei. 
