@@ -50,9 +50,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_PATH = 6;
 
-	static final int COLUMN_BINARY = 7;
-
-	static final int COLUMN_DROP_HEIGHT = 8;
+	static final int COLUMN_DROP_HEIGHT = 7;
 
 	private Class<?>[] columnTypes;
 
@@ -61,12 +59,12 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 	public static KickBenchmarkTableModelExtension getInstance(
 			List<TeamConfiguration> config)
 	{
-		final int COLUMNS = 9;
+		final int COLUMNS = 8;
 
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
 					"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-					"startChallengePlayer.sh", 0.4f);
+					0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -80,13 +78,12 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 			content[i][COLUMN_PENALTIES] = null;
 			content[i][COLUMN_DISTANCE] = null;
 			content[i][COLUMN_PATH] = team.getPath();
-			content[i][COLUMN_BINARY] = team.getLaunch();
 			content[i][COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
 		String[] headers = new String[] { "team", "status", "score", "runs",
-				"penalties", "distance", "path", "start script", "drop height" };
+				"penalties", "distance", "path", "drop height" };
 
 		return new KickBenchmarkTableModelExtension(content, headers);
 	}
@@ -98,10 +95,10 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 
 		columnTypes = new Class[] { String.class, Object.class, Float.class,
 				Integer.class, Integer.class, Float.class, String.class,
-				String.class, Float.class };
+				Float.class };
 
 		editableColumns = new boolean[] { true, false, false, false, false, false,
-				true, true, true };
+				true, true };
 	}
 
 	@Override

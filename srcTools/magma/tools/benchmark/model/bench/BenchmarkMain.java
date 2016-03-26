@@ -221,7 +221,7 @@ public abstract class BenchmarkMain
 	{
 		return new FactoryParameter(null, config.getServerIP(),
 				config.getAgentPort(), teamConfig.getName(), teamConfig.getPath(),
-				teamConfig.getLaunch(), null, config.getRuntime(),
+				"startChallengePlayer.sh", null, config.getRuntime(),
 				teamConfig.getDropHeight());
 	}
 

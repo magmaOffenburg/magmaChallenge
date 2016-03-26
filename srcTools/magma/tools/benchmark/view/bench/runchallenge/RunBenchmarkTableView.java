@@ -66,15 +66,13 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		do {
 			String teamPath = (String) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_PATH);
-			String teamBinary = (String) table.getValueAt(teamid,
-					RunBenchmarkTableModelExtension.COLUMN_BINARY);
 			teamName = (String) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_TEAMNAME);
 			dropHeight = (Float) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
-						teamBinary, dropHeight);
+						dropHeight);
 				result.add(config);
 				teamid++;
 			}

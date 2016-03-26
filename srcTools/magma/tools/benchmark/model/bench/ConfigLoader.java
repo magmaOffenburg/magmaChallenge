@@ -53,7 +53,7 @@ public class ConfigLoader
 				}
 				float dropHeight = Float.valueOf(line[3]);
 				TeamConfiguration config = new TeamConfiguration(line[0], line[1],
-						line[2], dropHeight);
+						dropHeight);
 				result.add(config);
 			}
 

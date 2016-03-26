@@ -31,16 +31,12 @@ public class TeamConfiguration
 
 	private String path;
 
-	private String launch;
-
 	private float dropHeight;
 
-	public TeamConfiguration(String name, String path, String launch,
-			float dropHeight)
+	public TeamConfiguration(String name, String path, float dropHeight)
 	{
 		this.name = name;
 		this.path = path;
-		this.launch = launch;
 		this.dropHeight = dropHeight;
 	}
 
@@ -52,11 +48,6 @@ public class TeamConfiguration
 	public String getPath()
 	{
 		return path;
-	}
-
-	public String getLaunch()
-	{
-		return launch;
 	}
 
 	/**

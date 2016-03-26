@@ -1,1 +1,1 @@
-magma;/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/;startChallengePlayer.sh;0.4
+magma;/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/;0.4

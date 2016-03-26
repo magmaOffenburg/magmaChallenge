@@ -44,15 +44,13 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		do {
 			String teamPath = (String) table.getValueAt(teamid,
 					KeepAwayBenchmarkTableModelExtension.COLUMN_PATH);
-			String teamBinary = (String) table.getValueAt(teamid,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_BINARY);
 			teamName = (String) table.getValueAt(teamid,
 					KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME);
 			dropHeight = (Float) table.getValueAt(teamid,
 					KeepAwayBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
-						teamBinary, dropHeight);
+						dropHeight);
 				result.add(config);
 				teamid++;
 			}
@@ -109,8 +107,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		table.getColumnModel().getColumn(1).setPreferredWidth(56);
 		table.getColumnModel().getColumn(2).setPreferredWidth(56);
 		table.getColumnModel().getColumn(3).setMinWidth(302);
-		table.getColumnModel().getColumn(4).setMinWidth(102);
-		table.getColumnModel().getColumn(5).setPreferredWidth(85);
+		table.getColumnModel().getColumn(4).setPreferredWidth(85);
 		table.setColumnSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 

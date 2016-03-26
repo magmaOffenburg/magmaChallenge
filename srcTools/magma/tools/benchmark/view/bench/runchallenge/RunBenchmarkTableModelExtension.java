@@ -56,9 +56,7 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_PATH = 9;
 
-	static final int COLUMN_BINARY = 10;
-
-	static final int COLUMN_DROP_HEIGHT = 11;
+	static final int COLUMN_DROP_HEIGHT = 10;
 
 	private Class<?>[] columnTypes;
 
@@ -72,7 +70,7 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
 					"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-					"startChallengePlayer.sh", 0.4f);
+					0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -89,14 +87,13 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 			content[i][COLUMN_ONE_LEG] = null;
 			content[i][COLUMN_TWO_LEGS] = null;
 			content[i][COLUMN_PATH] = team.getPath();
-			content[i][COLUMN_BINARY] = team.getLaunch();
 			content[i][COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
 		String[] headers = new String[] { "team", "status", "score", "kicks",
 				"falls", "speed", "off ground", "one leg", "two legs", "path",
-				"start script", "drop height" };
+				"drop height" };
 
 		return new RunBenchmarkTableModelExtension(content, headers);
 	}
@@ -108,10 +105,10 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 
 		columnTypes = new Class[] { String.class, Object.class, Float.class,
 				Integer.class, Integer.class, Float.class, Float.class, Float.class,
-				Float.class, String.class, String.class, Float.class };
+				Float.class, String.class, Float.class };
 
 		editableColumns = new boolean[] { true, false, false, false, false, false,
-				false, false, false, true, true, true };
+				false, false, false, true, true };
 	}
 
 	@Override

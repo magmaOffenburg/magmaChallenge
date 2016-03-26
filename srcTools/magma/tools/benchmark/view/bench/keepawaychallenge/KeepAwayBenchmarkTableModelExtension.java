@@ -19,9 +19,7 @@ class KeepAwayBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_PATH = 3;
 
-	static final int COLUMN_BINARY = 4;
-
-	static final int COLUMN_DROP_HEIGHT = 5;
+	static final int COLUMN_DROP_HEIGHT = 4;
 
 	private Class<?>[] columnTypes;
 
@@ -30,11 +28,11 @@ class KeepAwayBenchmarkTableModelExtension extends DefaultTableModel
 	public static KeepAwayBenchmarkTableModelExtension getInstance(
 			List<TeamConfiguration> config)
 	{
-		final int COLUMNS = 6;
+		final int COLUMNS = 5;
 
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
-					"/media/sf_RoboCup/Challenge", "startChallengePlayer.sh", 0.4f);
+					"/media/sf_RoboCup/Challenge", 0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -45,13 +43,12 @@ class KeepAwayBenchmarkTableModelExtension extends DefaultTableModel
 			content[i][COLUMN_STATUS] = null;
 			content[i][COLUMN_TIME] = null;
 			content[i][COLUMN_PATH] = team.getPath();
-			content[i][COLUMN_BINARY] = team.getLaunch();
 			content[i][COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
 		String[] headers = new String[] { "team", "status", "time", "path",
-				"start script", "drop height" };
+				"drop height" };
 
 		return new KeepAwayBenchmarkTableModelExtension(content, headers);
 	}
@@ -62,9 +59,9 @@ class KeepAwayBenchmarkTableModelExtension extends DefaultTableModel
 		super(data, columnNames);
 
 		columnTypes = new Class[] { String.class, Object.class, Float.class,
-				String.class, String.class, Float.class };
+				String.class, Float.class };
 
-		editableColumns = new boolean[] { true, false, false, true, true, true };
+		editableColumns = new boolean[] { true, false, false, true, true };
 	}
 
 	@Override
