@@ -1,3 +1,8 @@
+Version 2.4
+---------------------
+- added keep away challenge for RoboCup 2016
+- removed UI for player start script file name (now assumed to be `startChallengePlayer.sh`)
+
 Version 2.3 (RoboCup 2015)
 ---------------------
 - disabled beam noise

@@ -16,7 +16,7 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 
 - Clone the repository: `git clone https://github.com/magmaOffenburg/magmaChallenge`.
 - Make sure you have Java installed and available on your command line.
-- Make sure you have [simspark and rcsserver3d](http://simspark.sourceforge.net/wiki/index.php/Main_Page) installed and the command `rcssserver3d` is available on your command line.
+- Make sure you have [simspark and rcssserver3d](http://simspark.sourceforge.net/wiki/index.php/Main_Page) installed and the command `rcssserver3d` is available on your command line.
 
 ## Preparation
 Before you can use the challenge tool, you have to create a `startChallengePlayer.sh` start script for your team that starts a single player.
