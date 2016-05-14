@@ -204,7 +204,7 @@ public class BenchmarkController
 			}
 
 			TeamConfiguration config = new TeamConfiguration("teamname",
-					folder.getParent() + File.separator, 0.4f);
+					folder.getAbsolutePath(), 0.4f);
 			List<TeamConfiguration> loadConfigFile = Collections
 					.singletonList(config);
 			model.resetModel();
