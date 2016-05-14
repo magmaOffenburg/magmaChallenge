@@ -63,6 +63,8 @@ import magma.util.observer.Subject;
 public abstract class BenchmarkMain
 		implements IMonitorRuntimeListener, IModelReadWrite
 {
+	public static final String START_SCRIPT_NAME = "startChallengePlayer.sh";
+
 	/** observers of model */
 	private final transient IPublishSubscribe<IModelReadOnly> observer;
 
@@ -221,7 +223,7 @@ public abstract class BenchmarkMain
 	{
 		return new FactoryParameter(null, config.getServerIP(),
 				config.getAgentPort(), teamConfig.getName(), teamConfig.getPath(),
-				"startChallengePlayer.sh", null, config.getRuntime(),
+				START_SCRIPT_NAME, null, config.getRuntime(),
 				teamConfig.getDropHeight());
 	}
 

@@ -47,7 +47,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import magma.tools.benchmark.ChallengeConstants;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
@@ -231,7 +230,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.SOUTH);
 
-		btnOpenScript = new JButton("Open Start Script...");
+		btnOpenScript = new JButton("Open Start Script Folder...");
 		btnOpenScript.setIcon(new ImageIcon(
 				BenchmarkView.class.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpenScript);
@@ -372,13 +371,10 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		}
 	}
 
-	public File getFileName(final String extension)
+	public File getFileName(int fileSelectionMode)
 	{
 		fc.resetChoosableFileFilters();
-		if (extension != null) {
-			fc.setFileFilter(
-					new FileNameExtensionFilter("*" + extension, extension));
-		}
+		fc.setFileSelectionMode(fileSelectionMode);
 
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {

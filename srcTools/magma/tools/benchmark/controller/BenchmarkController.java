@@ -28,12 +28,15 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import magma.tools.benchmark.ChallengeConstants;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmark;
 import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmark;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
@@ -84,7 +87,7 @@ public class BenchmarkController
 
 		view.addChallengeListener(new ChallengeListener());
 		view.addCompetitionButtonListener(new CompetitionListener(false));
-		view.addOpenScriptButtonListener(new LoadScriptFileListener());
+		view.addOpenScriptButtonListener(new LoadScriptFolderListener());
 		view.addOpenButtonListener(new LoadConfigFileListener());
 		view.addTestButtonListener(new CompetitionListener(true));
 		view.addStopButtonListener(new StopListener());
@@ -92,7 +95,7 @@ public class BenchmarkController
 		view.setVisible(true);
 	}
 
-	class ChallengeListener implements ActionListener
+	private class ChallengeListener implements ActionListener
 	{
 		@SuppressWarnings("unchecked")
 		@Override
@@ -127,11 +130,11 @@ public class BenchmarkController
 		}
 	}
 
-	class CompetitionListener implements ActionListener
+	private class CompetitionListener implements ActionListener
 	{
 		private boolean isTest;
 
-		public CompetitionListener(boolean isTest)
+		CompetitionListener(boolean isTest)
 		{
 			this.isTest = isTest;
 		}
@@ -152,7 +155,7 @@ public class BenchmarkController
 		}
 	}
 
-	class StopListener implements ActionListener
+	private class StopListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0)
@@ -161,7 +164,7 @@ public class BenchmarkController
 		}
 	}
 
-	class KillServerListener implements ActionListener
+	private class KillServerListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0)
@@ -170,13 +173,13 @@ public class BenchmarkController
 		}
 	}
 
-	class LoadConfigFileListener implements ActionListener
+	private class LoadConfigFileListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
 			try {
-				File file = view.getFileName(null);
+				File file = view.getFileName(JFileChooser.FILES_AND_DIRECTORIES);
 				if (file == null) {
 					return;
 				}
@@ -190,21 +193,66 @@ public class BenchmarkController
 		}
 	}
 
-	class LoadScriptFileListener implements ActionListener
+	private class LoadScriptFolderListener implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0)
 		{
-			File file = view.getFileName("sh");
-			if (file == null) {
+			File folder = getFolder();
+			if (folder == null) {
 				return;
 			}
+
 			TeamConfiguration config = new TeamConfiguration("teamname",
-					file.getParent() + File.separator, 0.4f);
+					folder.getParent() + File.separator, 0.4f);
 			List<TeamConfiguration> loadConfigFile = Collections
 					.singletonList(config);
 			model.resetModel();
 			view.updateConfigTable(loadConfigFile);
+		}
+
+		private File getFolder()
+		{
+			File folder = null;
+			boolean retry;
+			do {
+				retry = false;
+				folder = view.getFileName(JFileChooser.DIRECTORIES_ONLY);
+				if (folder == null) {
+					break; // cancel
+				}
+				if (!containsStartScript(folder)) {
+					int selection = JOptionPane.showConfirmDialog(view,
+							"Folder must contain a file named "
+									+ BenchmarkMain.START_SCRIPT_NAME + ". Retry?",
+							"No start script found", JOptionPane.YES_NO_OPTION,
+							JOptionPane.ERROR_MESSAGE);
+					retry = (selection == JOptionPane.YES_OPTION);
+					folder = null;
+				}
+			} while (retry);
+
+			return folder;
+		}
+
+		private boolean containsStartScript(File folder)
+		{
+			if (folder == null) {
+				return false;
+			}
+
+			File[] files = folder.listFiles();
+			if (files == null) {
+				return false;
+			}
+
+			for (File file : files) {
+				if (file.getName().equals(BenchmarkMain.START_SCRIPT_NAME)) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
