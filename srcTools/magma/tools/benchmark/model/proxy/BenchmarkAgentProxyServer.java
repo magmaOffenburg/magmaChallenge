@@ -35,9 +35,9 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 {
 	private RunInformation runInfo;
 
-	private int allowedPlayers;
+	private final int allowedPlayers;
 
-	private boolean allowPlayerBeaming;
+	private final boolean allowPlayerBeaming;
 
 	public BenchmarkAgentProxyServer(
 			SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers,

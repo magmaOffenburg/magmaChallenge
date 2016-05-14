@@ -11,7 +11,7 @@ import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 public class KickBenchmarkMonitorComponentFactory
 		extends MonitorComponentFactory
 {
-	private RunInformation runInfo;
+	private final RunInformation runInfo;
 
 	private final String roboVizServer;
 
@@ -40,7 +40,7 @@ public class KickBenchmarkMonitorComponentFactory
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
 				params.getTeam2Name(), "KickChallenge");
 		return new KickBenchmarkReferee(worldModel, serverCommander,
-				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo, roboVizServer);
+				params.getServerPid(), launcher, params.getDropHeight(), runInfo,
+				roboVizServer);
 	}
 }

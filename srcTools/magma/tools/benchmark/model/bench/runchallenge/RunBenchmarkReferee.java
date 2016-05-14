@@ -16,7 +16,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 	private float averageSpeed;
 
-	private float startX;
+	private final float startX;
 
 	private int startCycleCount;
 
@@ -26,7 +26,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 			RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				dropHeight, runInfo);
+				runInfo);
 		averageSpeed = 0;
 		startX = (float) runInfo.getBeamX();
 		startCycleCount = 0;

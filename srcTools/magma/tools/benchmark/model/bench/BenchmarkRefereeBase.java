@@ -16,7 +16,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	private boolean launching;
 
-	private SinglePlayerLauncher launcher;
+	private final SinglePlayerLauncher launcher;
 
 	private int decisionCount;
 
@@ -34,12 +34,11 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 	protected boolean hasPenalty;
 
 	/** the setup information for this run of the benchmark */
-	protected RunInformation runInfo;
+	protected final RunInformation runInfo;
 
 	public BenchmarkRefereeBase(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			RunInformation runInfo)
+			SinglePlayerLauncher launcher, float runTime, RunInformation runInfo)
 	{
 		super(mWorldModel, serverCommander, serverPid);
 		this.runInfo = runInfo;
@@ -68,7 +67,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 					return true;
 				}
 			} else {
-				// game is not running, so lets start it
+				// game is not running, so let's start it
 				boolean finishedStarting = onStartBenchmark();
 				if (finishedStarting) {
 					cycleCount++;

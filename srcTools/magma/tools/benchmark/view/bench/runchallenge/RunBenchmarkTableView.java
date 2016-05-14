@@ -53,7 +53,7 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 
 	private RunBenchmarkTableView(IModelReadOnly model, String defaultPath)
 	{
-		super(model, defaultPath);
+		super(model);
 	}
 
 	@Override
@@ -62,13 +62,12 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		List<TeamConfiguration> result = new ArrayList<>();
 		int teamid = 0;
 		String teamName;
-		float dropHeight = 0.4f;
 		do {
 			String teamPath = (String) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_PATH);
 			teamName = (String) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			dropHeight = (Float) table.getValueAt(teamid,
+			float dropHeight = (Float) table.getValueAt(teamid,
 					RunBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
@@ -87,37 +86,36 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 	{
 		List<ITeamResult> teamResults = model.getTeamResults();
 
-		for (int i = 0; i < teamResults.size(); i++) {
-			RunBenchmarkTeamResult teamResult = (RunBenchmarkTeamResult) teamResults
-					.get(i);
+		for (ITeamResult teamResult : teamResults) {
+			RunBenchmarkTeamResult runResult = (RunBenchmarkTeamResult) teamResult;
 
-			int teamRow = getTeamRow(teamResult.getName());
+			int teamRow = getTeamRow(runResult.getName());
 
-			float averageScore = teamResult.getAverageScore();
+			float averageScore = runResult.getAverageScore();
 			table.setValueAt(averageScore, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_SCORE);
 
-			int runs = ((ITeamResult) teamResult.getResult(0)).size();
+			int runs = ((ITeamResult) runResult.getResult(0)).size();
 			table.setValueAt(runs, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_RUNS);
 
-			int fallenCount = teamResult.getFallenCount();
+			int fallenCount = runResult.getFallenCount();
 			table.setValueAt(fallenCount, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_FALLS);
 
-			float averageSpeed = teamResult.getAverageSpeed();
+			float averageSpeed = runResult.getAverageSpeed();
 			table.setValueAt(averageSpeed, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_SPEED);
 
-			float averageOffGround = teamResult.getAverageOffGround();
+			float averageOffGround = runResult.getAverageOffGround();
 			table.setValueAt(averageOffGround, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_OFF_GROUND);
 
-			float averageOneLeg = teamResult.getAverageOneLeg();
+			float averageOneLeg = runResult.getAverageOneLeg();
 			table.setValueAt(averageOneLeg, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_ONE_LEG);
 
-			float averageTwoLegs = teamResult.getAverageTwoLegs();
+			float averageTwoLegs = runResult.getAverageTwoLegs();
 			table.setValueAt(averageTwoLegs, teamRow,
 					RunBenchmarkTableModelExtension.COLUMN_TWO_LEGS);
 

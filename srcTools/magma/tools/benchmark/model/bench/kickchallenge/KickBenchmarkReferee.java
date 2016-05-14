@@ -46,12 +46,11 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 
 	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight,
+			SinglePlayerLauncher launcher, float dropHeight,
 			RunInformation runInfo, String roboVizServer)
 	{
 		// ignoring passed runtime since the check should anyhow not fire
-		super(mWorldModel, serverCommander, serverPid, launcher, 20, dropHeight,
-				runInfo);
+		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo);
 		this.roboVizServer = roboVizServer;
 		distanceError = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());

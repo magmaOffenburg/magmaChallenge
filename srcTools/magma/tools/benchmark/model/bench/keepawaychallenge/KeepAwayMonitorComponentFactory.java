@@ -10,7 +10,7 @@ import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
 public class KeepAwayMonitorComponentFactory extends MonitorComponentFactory
 {
-	private RunInformation runInfo;
+	private final RunInformation runInfo;
 
 	private final String roboVizServer;
 

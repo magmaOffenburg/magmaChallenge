@@ -52,7 +52,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private boolean beaming;
 
-	private boolean allowPlayerBeaming;
+	private final boolean allowPlayerBeaming;
 
 	private RunInformation runInfo;
 

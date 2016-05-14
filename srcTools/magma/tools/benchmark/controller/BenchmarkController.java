@@ -55,7 +55,7 @@ public class BenchmarkController
 {
 	private IModelReadWrite model;
 
-	private BenchmarkView view;
+	private final BenchmarkView view;
 
 	private final String defaultPath;
 
@@ -132,7 +132,7 @@ public class BenchmarkController
 
 	private class CompetitionListener implements ActionListener
 	{
-		private boolean isTest;
+		private final boolean isTest;
 
 		CompetitionListener(boolean isTest)
 		{
@@ -213,7 +213,7 @@ public class BenchmarkController
 
 		private File getFolder()
 		{
-			File folder = null;
+			File folder;
 			boolean retry;
 			do {
 				retry = false;

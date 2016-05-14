@@ -303,13 +303,13 @@ public abstract class BenchmarkMain
 
 	private class RunThread extends Thread
 	{
-		private BenchmarkConfiguration config;
+		private final BenchmarkConfiguration config;
 
 		private boolean stopped;
 
 		private boolean stoppedTeam;
 
-		private List<TeamConfiguration> teamConfig;
+		private final List<TeamConfiguration> teamConfig;
 
 		public RunThread(BenchmarkConfiguration config,
 				List<TeamConfiguration> teamConfig)
@@ -325,7 +325,7 @@ public abstract class BenchmarkMain
 			try {
 				FileReader fr = new FileReader(path);
 				BufferedReader br = new BufferedReader(fr);
-				String line = null;
+				String line;
 				ArrayList<String> lines = new ArrayList<>();
 
 				while ((line = br.readLine()) != null) {
@@ -342,11 +342,9 @@ public abstract class BenchmarkMain
 					bw.write(l + '\n');
 				}
 				bw.close();
-
 			} catch (Exception ioe) {
 				ioe.printStackTrace();
 			}
-
 		}
 
 		@Override
@@ -367,7 +365,6 @@ public abstract class BenchmarkMain
 				}
 				Random rand = new Random(config.getRandomSeed());
 
-				// loop for the different benchmark runs
 				for (int i = 0; i < benchmarkRuns; i++) {
 					// reset status text for each run
 					statusText = "";
@@ -392,7 +389,6 @@ public abstract class BenchmarkMain
 		/**
 		 * Performs the specified number of runs to average out the result for
 		 * this benchmark run.
-		 * @param currentRun the current run/phase of the benchmark
 		 * @param currentTeamConfig the config for the currently running team
 		 * @return true if stopped
 		 */
@@ -416,11 +412,9 @@ public abstract class BenchmarkMain
 					if (success) {
 						collectResults(currentRunResult);
 					}
-
 				} catch (ServerException e) {
 					statusText += e.getMessage();
 					collectResults(currentRunResult);
-
 				} catch (RuntimeException e) {
 					e.printStackTrace();
 				} finally {

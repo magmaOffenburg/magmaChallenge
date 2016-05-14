@@ -10,10 +10,10 @@ import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
 public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 {
-	private RunInformation runInfo;
+	private final RunInformation runInfo;
 
 	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
-			RunInformation runInfo, String roboVizServer)
+			RunInformation runInfo)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;

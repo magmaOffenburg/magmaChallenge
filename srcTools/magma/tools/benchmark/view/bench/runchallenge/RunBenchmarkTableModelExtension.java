@@ -58,9 +58,9 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_DROP_HEIGHT = 10;
 
-	private Class<?>[] columnTypes;
+	private final Class<?>[] columnTypes;
 
-	private boolean[] editableColumns;
+	private final boolean[] editableColumns;
 
 	public static RunBenchmarkTableModelExtension getInstance(
 			List<TeamConfiguration> config)

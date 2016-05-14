@@ -29,13 +29,13 @@ import magma.tools.benchmark.model.bench.SingleResult;
  */
 public class RunBenchmarkSingleResult extends SingleResult
 {
-	private float speed;
+	private final float speed;
 
-	private float offGround;
+	private final float offGround;
 
-	private float oneLeg;
+	private final float oneLeg;
 
-	private float twoLegs;
+	private final float twoLegs;
 
 	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround,
 			float oneLeg, float twoLegs, boolean fallen, boolean penalty,

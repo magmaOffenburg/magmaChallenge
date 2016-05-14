@@ -29,7 +29,7 @@ import magma.tools.benchmark.model.bench.SingleResult;
  */
 public class KickBenchmarkSingleResult extends SingleResult
 {
-	private float distance;
+	private final float distance;
 
 	public KickBenchmarkSingleResult(boolean valid, boolean fallen,
 			boolean penalty, String statusText, float distance)

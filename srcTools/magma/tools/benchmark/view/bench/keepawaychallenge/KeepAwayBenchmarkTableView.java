@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.bench.TeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
 /**
@@ -31,7 +30,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 
 	private KeepAwayBenchmarkTableView(IModelReadOnly model, String defaultPath)
 	{
-		super(model, defaultPath);
+		super(model);
 	}
 
 	@Override
@@ -40,13 +39,12 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		List<TeamConfiguration> result = new ArrayList<>();
 		int teamid = 0;
 		String teamName;
-		float dropHeight = 0.4f;
 		do {
 			String teamPath = (String) table.getValueAt(teamid,
 					KeepAwayBenchmarkTableModelExtension.COLUMN_PATH);
 			teamName = (String) table.getValueAt(teamid,
 					KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			dropHeight = (Float) table.getValueAt(teamid,
+			float dropHeight = (Float) table.getValueAt(teamid,
 					KeepAwayBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
@@ -65,9 +63,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 	{
 		List<ITeamResult> teamResults = model.getTeamResults();
 
-		for (int i = 0; i < teamResults.size(); i++) {
-			TeamResult teamResult = (TeamResult) teamResults.get(i);
-
+		for (ITeamResult teamResult : teamResults) {
 			int teamRow = getTeamRow(teamResult.getName());
 
 			float averageScore = teamResult.getAverageScore();

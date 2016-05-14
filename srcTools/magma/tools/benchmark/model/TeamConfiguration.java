@@ -27,11 +27,11 @@ package magma.tools.benchmark.model;
  */
 public class TeamConfiguration
 {
-	private String name;
+	private final String name;
 
-	private String path;
+	private final String path;
 
-	private float dropHeight;
+	private final float dropHeight;
 
 	public TeamConfiguration(String name, String path, float dropHeight)
 	{

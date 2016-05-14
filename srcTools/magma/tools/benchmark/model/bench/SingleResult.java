@@ -29,13 +29,13 @@ import magma.tools.benchmark.model.ISingleResult;
  */
 public class SingleResult implements ISingleResult
 {
-	private boolean fallen;
+	private final boolean fallen;
 
-	private boolean penalty;
+	private final boolean penalty;
 
-	private boolean valid;
+	private final boolean valid;
 
-	private String statusText;
+	private final String statusText;
 
 	public SingleResult(boolean valid, boolean fallen, boolean penalty,
 			String statusText)

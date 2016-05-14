@@ -33,9 +33,9 @@ import magma.tools.benchmark.model.ITeamResult;
  */
 public abstract class TeamResult implements ITeamResult
 {
-	private String name;
+	private final String name;
 
-	protected List<ISingleResult> results;
+	protected final List<ISingleResult> results;
 
 	public TeamResult(String name)
 	{

@@ -52,7 +52,7 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 
 	private KickBenchmarkTableView(IModelReadOnly model, String defaultPath)
 	{
-		super(model, defaultPath);
+		super(model);
 	}
 
 	@Override
@@ -61,13 +61,12 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 		List<TeamConfiguration> result = new ArrayList<>();
 		int teamid = 0;
 		String teamName;
-		float dropHeight = 0.4f;
 		do {
 			String teamPath = (String) table.getValueAt(teamid,
 					KickBenchmarkTableModelExtension.COLUMN_PATH);
 			teamName = (String) table.getValueAt(teamid,
 					KickBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			dropHeight = (Float) table.getValueAt(teamid,
+			float dropHeight = (Float) table.getValueAt(teamid,
 					KickBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
@@ -86,25 +85,24 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 	{
 		List<ITeamResult> teamResults = model.getTeamResults();
 
-		for (int i = 0; i < teamResults.size(); i++) {
-			KickBenchmarkTeamResult teamResult = (KickBenchmarkTeamResult) teamResults
-					.get(i);
+		for (ITeamResult teamResult : teamResults) {
+			KickBenchmarkTeamResult kickResult = (KickBenchmarkTeamResult) teamResult;
 
-			int teamRow = getTeamRow(teamResult.getName());
+			int teamRow = getTeamRow(kickResult.getName());
 
-			float averageScore = teamResult.getAverageScore();
+			float averageScore = kickResult.getAverageScore();
 			table.setValueAt(averageScore, teamRow,
 					KickBenchmarkTableModelExtension.COLUMN_SCORE);
 
-			int runs = teamResult.size();
+			int runs = kickResult.size();
 			table.setValueAt(runs, teamRow,
 					KickBenchmarkTableModelExtension.COLUMN_RUNS);
 
-			int fallenCount = teamResult.getPenaltyCount();
+			int fallenCount = kickResult.getPenaltyCount();
 			table.setValueAt(fallenCount, teamRow,
 					KickBenchmarkTableModelExtension.COLUMN_PENALTIES);
 
-			float averageDistance = teamResult.getLastDistance();
+			float averageDistance = kickResult.getLastDistance();
 			table.setValueAt(averageDistance, teamRow,
 					KickBenchmarkTableModelExtension.COLUMN_DISTANCE);
 

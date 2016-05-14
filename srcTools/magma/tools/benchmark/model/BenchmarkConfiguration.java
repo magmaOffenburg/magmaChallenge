@@ -27,25 +27,25 @@ package magma.tools.benchmark.model;
  */
 public class BenchmarkConfiguration
 {
-	private String serverIP;
+	private final String serverIP;
 
-	private int agentPort;
+	private final int agentPort;
 
-	private int trainerPort;
+	private final int trainerPort;
 
-	private int serverPort;
+	private final int serverPort;
 
 	private int averageOutRuns;
 
 	private int runtime;
 
-	private boolean verbose;
+	private final boolean verbose;
 
 	private boolean isTest;
 
-	private long randomSeed;
+	private final long randomSeed;
 
-	private String roboVizServer;
+	private final String roboVizServer;
 
 	/**
 	 * @param runtime time to run in seconds
@@ -66,41 +66,26 @@ public class BenchmarkConfiguration
 		this.roboVizServer = roboVizServer;
 	}
 
-	/**
-	 * @return the serverIP
-	 */
 	public String getServerIP()
 	{
 		return serverIP;
 	}
 
-	/**
-	 * @return the agentPort
-	 */
 	public int getAgentPort()
 	{
 		return agentPort;
 	}
 
-	/**
-	 * @return the trainerPort
-	 */
 	public int getTrainerPort()
 	{
 		return trainerPort;
 	}
 
-	/**
-	 * @return the serverPort
-	 */
 	public int getServerPort()
 	{
 		return serverPort;
 	}
 
-	/**
-	 * @return the averageOutRuns
-	 */
 	public int getAverageOutRuns()
 	{
 		return averageOutRuns;

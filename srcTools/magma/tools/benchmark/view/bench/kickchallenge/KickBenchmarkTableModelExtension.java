@@ -52,9 +52,9 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_DROP_HEIGHT = 7;
 
-	private Class<?>[] columnTypes;
+	private final Class<?>[] columnTypes;
 
-	private boolean[] editableColumns;
+	private final boolean[] editableColumns;
 
 	public static KickBenchmarkTableModelExtension getInstance(
 			List<TeamConfiguration> config)

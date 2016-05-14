@@ -55,9 +55,9 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 {
 	protected JTable table;
 
-	protected IModelReadOnly model;
+	protected final IModelReadOnly model;
 
-	protected BenchmarkTableView(IModelReadOnly model, String defaultPath)
+	protected BenchmarkTableView(IModelReadOnly model)
 	{
 		this.model = model;
 	}
@@ -128,16 +128,16 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 	 */
 	protected enum ResultStatus {
 		NO_RESULT, SUCCESS, FAILED
-	};
+	}
 
 	/**
 	 * Listener for status button clicks
 	 */
 	protected class TableMouseListener extends MouseAdapter
 	{
-		private int columnStatus;
+		private final int columnStatus;
 
-		private int columnTeamname;
+		private final int columnTeamname;
 
 		public TableMouseListener(int columnStatus, int columnTeamname)
 		{
@@ -173,9 +173,9 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 	{
 		private static final long serialVersionUID = 1L;
 
-		JPanel panel;
+		final JPanel panel;
 
-		JButton statusButton;
+		final JButton statusButton;
 
 		public BenchmarkTableCell()
 		{

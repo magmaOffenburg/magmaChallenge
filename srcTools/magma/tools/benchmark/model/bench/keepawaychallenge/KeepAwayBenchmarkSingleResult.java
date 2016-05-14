@@ -4,7 +4,7 @@ import magma.tools.benchmark.model.bench.SingleResult;
 
 public class KeepAwayBenchmarkSingleResult extends SingleResult
 {
-	private float time;
+	private final float time;
 
 	public KeepAwayBenchmarkSingleResult(boolean valid, boolean fallen,
 			boolean penalty, String statusText, float time)

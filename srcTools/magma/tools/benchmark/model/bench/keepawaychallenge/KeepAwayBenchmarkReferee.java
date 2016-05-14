@@ -28,7 +28,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private static final String ROBOVIZ_GROUP = "keepAwayChallenge.area";
 
-	private SinglePlayerLauncher opponentLauncher;
+	private final SinglePlayerLauncher opponentLauncher;
 
 	private boolean opponentLaunched = false;
 
@@ -41,7 +41,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 			int agentPort)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				dropHeight, runInfo);
+				runInfo);
 
 		RoboVizDraw.automaticBufferSwap = false;
 		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,

@@ -10,19 +10,19 @@ package magma.tools.benchmark.model.bench;
 public class RunInformation
 {
 	/** the counter for which run it is currently */
-	private int runID;
+	private final int runID;
 
 	/** x coordinate on the field */
-	private double beamX;
+	private final double beamX;
 
 	/** y coordinate on the field */
-	private double beamY;
+	private final double beamY;
 
 	/** x coordinate of ball on the field */
-	private double ballX;
+	private final double ballX;
 
 	/** y coordinate of ball on the field */
-	private double ballY;
+	private final double ballY;
 
 	public RunInformation()
 	{

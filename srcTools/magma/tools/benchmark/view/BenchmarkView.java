@@ -66,53 +66,41 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private static final long serialVersionUID = 1L;
 
-	private JComboBox<String> challenge;
+	private final JComboBox<String> challenge;
 
-	private JTextField runTime;
+	private final JTextField runTime;
 
 	private JScrollPane scrollPane;
 
-	private JToolBar toolBar;
+	private final JButton btnTest;
 
-	private JButton btnTest;
+	private final JButton btnCompetition;
 
-	private JButton btnCompetition;
+	private final JButton btnStop;
 
-	private JButton btnStop;
+	private final JTextField averageRuns;
 
-	private JLabel lblAvgOutRuns;
+	private final JButton btnStopServer;
 
-	private JTextField averageRuns;
+	private final JButton btnOpenScript;
 
-	private JButton btnStopServer;
-
-	private JButton btnOpenScript;
-
-	private JButton btnOpen;
+	private final JButton btnOpen;
 
 	private IModelReadOnly model;
 
-	private JFileChooser fc;
+	private final JFileChooser fc;
 
 	// private JLabel lblServer;
 
-	private JTextField serverIP;
+	private final JTextField serverIP;
 
-	private JLabel lblServerport;
+	private final JTextField serverPort;
 
-	private JTextField serverPort;
+	private final JTextField proxyPort;
 
-	private JLabel lblProxyport;
+	private final JTextField trainerPort;
 
-	private JTextField proxyPort;
-
-	private JLabel lblTrainerport;
-
-	private JTextField trainerPort;
-
-	private JCheckBox chckbxVerbose;
-
-	private JButton btnAbout;
+	private final JCheckBox checkboxVerbose;
 
 	private BenchmarkTableView tableView;
 
@@ -144,7 +132,6 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			setIconImage(ImageIO
 					.read(BenchmarkView.class.getResource("/images/magma32.png")));
 		} catch (IOException e) {
-
 		}
 
 		scrollPane = new JScrollPane();
@@ -175,7 +162,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(runTime);
 		runTime.setColumns(4);
 
-		lblAvgOutRuns = new JLabel("Avg out runs:");
+		JLabel lblAvgOutRuns = new JLabel("Avg out runs:");
 		panel.add(lblAvgOutRuns);
 
 		averageRuns = new JTextField();
@@ -200,34 +187,34 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		// panel.add(serverIP);
 		// serverIP.setColumns(8);
 
-		lblServerport = new JLabel("ServerPort:");
-		panel.add(lblServerport);
+		JLabel lblServerPort = new JLabel("ServerPort:");
+		panel.add(lblServerPort);
 
 		serverPort = new JTextField();
 		serverPort.setText("3100");
 		panel.add(serverPort);
 		serverPort.setColumns(5);
 
-		lblProxyport = new JLabel("ProxyPort:");
-		panel.add(lblProxyport);
+		JLabel lblProxyPort = new JLabel("ProxyPort:");
+		panel.add(lblProxyPort);
 
 		proxyPort = new JTextField();
 		proxyPort.setText("3110");
 		panel.add(proxyPort);
 		proxyPort.setColumns(5);
 
-		lblTrainerport = new JLabel("TrainerPort:");
-		panel.add(lblTrainerport);
+		JLabel lblTrainerPort = new JLabel("TrainerPort:");
+		panel.add(lblTrainerPort);
 
 		trainerPort = new JTextField();
 		trainerPort.setText("3200");
 		panel.add(trainerPort);
 		trainerPort.setColumns(5);
 
-		chckbxVerbose = new JCheckBox("Verbose");
-		panel.add(chckbxVerbose);
+		checkboxVerbose = new JCheckBox("Verbose");
+		panel.add(checkboxVerbose);
 
-		toolBar = new JToolBar();
+		JToolBar toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.SOUTH);
 
 		btnOpenScript = new JButton("Open Start Script Folder...");
@@ -261,7 +248,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				BenchmarkView.class.getResource("/images/helpAbout_16.png")));
 		toolBar.add(btnStopServer);
 
-		btnAbout = new JButton("About");
+		JButton btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
 
 			@Override
@@ -336,7 +323,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int tPort = getNumber(trainerPort.getText(), 1, 65536);
 		int averageOutRuns = getNumber(averageRuns.getText(), 1, 200);
 		int time = getNumber(runTime.getText(), 2, 20);
-		boolean verbose = chckbxVerbose.isSelected();
+		boolean verbose = checkboxVerbose.isSelected();
 		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
 				averageOutRuns, time, verbose, false, 123L, roboVizServer);
 	}
