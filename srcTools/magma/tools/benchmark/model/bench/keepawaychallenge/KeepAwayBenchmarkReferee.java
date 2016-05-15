@@ -3,29 +3,19 @@ package magma.tools.benchmark.model.bench.keepawaychallenge;
 import java.awt.Color;
 import java.nio.file.Paths;
 
+import magma.common.challenge.KeepAwayArea;
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
+import magma.util.geometry.Area2D;
 import magma.util.roboviz.RoboVizDraw;
 import magma.util.roboviz.RoboVizParameters;
 
 public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 {
-	private static final float AREA_CENTER_X = 0;
-
-	private static final float AREA_CENTER_Y = 0;
-
-	private static final float AREA_WIDTH = 20;
-
-	private static final float AREA_LENGTH = 20;
-
-	private static final float WIDTH_REDUCTION_RATE = 4;
-
-	private static final float LENGTH_REDUCTION_RATE = 4;
-
 	private static final String ROBOVIZ_GROUP = "keepAwayChallenge.area";
 
 	private final SinglePlayerLauncher opponentLauncher;
@@ -43,7 +33,6 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				runInfo);
 
-		RoboVizDraw.automaticBufferSwap = false;
 		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,
 				RoboVizDraw.DEFAULT_PORT));
 		drawArea();
@@ -91,27 +80,10 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 		return false;
 	}
 
-	protected void drawArea()
+	private void drawArea()
 	{
-		float time = worldModel.getTime() / 60f;
-		float widthReduction = WIDTH_REDUCTION_RATE / 2.0f * time;
-		float lengthReduction = LENGTH_REDUCTION_RATE / 2.0f * time;
-
-		float areaMinX = AREA_CENTER_X - AREA_LENGTH / 2.0f + lengthReduction;
-		float areaMaxX = AREA_CENTER_X + AREA_LENGTH / 2.0f - lengthReduction;
-		float areaMinY = AREA_CENTER_Y - AREA_WIDTH / 2.0f + widthReduction;
-		float areaMaxY = AREA_CENTER_Y + AREA_WIDTH / 2.0f - widthReduction;
-
-		drawRedLine(areaMinX, areaMinY, areaMinX, areaMaxY);
-		drawRedLine(areaMinX, areaMaxY, areaMaxX, areaMaxY);
-		drawRedLine(areaMaxX, areaMaxY, areaMaxX, areaMinY);
-		drawRedLine(areaMaxX, areaMinY, areaMinX, areaMinY);
-		RoboVizDraw.swapBuffer(ROBOVIZ_GROUP);
-	}
-
-	protected void drawRedLine(float x1, float y1, float x2, float y2)
-	{
-		RoboVizDraw.drawLine(ROBOVIZ_GROUP, x1, y1, 0, x2, y2, 0, 2, Color.RED);
+		Area2D.Float area = KeepAwayArea.calculate(worldModel.getTime());
+		RoboVizDraw.drawArea(ROBOVIZ_GROUP, area, 2, Color.RED);
 	}
 
 	@Override
