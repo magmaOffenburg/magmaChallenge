@@ -46,6 +46,7 @@ import magma.tools.benchmark.view.bench.keepawaychallenge.KeepAwayBenchmarkTable
 import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 import magma.util.commandline.Argument;
+import magma.util.commandline.HelpArgument;
 import magma.util.commandline.StringArgument;
 
 /**
@@ -64,10 +65,10 @@ public class BenchmarkController
 	public static void main(String[] args)
 	{
 		StringArgument DEFAULT_PATH = new StringArgument("defaultPath",
-				"/host/Data/Programmierung/Magma/RoboCup3D/config/runChallenge/",
-				null);
+				"examples", "the initial path to use for file dialogs");
 		StringArgument ROBO_VIZ_SERVER = new StringArgument("roboVizServer",
-				"localhost", null);
+				"localhost", "which IP to connect to for RoboViz drawings");
+		new HelpArgument(DEFAULT_PATH, ROBO_VIZ_SERVER).parse(args);
 
 		String defaultPath = DEFAULT_PATH.parse(args);
 		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
