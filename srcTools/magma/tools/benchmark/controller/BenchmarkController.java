@@ -64,9 +64,10 @@ public class BenchmarkController
 	public static void main(String[] args)
 	{
 		StringArgument DEFAULT_PATH = new StringArgument("defaultPath",
-				"/host/Data/Programmierung/Magma/RoboCup3D/config/runChallenge/");
+				"/host/Data/Programmierung/Magma/RoboCup3D/config/runChallenge/",
+				null);
 		StringArgument ROBO_VIZ_SERVER = new StringArgument("roboVizServer",
-				"localhost");
+				"localhost", null);
 
 		String defaultPath = DEFAULT_PATH.parse(args);
 		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
