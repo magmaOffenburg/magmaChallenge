@@ -3,6 +3,8 @@ package magma.tools.benchmark.model.bench.keepawaychallenge;
 import java.awt.Color;
 import java.nio.file.Paths;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import magma.common.challenge.KeepAwayArea;
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
@@ -24,6 +26,8 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int delay = 10;
 
+	private Area2D.Float keepAwayArea;
+
 	public KeepAwayBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
@@ -33,6 +37,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				runInfo);
 
+		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
 		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,
 				RoboVizDraw.DEFAULT_PORT));
 		drawArea();
@@ -71,6 +76,14 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected boolean onDuringBenchmark()
 	{
+		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
+
+		Vector3D ballPos = worldModel.getBall().getPosition();
+		if (!keepAwayArea.contains((float) ballPos.getX(),
+				(float) ballPos.getY())) {
+			serverCommander.setPlaymode(PlayMode.GAME_OVER);
+		}
+
 		if (state == RefereeState.STARTED
 				&& worldModel.getPlayMode() == PlayMode.GAME_OVER) {
 			return true;
@@ -82,8 +95,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private void drawArea()
 	{
-		Area2D.Float area = KeepAwayArea.calculate(worldModel.getTime());
-		RoboVizDraw.drawArea(ROBOVIZ_GROUP, area, 2, Color.RED);
+		RoboVizDraw.drawArea(ROBOVIZ_GROUP, keepAwayArea, 2, Color.RED);
 	}
 
 	@Override
