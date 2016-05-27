@@ -28,6 +28,8 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private Area2D.Float keepAwayArea;
 
+	private final RoboVizDraw roboVizDraw;
+
 	public KeepAwayBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
@@ -38,7 +40,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 				runInfo);
 
 		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
-		RoboVizDraw.initialize(new RoboVizParameters(true, roboVizServer,
+		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer,
 				RoboVizDraw.DEFAULT_PORT));
 		drawArea();
 
@@ -95,7 +97,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private void drawArea()
 	{
-		RoboVizDraw.drawArea(ROBOVIZ_GROUP, keepAwayArea, 2, Color.RED);
+		roboVizDraw.drawArea(ROBOVIZ_GROUP, keepAwayArea, 2, Color.RED);
 	}
 
 	@Override
