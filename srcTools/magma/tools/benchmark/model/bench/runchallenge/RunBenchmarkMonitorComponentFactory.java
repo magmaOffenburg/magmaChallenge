@@ -12,11 +12,14 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 {
 	private final RunInformation runInfo;
 
+	private final boolean isGazebo;
+
 	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
-			RunInformation runInfo)
+			RunInformation runInfo, boolean isGazebo)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;
+		this.isGazebo = isGazebo;
 	}
 
 	/**
@@ -34,9 +37,9 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
-				params.getTeam2Name(), "RunChallenge");
+				params.getTeam2Name(), "RunChallenge", isGazebo);
 		return new RunBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo);
+				params.getDropHeight(), runInfo, isGazebo);
 	}
 }

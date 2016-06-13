@@ -36,9 +36,9 @@ import magma.tools.benchmark.model.bench.TeamResult;
  */
 public class RunBenchmark extends BenchmarkMain
 {
-	public RunBenchmark(String roboVizServer)
+	public RunBenchmark(String roboVizServer, boolean isGazebo)
 	{
-		super(roboVizServer);
+		super(roboVizServer, isGazebo);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class RunBenchmark extends BenchmarkMain
 			RunInformation runInfo, String roboVizServer)
 	{
 		return new RunBenchmarkMonitorComponentFactory(
-				createFactoryParameter(config, teamConfig), runInfo);
+				createFactoryParameter(config, teamConfig), runInfo, isGazebo);
 	}
 
 	@Override

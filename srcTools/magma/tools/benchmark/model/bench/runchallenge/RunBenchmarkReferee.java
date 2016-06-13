@@ -1,5 +1,6 @@
 package magma.tools.benchmark.model.bench.runchallenge;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.common.spark.PlayMode;
@@ -14,19 +15,24 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	/** the time we wait the player to cross the line before we start counting */
 	private static final double TIME_UNTIL_BENCH_STARTS = 4.0;
 
+	private final boolean isGazebo;
+
 	private float averageSpeed;
 
 	private final float startX;
 
 	private int startCycleCount;
 
+	private long systemStartTime = -1;
+
 	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			RunInformation runInfo)
+			RunInformation runInfo, boolean isGazebo)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				runInfo);
+		this.isGazebo = isGazebo;
 		averageSpeed = 0;
 		startX = (float) runInfo.getBeamX();
 		startCycleCount = 0;
@@ -51,9 +57,9 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	protected boolean onDuringBenchmark()
 	{
 		float FARTHEST_DISTANCE_ALLOWED = 14.5f;
-		float time = worldModel.getTime();
-		float currentTime = time - startTime;
-		Vector3D position = getAgent().getPosition();
+
+		Vector3D position = getAgentPosition();
+		float currentTime = getCurrentTime();
 		if (currentTime > runTime
 				|| position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
 			// finished this run
@@ -71,11 +77,11 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		if (state == RefereeState.BEAMED && startTime < 0) {
 			if (position.getX() > startX + 0.5) {
 				// player has crossed the start line
-				startTime = time;
+				startTime = currentTime;
 				state = RefereeState.STARTED;
-			} else if (time > TIME_UNTIL_BENCH_STARTS) {
+			} else if (currentTime > TIME_UNTIL_BENCH_STARTS) {
 				// 2 seconds to start are over
-				startTime = time;
+				startTime = currentTime;
 				state = RefereeState.STARTED;
 			}
 		}
@@ -83,10 +89,27 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		return hasFallen();
 	}
 
+	private float getCurrentTime()
+	{
+		if (isGazebo) {
+			long systemTime = System.currentTimeMillis() / 1000;
+			if (systemStartTime < 0) {
+				systemStartTime = systemTime;
+			}
+			return systemTime - systemStartTime;
+		}
+
+		float time = worldModel.getTime();
+		if (startTime < 0) {
+			startTime = time;
+		}
+		return time - startTime;
+	}
+
 	@Override
 	protected void onStopBenchmark()
 	{
-		Vector3D position = getAgent().getPosition();
+		Vector3D position = getAgentPosition();
 		double endX = position.getX();
 		double realStartX = startX + 0.5;
 		if (hasFallen()) {
@@ -104,5 +127,29 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	public float getAverageSpeed()
 	{
 		return averageSpeed;
+	}
+
+	@Override
+	protected Vector3D getAgentPosition()
+	{
+		if (isGazebo) {
+			return Vector3D.ZERO;
+		}
+		return super.getAgentPosition();
+	}
+
+	@Override
+	protected Rotation getAgentRotation()
+	{
+		if (isGazebo) {
+			return Rotation.IDENTITY;
+		}
+		return super.getAgentRotation();
+	}
+
+	@Override
+	protected boolean hasFallen()
+	{
+		return false;
 	}
 }

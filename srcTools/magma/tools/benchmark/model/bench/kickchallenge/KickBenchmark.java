@@ -52,7 +52,7 @@ public class KickBenchmark extends BenchmarkMain
 
 	public KickBenchmark(String roboVizServer)
 	{
-		super(roboVizServer);
+		super(roboVizServer, false);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package magma.tools.benchmark.model.bench;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.monitor.command.IServerCommander;
@@ -120,14 +121,8 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	protected boolean hasFallen()
 	{
-		double zOfUpVector = getAgent().getBodyPartPose(SoccerAgentBodyPart.BODY)
-				.getOrientation().getMatrix()[2][2];
-		if (zOfUpVector < 0.6) {
-			return true;
-		}
-
-		Vector3D position = getAgent().getPosition();
-		return position.getZ() < 0.25;
+		double zOfUpVector = getAgentRotation().getMatrix()[2][2];
+		return zOfUpVector < 0.6 || getAgentPosition().getZ() < 0.25;
 	}
 
 	/**
@@ -136,6 +131,17 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 	protected ISoccerAgent getAgent()
 	{
 		return worldModel.getSoccerAgents().get(0);
+	}
+
+	protected Rotation getAgentRotation()
+	{
+		return getAgent().getBodyPartPose(SoccerAgentBodyPart.BODY)
+				.getOrientation();
+	}
+
+	protected Vector3D getAgentPosition()
+	{
+		return getAgent().getPosition();
 	}
 
 	protected ISoccerBall getBall()

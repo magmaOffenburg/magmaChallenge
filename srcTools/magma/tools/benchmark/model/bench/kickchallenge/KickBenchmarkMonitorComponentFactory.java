@@ -38,7 +38,7 @@ public class KickBenchmarkMonitorComponentFactory
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
 				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
-				params.getTeam2Name(), "KickChallenge");
+				params.getTeam2Name(), "KickChallenge", false);
 		return new KickBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getDropHeight(), runInfo,
 				roboVizServer);

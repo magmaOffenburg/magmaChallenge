@@ -81,9 +81,9 @@ public class BenchmarkController
 	{
 		this.defaultPath = defaultPath;
 		this.roboVizServer = roboVizServer;
-		model = new KeepAwayBenchmark(roboVizServer);
-		BenchmarkTableView tableView = KeepAwayBenchmarkTableView
-				.getInstance(model, defaultPath);
+		model = new RunBenchmark(roboVizServer, true);
+		BenchmarkTableView tableView = RunBenchmarkTableView.getInstance(model,
+				defaultPath);
 		view = BenchmarkView.getInstance(model, tableView, defaultPath,
 				roboVizServer);
 
@@ -110,7 +110,11 @@ public class BenchmarkController
 			IModelReadWrite newModel = null;
 			switch (challenge) {
 			case ChallengeConstants.RUN:
-				newModel = new RunBenchmark(roboVizServer);
+				newModel = new RunBenchmark(roboVizServer, false);
+				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
+				break;
+			case ChallengeConstants.RUN_GAZEBO:
+				newModel = new RunBenchmark(roboVizServer, true);
 				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
 				break;
 			case ChallengeConstants.KICK:

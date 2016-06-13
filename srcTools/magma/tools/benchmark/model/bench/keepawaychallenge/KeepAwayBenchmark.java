@@ -15,7 +15,7 @@ public class KeepAwayBenchmark extends BenchmarkMain
 
 	public KeepAwayBenchmark(String roboVizServer)
 	{
-		super(roboVizServer);
+		super(roboVizServer, false);
 		allowedPlayers = PLAYERS;
 		allowPlayerBeaming = true;
 	}

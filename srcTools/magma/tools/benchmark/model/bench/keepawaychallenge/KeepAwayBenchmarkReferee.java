@@ -46,7 +46,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 		opponentLauncher = new SinglePlayerLauncher(serverIP, agentPort,
 				Paths.get("config/keepaway").toAbsolutePath().toString(),
-				"startOpponent.sh", "KeepAwayChallenge");
+				"startOpponent.sh", "KeepAwayChallenge", false);
 	}
 
 	@Override

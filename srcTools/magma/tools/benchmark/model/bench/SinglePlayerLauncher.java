@@ -32,7 +32,7 @@ import magma.util.file.StreamBufferer;
 public class SinglePlayerLauncher
 {
 	/** number of cycles to wait before next player starts */
-	private static final int WAIT_CYCLES_LAUNCHING = 10;
+	private static int WAIT_CYCLES_LAUNCHING;
 
 	private final String serverIP;
 
@@ -44,6 +44,8 @@ public class SinglePlayerLauncher
 
 	private final String challengeName;
 
+	private final boolean isGazebo;
+
 	private int cyclesToWait;
 
 	private boolean started;
@@ -53,14 +55,16 @@ public class SinglePlayerLauncher
 	private StreamBufferer stdErr;
 
 	public SinglePlayerLauncher(String serverIP, int agentPort, String path,
-			String binary, String challengeName)
+			String binary, String challengeName, boolean isGazebo)
 	{
 		this.serverIP = serverIP;
 		this.agentPort = agentPort;
 		this.path = path;
 		this.binary = binary;
 		this.challengeName = challengeName;
+		this.isGazebo = isGazebo;
 		started = false;
+		WAIT_CYCLES_LAUNCHING = isGazebo ? 100 : 10;
 		cyclesToWait = WAIT_CYCLES_LAUNCHING;
 	}
 
@@ -70,7 +74,7 @@ public class SinglePlayerLauncher
 	 */
 	public boolean launchPlayer(RunInformation runInfo, int playersOnField)
 	{
-		if (playersOnField >= 1) {
+		if (playersOnField >= 1 || isGazebo) {
 			cyclesToWait--;
 			if (cyclesToWait < 0) {
 				cyclesToWait = WAIT_CYCLES_LAUNCHING;

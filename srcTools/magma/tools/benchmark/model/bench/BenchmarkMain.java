@@ -90,9 +90,12 @@ public abstract class BenchmarkMain
 
 	protected boolean allowPlayerBeaming = false;
 
-	public BenchmarkMain(String roboVizServer)
+	protected boolean isGazebo;
+
+	public BenchmarkMain(String roboVizServer, boolean isGazebo)
 	{
 		this.roboVizServer = roboVizServer;
+		this.isGazebo = isGazebo;
 
 		observer = new Subject<>();
 		runThread = null;
@@ -190,8 +193,10 @@ public abstract class BenchmarkMain
 		MonitorComponentFactory factory = createMonitorFactory(config, teamConfig,
 				runInfo, roboVizServer);
 
-		monitor = new MonitorRuntime(new MonitorParameter(config.getServerIP(),
-				config.getTrainerPort(), Level.WARNING, 3, factory));
+		monitor = new BenchmarkMonitorRuntime(
+				new MonitorParameter(config.getServerIP(), config.getTrainerPort(),
+						Level.WARNING, 3, factory),
+				isGazebo);
 
 		monitor.addRuntimeListener(this);
 
@@ -405,7 +410,9 @@ public abstract class BenchmarkMain
 					float dropHeight = currentTeamConfig.getDropHeight();
 					replace(scriptPath, dropHeight);
 
-					server.startServer(0);
+					if (!isGazebo) {
+						server.startServer(0);
+					}
 
 					boolean success = startTrainer(config, currentTeamConfig,
 							runInfo, roboVizServer);
@@ -418,7 +425,7 @@ public abstract class BenchmarkMain
 				} catch (RuntimeException e) {
 					e.printStackTrace();
 				} finally {
-					server.stopServer();
+					stopServer();
 				}
 			}
 			System.out
@@ -440,7 +447,9 @@ public abstract class BenchmarkMain
 	@Override
 	public void stopServer()
 	{
-		server.killAllServer();
+		if (!isGazebo) {
+			server.killAllServer();
+		}
 	}
 
 	@Override
