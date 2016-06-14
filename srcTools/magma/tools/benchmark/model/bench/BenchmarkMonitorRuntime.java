@@ -37,14 +37,18 @@ public class BenchmarkMonitorRuntime extends MonitorRuntime
 	@Override
 	public void startMonitor() throws ConnectionException
 	{
-		connection.establishConnection();
-		while (!shutdown) {
-			try {
-				Thread.sleep(20);
-				update(null);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		if (isGazebo) {
+			connection.establishConnection();
+			while (!shutdown) {
+				try {
+					Thread.sleep(20);
+					update(null);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			return;
 		}
+		super.startMonitor();
 	}
 }

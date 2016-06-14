@@ -27,6 +27,8 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.tools.SAProxy.impl.AgentProxy;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.util.symboltreeparser.SymbolNode;
+import magma.util.symboltreeparser.SymbolTreeParser;
 
 /**
  * Special proxy for benchmarking agents
@@ -55,6 +57,14 @@ public class BenchmarkAgentProxy extends AgentProxy
 	private final boolean allowPlayerBeaming;
 
 	private RunInformation runInfo;
+
+	private SymbolTreeParser parser = new SymbolTreeParser();
+
+	private Vector3D groundTruthPosition = Vector3D.ZERO;
+
+	private float groundTruthOrientation;
+
+	private float time;
 
 	public BenchmarkAgentProxy(Socket clientSocket, String ssHost, int ssPort,
 			boolean showMessages, boolean allowPlayerBeaming)
@@ -91,14 +101,17 @@ public class BenchmarkAgentProxy extends AgentProxy
 	/**
 	 * Called before a message from the server was forwarded to the client
 	 * @param msg the message received from the server
-	 * @return true if the message should be forwarded to the client
 	 */
 	@Override
 	protected byte[] onNewServerMessage(byte[] msg)
 	{
+		msg = extractGazeboGroundTruth(new String(msg)).getBytes();
+
 		double leftPressure = 0;
 		double rightPressure = 0;
 		String message = new String(msg);
+		extractTime(message);
+
 		while (message.contains("(FRP (n lf") || message.contains("(FRP (n rf")) {
 			Vector3D leftForce = getForce(message, "(FRP (n lf");
 			if (leftForce == null) {
@@ -132,6 +145,45 @@ public class BenchmarkAgentProxy extends AgentProxy
 		}
 
 		return msg;
+	}
+
+	private String extractGazeboGroundTruth(String message)
+	{
+		int groundTruthIndex = message.lastIndexOf(" (mypos");
+		if (groundTruthIndex < 0) {
+			return message;
+		}
+
+		String groundTruth = message.substring(groundTruthIndex).trim();
+		SymbolNode result = parser.parse(groundTruth);
+
+		SymbolNode myPos = (SymbolNode) result.children.get(0);
+		groundTruthPosition = new Vector3D(parseFloat(myPos, 1),
+				parseFloat(myPos, 2), parseFloat(myPos, 3));
+
+		SymbolNode myOrien = (SymbolNode) result.children.get(1);
+		groundTruthOrientation = parseFloat(myOrien, 1);
+
+		// ground truth in gazebo is always at end
+		return message.substring(0, groundTruthIndex);
+	}
+
+	private void extractTime(String message)
+	{
+		SymbolNode root = parser.parse(message);
+		for (Object n : root.children) {
+			SymbolNode node = (SymbolNode) n;
+			if (node.children.get(0).equals("time")) {
+				SymbolNode now = (SymbolNode) node.children.get(1);
+				time = parseFloat(now, 1);
+				break;
+			}
+		}
+	}
+
+	private float parseFloat(SymbolNode node, int index)
+	{
+		return Float.parseFloat((String) node.children.get(index));
 	}
 
 	private Vector3D getForce(String message, String which)
@@ -214,5 +266,20 @@ public class BenchmarkAgentProxy extends AgentProxy
 	public void updateProxy(RunInformation runInfo)
 	{
 		this.runInfo = runInfo;
+	}
+
+	public Vector3D getGroundTruthPosition()
+	{
+		return groundTruthPosition;
+	}
+
+	public float getGroundTruthOrientation()
+	{
+		return groundTruthOrientation;
+	}
+
+	public float getTime()
+	{
+		return time;
 	}
 }

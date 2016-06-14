@@ -79,7 +79,8 @@ public class RunBenchmark extends BenchmarkMain
 			RunInformation runInfo, String roboVizServer)
 	{
 		return new RunBenchmarkMonitorComponentFactory(
-				createFactoryParameter(config, teamConfig), runInfo, isGazebo);
+				createFactoryParameter(config, teamConfig), runInfo, isGazebo,
+				proxy);
 	}
 
 	@Override

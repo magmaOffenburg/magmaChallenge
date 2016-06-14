@@ -9,13 +9,22 @@ import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
+import magma.tools.benchmark.model.proxy.BenchmarkAgentProxyServer;
 
 public class RunBenchmarkReferee extends BenchmarkRefereeBase
 {
 	/** the time we wait the player to cross the line before we start counting */
-	private static final double TIME_UNTIL_BENCH_STARTS = 4.0;
+	private static double TIME_UNTIL_BENCH_STARTS = 4.0;
+
+	/**
+	 * the distance the player has to move until the challenge is started
+	 * automatically
+	 */
+	private static double START_LINE_X_OFFSET = 0.5;
 
 	private final boolean isGazebo;
+
+	private final BenchmarkAgentProxyServer proxy;
 
 	private float averageSpeed;
 
@@ -23,19 +32,26 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int startCycleCount;
 
-	private long systemStartTime = -1;
-
 	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			RunInformation runInfo, boolean isGazebo)
+			RunInformation runInfo, boolean isGazebo,
+			BenchmarkAgentProxyServer proxy)
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
 				runInfo);
 		this.isGazebo = isGazebo;
+		this.proxy = proxy;
 		averageSpeed = 0;
 		startX = (float) runInfo.getBeamX();
 		startCycleCount = 0;
+		if (isGazebo) {
+			// in Gazebo agents need more time to get ready since they can't move
+			// before PLAY_ON
+			TIME_UNTIL_BENCH_STARTS = 10.0;
+			// agents in Gazebo walk more slowly
+			START_LINE_X_OFFSET = 0.05;
+		}
 	}
 
 	@Override
@@ -56,54 +72,49 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected boolean onDuringBenchmark()
 	{
-		float FARTHEST_DISTANCE_ALLOWED = 14.5f;
+		if (startTime < 0) {
+			startTime = getTime();
+		}
 
 		Vector3D position = getAgentPosition();
-		float currentTime = getCurrentTime();
-		if (currentTime > runTime
-				|| position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
-			// finished this run
-			runTime = currentTime;
-			return true;
-		}
+		float currentTime = getTime() - startTime;
 
-		if (state == RefereeState.CONNECTED
-				&& Math.abs(position.getX() - startX) < 0.1
-				&& Math.abs(position.getY()) < 0.1) {
-			// serverCommander.dropBall();
-			state = RefereeState.BEAMED;
-		}
-
-		if (state == RefereeState.BEAMED && startTime < 0) {
-			if (position.getX() > startX + 0.5) {
-				// player has crossed the start line
-				startTime = currentTime;
-				state = RefereeState.STARTED;
-			} else if (currentTime > TIME_UNTIL_BENCH_STARTS) {
-				// 2 seconds to start are over
-				startTime = currentTime;
-				state = RefereeState.STARTED;
+		switch (state) {
+		case CONNECTED:
+			if (Math.abs(position.getX() - startX) < 0.1
+					&& Math.abs(position.getY()) < 0.1) {
+				state = RefereeState.BEAMED;
 			}
+			break;
+		case BEAMED:
+			// player has crossed the start line or 2 seconds to start are over
+			if (position.getX() > startX + START_LINE_X_OFFSET
+					|| currentTime > TIME_UNTIL_BENCH_STARTS) {
+				startTime = getTime();
+				state = RefereeState.STARTED;
+				System.out.println("Starting run challenge");
+			}
+			break;
+		case STARTED:
+			float FARTHEST_DISTANCE_ALLOWED = 14.5f;
+			if (currentTime > runTime
+					|| position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
+				// finished this run
+				runTime = currentTime;
+				return true;
+			}
+			break;
 		}
 
 		return hasFallen();
 	}
 
-	private float getCurrentTime()
+	private float getTime()
 	{
 		if (isGazebo) {
-			long systemTime = System.currentTimeMillis() / 1000;
-			if (systemStartTime < 0) {
-				systemStartTime = systemTime;
-			}
-			return systemTime - systemStartTime;
+			return proxy.getTime();
 		}
-
-		float time = worldModel.getTime();
-		if (startTime < 0) {
-			startTime = time;
-		}
-		return time - startTime;
+		return worldModel.getTime();
 	}
 
 	@Override
@@ -133,7 +144,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	protected Vector3D getAgentPosition()
 	{
 		if (isGazebo) {
-			return Vector3D.ZERO;
+			return proxy.getGroundTruthPosition();
 		}
 		return super.getAgentPosition();
 	}
@@ -150,6 +161,9 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected boolean hasFallen()
 	{
-		return false;
+		if (isGazebo) {
+			return false;
+		}
+		return super.hasFallen();
 	}
 }

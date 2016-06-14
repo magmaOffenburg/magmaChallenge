@@ -69,7 +69,8 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 
 		if (config == null) {
 			TeamConfiguration singleTeam = new TeamConfiguration("magma",
-					"/mnt/hgfs/c_drive/Users/Jens/Dropbox/RoboCup/binary", 0.4f);
+					"/mnt/hgfs/c_drive/Users/Jens/Dropbox/RoboCup/walkingAgentBinary",
+					0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 

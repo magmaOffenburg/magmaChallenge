@@ -7,6 +7,7 @@ import magma.monitor.referee.IReferee;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
+import magma.tools.benchmark.model.proxy.BenchmarkAgentProxyServer;
 
 public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 {
@@ -14,12 +15,16 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 
 	private final boolean isGazebo;
 
+	private final BenchmarkAgentProxyServer proxy;
+
 	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
-			RunInformation runInfo, boolean isGazebo)
+			RunInformation runInfo, boolean isGazebo,
+			BenchmarkAgentProxyServer proxy)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;
 		this.isGazebo = isGazebo;
+		this.proxy = proxy;
 	}
 
 	/**
@@ -40,6 +45,6 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 				params.getTeam2Name(), "RunChallenge", isGazebo);
 		return new RunBenchmarkReferee(worldModel, serverCommander,
 				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo, isGazebo);
+				params.getDropHeight(), runInfo, isGazebo, proxy);
 	}
 }

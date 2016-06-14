@@ -23,6 +23,8 @@ package magma.tools.benchmark.model.proxy;
 
 import java.net.Socket;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import magma.tools.SAProxy.impl.AgentProxy;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer;
 import magma.tools.benchmark.model.bench.RunInformation;
@@ -102,6 +104,22 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 			return 0;
 		}
 		return getAgentProxy().getLegOnGround();
+	}
+
+	public Vector3D getGroundTruthPosition()
+	{
+		if (agentProxies.isEmpty()) {
+			return Vector3D.ZERO;
+		}
+		return getAgentProxy().getGroundTruthPosition();
+	}
+
+	public float getTime()
+	{
+		if (agentProxies.isEmpty()) {
+			return 0;
+		}
+		return getAgentProxy().getTime();
 	}
 
 	protected BenchmarkAgentProxy getAgentProxy()
