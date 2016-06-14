@@ -126,7 +126,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Magma Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setSize(1000, 600);
+		setSize(1000, 200);
 		setLocationRelativeTo(null);
 		try {
 			setIconImage(ImageIO
