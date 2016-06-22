@@ -56,15 +56,18 @@ public class RunBenchmark extends BenchmarkMain
 					.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgSpeed = referee.getAverageSpeed();
-				bothLegsOffGround = proxy.getBothLegsOffGround()
-						/ (referee.getRunTime() * 50f);
-				oneLegOffGround = proxy.getOneLegOffGround()
-						/ (referee.getRunTime() * 50f);
-				noLegOffGround = proxy.getNoLegOffGround()
-						/ (referee.getRunTime() * 50f);
 				fallen = referee.isHasFallen();
 				penalty = referee.hasPenalty();
 				valid = true;
+
+				if (!isGazebo) {
+					bothLegsOffGround = proxy.getBothLegsOffGround()
+							/ (referee.getRunTime() * 50f);
+					oneLegOffGround = proxy.getOneLegOffGround()
+							/ (referee.getRunTime() * 50f);
+					noLegOffGround = proxy.getNoLegOffGround()
+							/ (referee.getRunTime() * 50f);
+				}
 			} else {
 				statusText += referee.getStatusText();
 			}

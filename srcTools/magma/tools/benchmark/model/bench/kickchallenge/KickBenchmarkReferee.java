@@ -50,7 +50,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 			RunInformation runInfo, String roboVizServer)
 	{
 		// ignoring passed runtime since the check should anyhow not fire
-		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo);
+		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo,
+				false);
 		this.roboVizServer = roboVizServer;
 		distanceError = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());

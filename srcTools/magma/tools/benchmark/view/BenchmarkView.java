@@ -159,7 +159,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			}
 		});
 		runTime.setHorizontalAlignment(SwingConstants.RIGHT);
-		runTime.setText("10");
+		runTime.setText("20");
 		panel.add(runTime);
 		runTime.setColumns(4);
 

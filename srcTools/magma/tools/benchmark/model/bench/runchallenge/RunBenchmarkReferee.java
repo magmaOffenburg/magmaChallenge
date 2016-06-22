@@ -38,8 +38,8 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 			RunInformation runInfo, boolean isGazebo,
 			BenchmarkAgentProxyServer proxy)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				runInfo);
+		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo,
+				isGazebo);
 		this.isGazebo = isGazebo;
 		this.proxy = proxy;
 		averageSpeed = 0;
@@ -50,7 +50,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 			// before PLAY_ON
 			TIME_UNTIL_BENCH_STARTS = 10.0;
 			// agents in Gazebo walk more slowly
-			START_LINE_X_OFFSET = 0.05;
+			START_LINE_X_OFFSET = 0.2;
 		}
 	}
 
@@ -162,7 +162,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 	protected boolean hasFallen()
 	{
 		if (isGazebo) {
-			return false;
+			return getAgentPosition().getZ() < 0.25;
 		}
 		return super.hasFallen();
 	}

@@ -3,6 +3,7 @@ package magma.tools.benchmark.model.bench;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
+import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.referee.impl.RefereeBase;
 import magma.monitor.worldmodel.IMonitorWorldModel;
@@ -37,12 +38,16 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 	/** the setup information for this run of the benchmark */
 	protected final RunInformation runInfo;
 
+	private final boolean isGazebo;
+
 	public BenchmarkRefereeBase(IMonitorWorldModel mWorldModel,
 			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, RunInformation runInfo)
+			SinglePlayerLauncher launcher, float runTime, RunInformation runInfo,
+			boolean isGazebo)
 	{
 		super(mWorldModel, serverCommander, serverPid);
 		this.runInfo = runInfo;
+		this.isGazebo = isGazebo;
 
 		stopBenchmarkCalled = false;
 		timer = null;
@@ -102,6 +107,9 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 			statusText = "Timeout when launching player\n"
 					+ launcher.getStatusText();
 			return true;
+		}
+		if (isGazebo) {
+			serverCommander.setPlaymode(PlayMode.BEFORE_KICK_OFF);
 		}
 		launching = launcher.launchPlayer(runInfo, getNumberOfPlayers());
 		return false;

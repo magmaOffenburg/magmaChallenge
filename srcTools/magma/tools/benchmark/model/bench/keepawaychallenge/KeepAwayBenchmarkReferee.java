@@ -36,8 +36,8 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 			RunInformation runInfo, String roboVizServer, String serverIP,
 			int agentPort)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime,
-				runInfo);
+		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo,
+				false);
 
 		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
 		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer,
