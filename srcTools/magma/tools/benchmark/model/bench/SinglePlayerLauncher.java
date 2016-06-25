@@ -61,7 +61,7 @@ public class SinglePlayerLauncher
 		this.agentPort = agentPort;
 		this.path = path;
 		this.binary = binary;
-		this.challengeName = challengeName;
+		this.challengeName = isGazebo ? "Gazebo" + challengeName : challengeName;
 		this.isGazebo = isGazebo;
 		started = false;
 		WAIT_CYCLES_LAUNCHING = isGazebo ? 100 : 10;
