@@ -62,7 +62,7 @@ import magma.util.observer.IObserver;
  */
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
-	private static final String VERSION = "Version 2.4";
+	private static final String VERSION = "Version 2.5";
 
 	private static final long serialVersionUID = 1L;
 

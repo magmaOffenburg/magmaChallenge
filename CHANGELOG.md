@@ -1,3 +1,10 @@
+Version 2.5 (RoboCup 2016)
+---------------------
+- added Gazebo run challenge for RoboCup 2016
+- changed "Open Start Script" to "Open Start Script Folder"
+- added a `--help` argument
+- decreased the window height to 200
+
 Version 2.4
 ---------------------
 - added keep away challenge for RoboCup 2016
