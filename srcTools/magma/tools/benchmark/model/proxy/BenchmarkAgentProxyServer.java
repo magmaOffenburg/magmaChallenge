@@ -35,20 +35,23 @@ import magma.tools.benchmark.model.bench.RunInformation;
  */
 public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 {
-	private RunInformation runInfo;
-
 	private final int allowedPlayers;
 
 	private final boolean allowPlayerBeaming;
 
+	private final boolean isGazebo;
+
+	private RunInformation runInfo;
+
 	public BenchmarkAgentProxyServer(
 			SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers,
-			boolean allowPlayerBeaming)
+			boolean allowPlayerBeaming, boolean isGazebo)
 	{
 		super(parameterObject);
-		runInfo = new RunInformation();
 		this.allowedPlayers = allowedPlayers;
 		this.allowPlayerBeaming = allowPlayerBeaming;
+		this.isGazebo = isGazebo;
+		runInfo = new RunInformation();
 	}
 
 	@Override
@@ -60,7 +63,8 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 			return null;
 		}
 		BenchmarkAgentProxy benchmarkAgentProxy = new BenchmarkAgentProxy(
-				clientSocket, ssHost, ssPort, showMessages, allowPlayerBeaming);
+				clientSocket, ssHost, ssPort, showMessages, allowPlayerBeaming,
+				isGazebo);
 		benchmarkAgentProxy.updateProxy(runInfo);
 		return benchmarkAgentProxy;
 	}

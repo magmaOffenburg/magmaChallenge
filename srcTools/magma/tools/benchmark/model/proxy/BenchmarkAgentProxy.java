@@ -56,6 +56,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private final boolean allowPlayerBeaming;
 
+	private final boolean isGazebo;
+
 	private RunInformation runInfo;
 
 	private SymbolTreeParser parser = new SymbolTreeParser();
@@ -67,10 +69,11 @@ public class BenchmarkAgentProxy extends AgentProxy
 	private float time;
 
 	public BenchmarkAgentProxy(Socket clientSocket, String ssHost, int ssPort,
-			boolean showMessages, boolean allowPlayerBeaming)
+			boolean showMessages, boolean allowPlayerBeaming, boolean isGazebo)
 	{
 		super(clientSocket, ssHost, ssPort, showMessages);
 		this.allowPlayerBeaming = allowPlayerBeaming;
+		this.isGazebo = isGazebo;
 		beaming = true;
 		runInfo = new RunInformation();
 	}
@@ -105,12 +108,17 @@ public class BenchmarkAgentProxy extends AgentProxy
 	@Override
 	protected byte[] onNewServerMessage(byte[] msg)
 	{
-		msg = extractGazeboGroundTruth(new String(msg)).getBytes();
+		if (isGazebo) {
+			msg = extractGazeboGroundTruth(new String(msg)).getBytes();
+		}
 
 		double leftPressure = 0;
 		double rightPressure = 0;
 		String message = new String(msg);
-		extractTime(message);
+
+		if (isGazebo) {
+			extractTime(message);
+		}
 
 		while (message.contains("(FRP (n lf") || message.contains("(FRP (n rf")) {
 			Vector3D leftForce = getForce(message, "(FRP (n lf");

@@ -177,7 +177,7 @@ public abstract class BenchmarkMain
 				config.getAgentPort(), config.getServerIP(), config.getServerPort(),
 				config.isVerbose());
 		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers,
-				allowPlayerBeaming);
+				allowPlayerBeaming, isGazebo);
 		proxy.start();
 		try {
 			Thread.sleep(1000);
