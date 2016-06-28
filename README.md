@@ -108,6 +108,8 @@ The final sum is rounded to 3 digits. Equal scores will result in the same place
 
 ### Requirements
 
+The keep away challenge requires the `Keepaway` variable in rcssserver3d's `naosoccersim.rb` to be set to `true`.
+
 The start script has to start three players when it receives "KeepAwayChallenge" as the challenge name argument. Beaming is allowed in this challenge, so the "start x position" and "start y position" arguments the script receives can be ignored.
 
 ![](screenshots/keepAwayChallenge.png)
@@ -119,7 +121,7 @@ An attempt ends if:
 - the ball leaves the keep away area
 - the opponent player touches the ball
 
-These conditions are checkd by the server (has to be run in keep away mode), which switches the play mode to `GameOver` if either is true.
+These conditions are checked by the server (has to be run in keep away mode), which switches the play mode to `GameOver` if either is true.
 
 The keep away area's size decreases over time and is calculated like this:
 
