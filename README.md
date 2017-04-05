@@ -40,8 +40,7 @@ Additionally, there needs to be a `kill.sh` script that kills the agent process 
 ### Start script
 
 ```bash
-cd magmaChallenge/bin
-sh startChallengeBenchmark.sh
+bash start.sh
 ```
 
 The script can be used to configure the following arguments that are passed to `BenchmarkController`:

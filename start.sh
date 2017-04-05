@@ -22,7 +22,7 @@
 #!/bin/bash
 ###########################################
 # Starts the magma challenge benchmark tool
-# example: sh startChallengeBenchmark.sh
+# example: sh start.sh
 ###########################################
 
 # for Ubuntu
@@ -38,6 +38,4 @@ CLSPTH=${CLSPTH}${CLSEP}config
 ROBO_VIZ_SERVER=localhost
 DEFAULT_PATH=examples
 
-cd ..
 java -cp $CLSPTH magma.tools.benchmark.controller.BenchmarkController --defaultPath=$DEFAULT_PATH --roboVizServer=$ROBO_VIZ_SERVER
-cd bin
