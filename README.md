@@ -1,4 +1,7 @@
 # magmaChallenge
+
+[![Build Status](https://travis-ci.org/magmaOffenburg/magmaChallenge.png)](https://travis-ci.org/magmaOffenburg/magmaChallenge)
+
 Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wiki.robocup.org/wiki/Soccer_Simulation_League) created by the [magmaOffenburg team](http://robocup.hs-offenburg.de/).
 
 ![](screenshots/userInterface.png)
