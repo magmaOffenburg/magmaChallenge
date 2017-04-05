@@ -40,10 +40,8 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	private final boolean isGazebo;
 
-	public BenchmarkRefereeBase(IMonitorWorldModel mWorldModel,
-			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, RunInformation runInfo,
-			boolean isGazebo)
+	public BenchmarkRefereeBase(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
+			SinglePlayerLauncher launcher, float runTime, RunInformation runInfo, boolean isGazebo)
 	{
 		super(mWorldModel, serverCommander, serverPid);
 		this.runInfo = runInfo;
@@ -104,8 +102,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 		if (decisionCount > 300) {
 			// timeout, launching did not work
 			state = RefereeState.FAILED;
-			statusText = "Timeout when launching player\n"
-					+ launcher.getStatusText();
+			statusText = "Timeout when launching player\n" + launcher.getStatusText();
 			return true;
 		}
 		if (isGazebo) {
@@ -143,8 +140,7 @@ public abstract class BenchmarkRefereeBase extends RefereeBase
 
 	protected Rotation getAgentRotation()
 	{
-		return getAgent().getBodyPartPose(SoccerAgentBodyPart.BODY)
-				.getOrientation();
+		return getAgent().getBodyPartPose(SoccerAgentBodyPart.BODY).getOrientation();
 	}
 
 	protected Vector3D getAgentPosition()

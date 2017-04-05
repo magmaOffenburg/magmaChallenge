@@ -6,8 +6,7 @@ public class KeepAwayBenchmarkSingleResult extends SingleResult
 {
 	private final float time;
 
-	public KeepAwayBenchmarkSingleResult(boolean valid, boolean fallen,
-			boolean penalty, String statusText, float time)
+	public KeepAwayBenchmarkSingleResult(boolean valid, boolean fallen, boolean penalty, String statusText, float time)
 	{
 		super(valid, fallen, penalty, statusText);
 		this.time = time;

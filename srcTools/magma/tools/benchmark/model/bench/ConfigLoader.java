@@ -32,13 +32,12 @@ import magma.tools.benchmark.model.TeamConfiguration;
 import magma.util.file.CSVFileUtil;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class ConfigLoader
 {
-	public List<TeamConfiguration> loadConfigFile(File file)
-			throws InvalidConfigFileException
+	public List<TeamConfiguration> loadConfigFile(File file) throws InvalidConfigFileException
 	{
 		CSVFileUtil csvFileHandler = new CSVFileUtil(file, ";");
 		try {
@@ -47,13 +46,12 @@ public class ConfigLoader
 			List<TeamConfiguration> result = new ArrayList<>(readCsvFile.size());
 			for (String[] line : readCsvFile) {
 				if (line.length != 4) {
-					String error = "Invalid config file format, expected 4 columns, but was: "
-							+ line.length + "\nline: " + Arrays.toString(line);
+					String error = "Invalid config file format, expected 4 columns, but was: " + line.length +
+								   "\nline: " + Arrays.toString(line);
 					throw new InvalidConfigFileException(error);
 				}
 				float dropHeight = Float.valueOf(line[3]);
-				TeamConfiguration config = new TeamConfiguration(line[0], line[1],
-						dropHeight);
+				TeamConfiguration config = new TeamConfiguration(line[0], line[1], dropHeight);
 				result.add(config);
 			}
 

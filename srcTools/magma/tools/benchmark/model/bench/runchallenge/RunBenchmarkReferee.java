@@ -32,14 +32,11 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int startCycleCount;
 
-	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel,
-			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			RunInformation runInfo, boolean isGazebo,
+	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
+			SinglePlayerLauncher launcher, float runTime, float dropHeight, RunInformation runInfo, boolean isGazebo,
 			BenchmarkAgentProxyServer proxy)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo,
-				isGazebo);
+		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, isGazebo);
 		this.isGazebo = isGazebo;
 		this.proxy = proxy;
 		averageSpeed = 0;
@@ -61,8 +58,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 		state = RefereeState.CONNECTED;
 		if (startCycleCount >= 200) {
 			serverCommander.setPlaymode(PlayMode.PLAY_ON);
-			serverCommander.beamBall((float) runInfo.getBallX(),
-					(float) runInfo.getBallY());
+			serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 			return true;
 		} else {
 			return false;
@@ -81,15 +77,13 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 		switch (state) {
 		case CONNECTED:
-			if (Math.abs(position.getX() - startX) < 0.1
-					&& Math.abs(position.getY()) < 0.1) {
+			if (Math.abs(position.getX() - startX) < 0.1 && Math.abs(position.getY()) < 0.1) {
 				state = RefereeState.BEAMED;
 			}
 			break;
 		case BEAMED:
 			// player has crossed the start line or 2 seconds to start are over
-			if (position.getX() > startX + START_LINE_X_OFFSET
-					|| currentTime > TIME_UNTIL_BENCH_STARTS) {
+			if (position.getX() > startX + START_LINE_X_OFFSET || currentTime > TIME_UNTIL_BENCH_STARTS) {
 				startTime = getTime();
 				state = RefereeState.STARTED;
 				System.out.println("Starting run challenge");
@@ -97,8 +91,7 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 			break;
 		case STARTED:
 			float FARTHEST_DISTANCE_ALLOWED = 14.5f;
-			if (currentTime > runTime
-					|| position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
+			if (currentTime > runTime || position.getX() >= FARTHEST_DISTANCE_ALLOWED) {
 				// finished this run
 				runTime = currentTime;
 				return true;

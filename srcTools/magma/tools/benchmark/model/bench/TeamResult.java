@@ -28,7 +28,7 @@ import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.ITeamResult;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public abstract class TeamResult implements ITeamResult

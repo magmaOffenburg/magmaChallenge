@@ -68,8 +68,8 @@ public class BenchmarkAgentProxy extends AgentProxy
 
 	private float time;
 
-	public BenchmarkAgentProxy(Socket clientSocket, String ssHost, int ssPort,
-			boolean showMessages, boolean allowPlayerBeaming, boolean isGazebo)
+	public BenchmarkAgentProxy(Socket clientSocket, String ssHost, int ssPort, boolean showMessages,
+			boolean allowPlayerBeaming, boolean isGazebo)
 	{
 		super(clientSocket, ssHost, ssPort, showMessages);
 		this.allowPlayerBeaming = allowPlayerBeaming;
@@ -166,8 +166,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 		SymbolNode result = parser.parse(groundTruth);
 
 		SymbolNode myPos = (SymbolNode) result.children.get(0);
-		groundTruthPosition = new Vector3D(parseFloat(myPos, 1),
-				parseFloat(myPos, 2), parseFloat(myPos, 3));
+		groundTruthPosition = new Vector3D(parseFloat(myPos, 1), parseFloat(myPos, 2), parseFloat(myPos, 3));
 
 		SymbolNode myOrien = (SymbolNode) result.children.get(1);
 		groundTruthOrientation = parseFloat(myOrien, 1);
@@ -210,8 +209,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 					return new Vector3D(x, y, z);
 				}
 			}
-			System.out.println("Strange force message: "
-					+ message.substring(forceIndex, forceIndex + 30));
+			System.out.println("Strange force message: " + message.substring(forceIndex, forceIndex + 30));
 			return null;
 		}
 		return Vector3D.ZERO;
@@ -240,8 +238,7 @@ public class BenchmarkAgentProxy extends AgentProxy
 		}
 
 		if (beaming) {
-			msgString += "(beam " + runInfo.getBeamX() + " " + runInfo.getBeamY()
-					+ " 0)";
+			msgString += "(beam " + runInfo.getBeamX() + " " + runInfo.getBeamY() + " 0)";
 			message = msgString.getBytes();
 		}
 

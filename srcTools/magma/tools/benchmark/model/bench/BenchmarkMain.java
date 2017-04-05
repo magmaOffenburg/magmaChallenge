@@ -57,11 +57,10 @@ import magma.util.observer.IPublishSubscribe;
 import magma.util.observer.Subject;
 
 /**
- * 
+ *
  * @author kdorer
  */
-public abstract class BenchmarkMain
-		implements IMonitorRuntimeListener, IModelReadWrite
+public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelReadWrite
 {
 	public static final String START_SCRIPT_NAME = "startChallengePlayer.sh";
 
@@ -109,12 +108,9 @@ public abstract class BenchmarkMain
 
 		// release environment / jar
 		if (scriptPath == null || scriptPath.contains("jar!")) {
-			String absPath = getClass().getProtectionDomain().getCodeSource()
-					.getLocation().getPath();
-			String libPath = absPath.substring(0,
-					absPath.lastIndexOf(File.separator));
-			scriptPath = libPath.substring(0, libPath.lastIndexOf(File.separator))
-					+ "/config/rcssserver3d.rb";
+			String absPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+			String libPath = absPath.substring(0, absPath.lastIndexOf(File.separator));
+			scriptPath = libPath.substring(0, libPath.lastIndexOf(File.separator)) + "/config/rcssserver3d.rb";
 		}
 
 		server = new ServerController(3100, 3200, false, scriptPath, 0);
@@ -130,16 +126,14 @@ public abstract class BenchmarkMain
 	}
 
 	@Override
-	public void start(BenchmarkConfiguration config,
-			List<TeamConfiguration> teamConfig)
+	public void start(BenchmarkConfiguration config, List<TeamConfiguration> teamConfig)
 	{
 		if (isRunning()) {
 			return;
 		}
 
 		resetModel();
-		server = new ServerController(config.getServerPort(),
-				config.getTrainerPort(), false, scriptPath, 0);
+		server = new ServerController(config.getServerPort(), config.getTrainerPort(), false, scriptPath, 0);
 
 		runThread = new RunThread(config, teamConfig);
 		runThread.start();
@@ -174,10 +168,8 @@ public abstract class BenchmarkMain
 	{
 		// start proxy to get force information
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
-				config.getAgentPort(), config.getServerIP(), config.getServerPort(),
-				config.isVerbose());
-		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers,
-				allowPlayerBeaming, isGazebo);
+				config.getAgentPort(), config.getServerIP(), config.getServerPort(), config.isVerbose());
+		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers, allowPlayerBeaming, isGazebo);
 		proxy.start();
 		try {
 			Thread.sleep(1000);
@@ -186,16 +178,13 @@ public abstract class BenchmarkMain
 		}
 	}
 
-	private boolean startTrainer(BenchmarkConfiguration config,
-			TeamConfiguration teamConfig, RunInformation runInfo,
-			String roboVizServer)
+	private boolean startTrainer(
+			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer)
 	{
-		MonitorComponentFactory factory = createMonitorFactory(config, teamConfig,
-				runInfo, roboVizServer);
+		MonitorComponentFactory factory = createMonitorFactory(config, teamConfig, runInfo, roboVizServer);
 
 		monitor = new BenchmarkMonitorRuntime(
-				new MonitorParameter(config.getServerIP(), config.getTrainerPort(),
-						Level.WARNING, 3, factory),
+				new MonitorParameter(config.getServerIP(), config.getTrainerPort(), Level.WARNING, 3, factory),
 				isGazebo);
 
 		monitor.addRuntimeListener(this);
@@ -220,20 +209,15 @@ public abstract class BenchmarkMain
 	}
 
 	protected abstract MonitorComponentFactory createMonitorFactory(
-			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo, String roboVizServer);
+			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer);
 
-	protected FactoryParameter createFactoryParameter(
-			BenchmarkConfiguration config, TeamConfiguration teamConfig)
+	protected FactoryParameter createFactoryParameter(BenchmarkConfiguration config, TeamConfiguration teamConfig)
 	{
-		return new FactoryParameter(null, config.getServerIP(),
-				config.getAgentPort(), teamConfig.getName(), teamConfig.getPath(),
-				START_SCRIPT_NAME, null, config.getRuntime(),
-				teamConfig.getDropHeight());
+		return new FactoryParameter(null, config.getServerIP(), config.getAgentPort(), teamConfig.getName(),
+				teamConfig.getPath(), START_SCRIPT_NAME, null, config.getRuntime(), teamConfig.getDropHeight());
 	}
 
-	protected abstract TeamResult createTeamResult(
-			TeamConfiguration currentTeamConfig);
+	protected abstract TeamResult createTeamResult(TeamConfiguration currentTeamConfig);
 
 	protected RunInformation createRunInformation(Random rand, int runID)
 	{
@@ -261,8 +245,7 @@ public abstract class BenchmarkMain
 	public void monitorUpdated()
 	{
 		if (!proxy.getAgentProxies().isEmpty()) {
-			BenchmarkAgentProxy benchmarkAgentProxy = (BenchmarkAgentProxy) proxy
-					.getAgentProxies().get(0);
+			BenchmarkAgentProxy benchmarkAgentProxy = (BenchmarkAgentProxy) proxy.getAgentProxies().get(0);
 			if (monitor.getReferee().getState() == RefereeState.STARTED) {
 				benchmarkAgentProxy.startCount();
 			} else if (monitor.getReferee().getState() == RefereeState.STOPPED) {
@@ -274,8 +257,7 @@ public abstract class BenchmarkMain
 
 		int countMonitor = monitor.getWorldModel().getSoccerAgents().size();
 		if (countMonitor > allowedPlayers) {
-			statusText += "More than " + allowedPlayers
-					+ " player(s) on the field\n";
+			statusText += "More than " + allowedPlayers + " player(s) on the field\n";
 			monitor.stopMonitor();
 			runThread.stopTeam();
 			return;
@@ -316,8 +298,7 @@ public abstract class BenchmarkMain
 
 		private final List<TeamConfiguration> teamConfig;
 
-		public RunThread(BenchmarkConfiguration config,
-				List<TeamConfiguration> teamConfig)
+		public RunThread(BenchmarkConfiguration config, List<TeamConfiguration> teamConfig)
 		{
 			this.config = config;
 			this.teamConfig = teamConfig;
@@ -335,8 +316,7 @@ public abstract class BenchmarkMain
 
 				while ((line = br.readLine()) != null) {
 					if (line.contains("AgentRadius")) {
-						line = "addSoccerVar('AgentRadius', "
-								+ String.valueOf(dropHeight) + ")";
+						line = "addSoccerVar('AgentRadius', " + String.valueOf(dropHeight) + ")";
 					}
 					lines.add(line);
 				}
@@ -397,8 +377,7 @@ public abstract class BenchmarkMain
 		 * @param currentTeamConfig the config for the currently running team
 		 * @return true if stopped
 		 */
-		protected boolean performAverageOutRuns(
-				TeamConfiguration currentTeamConfig, RunInformation runInfo)
+		protected boolean performAverageOutRuns(TeamConfiguration currentTeamConfig, RunInformation runInfo)
 		{
 			int avgRuns = config.getAverageOutRuns();
 
@@ -414,8 +393,7 @@ public abstract class BenchmarkMain
 						server.startServer(0);
 					}
 
-					boolean success = startTrainer(config, currentTeamConfig,
-							runInfo, roboVizServer);
+					boolean success = startTrainer(config, currentTeamConfig, runInfo, roboVizServer);
 					if (success) {
 						collectResults(currentRunResult);
 					}
@@ -428,8 +406,7 @@ public abstract class BenchmarkMain
 					stopServer();
 				}
 			}
-			System.out
-					.println("Average Score: " + currentRunResult.getAverageScore());
+			System.out.println("Average Score: " + currentRunResult.getAverageScore());
 			return stopped;
 		}
 
@@ -453,8 +430,7 @@ public abstract class BenchmarkMain
 	}
 
 	@Override
-	public List<TeamConfiguration> loadConfigFile(File file)
-			throws InvalidConfigFileException
+	public List<TeamConfiguration> loadConfigFile(File file) throws InvalidConfigFileException
 	{
 		ConfigLoader loader = new ConfigLoader();
 		return loader.loadConfigFile(file);

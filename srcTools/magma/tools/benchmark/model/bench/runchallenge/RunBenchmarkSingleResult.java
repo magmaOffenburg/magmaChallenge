@@ -24,7 +24,7 @@ package magma.tools.benchmark.model.bench.runchallenge;
 import magma.tools.benchmark.model.bench.SingleResult;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class RunBenchmarkSingleResult extends SingleResult
@@ -37,9 +37,8 @@ public class RunBenchmarkSingleResult extends SingleResult
 
 	private final float twoLegs;
 
-	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround,
-			float oneLeg, float twoLegs, boolean fallen, boolean penalty,
-			String statusText)
+	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround, float oneLeg, float twoLegs,
+			boolean fallen, boolean penalty, String statusText)
 	{
 		super(valid, fallen, penalty, statusText);
 		this.speed = speed;
@@ -67,5 +66,4 @@ public class RunBenchmarkSingleResult extends SingleResult
 	{
 		return twoLegs;
 	}
-
 }

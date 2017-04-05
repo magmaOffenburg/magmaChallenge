@@ -48,7 +48,7 @@ import magma.tools.benchmark.model.TeamConfiguration;
 import magma.util.observer.IObserver;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
@@ -95,8 +95,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 				return new Dimension(600, 320);
 			}
 		};
-		JOptionPane.showMessageDialog(null, jsp, "Problem",
-				JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, jsp, "Problem", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public JTable updateConfigTable(List<TeamConfiguration> loadConfigFile)
@@ -126,9 +125,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 	/**
 	 * The states of a benchmark run
 	 */
-	protected enum ResultStatus {
-		NO_RESULT, SUCCESS, FAILED
-	}
+	protected enum ResultStatus { NO_RESULT, SUCCESS, FAILED }
 
 	/**
 	 * Listener for status button clicks
@@ -158,8 +155,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 				if (result != null) {
 					String text = result.getStatusText();
 					if (result.isValid()) {
-						JOptionPane.showMessageDialog(null, text, team,
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, text, team, JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						showErrorMessage(text);
 					}
@@ -168,8 +164,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		}
 	}
 
-	protected class BenchmarkTableCell extends AbstractCellEditor
-			implements TableCellEditor, TableCellRenderer
+	protected class BenchmarkTableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -180,8 +175,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		public BenchmarkTableCell()
 		{
 			statusButton = new JButton();
-			statusButton.setIcon(new ImageIcon(
-					BenchmarkTableView.class.getResource("/images/info_16.png")));
+			statusButton.setIcon(new ImageIcon(BenchmarkTableView.class.getResource("/images/info_16.png")));
 			statusButton.setSize(30, 30);
 			statusButton.addActionListener(new ActionListener() {
 				@Override
@@ -195,8 +189,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 			panel.add(statusButton);
 		}
 
-		private void updateData(String text, boolean isSelected, JTable table,
-				int row)
+		private void updateData(String text, boolean isSelected, JTable table, int row)
 		{
 			statusButton.setText(text);
 			if (isSelected) {
@@ -214,8 +207,8 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value,
-				boolean isSelected, int row, int column)
+		public Component getTableCellEditorComponent(
+				JTable table, Object value, boolean isSelected, int row, int column)
 		{
 			String text = (String) value;
 			updateData(text, true, table, row);
@@ -229,8 +222,8 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column)
+		public Component getTableCellRendererComponent(
+				JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 		{
 			String text = (String) value;
 			updateData(text, isSelected, table, row);

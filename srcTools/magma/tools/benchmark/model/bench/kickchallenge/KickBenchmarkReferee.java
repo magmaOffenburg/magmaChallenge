@@ -44,14 +44,11 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	/** position of ball in last cycle */
 	private Vector2D oldBallPos;
 
-	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel,
-			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float dropHeight,
-			RunInformation runInfo, String roboVizServer)
+	public KickBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
+			SinglePlayerLauncher launcher, float dropHeight, RunInformation runInfo, String roboVizServer)
 	{
 		// ignoring passed runtime since the check should anyhow not fire
-		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo,
-				false);
+		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo, false);
 		this.roboVizServer = roboVizServer;
 		distanceError = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
@@ -64,8 +61,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 	protected boolean onDuringLaunching()
 	{
 		// we beam the ball early
-		serverCommander.beamBall((float) runInfo.getBallX(),
-				(float) runInfo.getBallY());
+		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 		return super.onDuringLaunching();
 	}
 
@@ -75,16 +71,12 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		state = RefereeState.CONNECTED;
 
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
-		serverCommander.beamBall((float) runInfo.getBallX(),
-				(float) runInfo.getBallY());
+		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 
-		RoboVizDraw roboVizDraw = new RoboVizDraw(new RoboVizParameters(true,
-				roboVizServer, RoboVizDraw.DEFAULT_PORT));
-		roboVizDraw.drawCircle("kickChallenge.penaltyCircle",
-				new Vector3D(runInfo.getBallX(), runInfo.getBallY(), 0),
+		RoboVizDraw roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT));
+		roboVizDraw.drawCircle("kickChallenge.penaltyCircle", new Vector3D(runInfo.getBallX(), runInfo.getBallY(), 0),
 				(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
-		roboVizDraw.drawCircle("kickChallenge.targetPosition", Vector3D.ZERO,
-				0.1f, 3, new Color(0xFFd2d2d2));
+		roboVizDraw.drawCircle("kickChallenge.targetPosition", Vector3D.ZERO, 0.1f, 3, new Color(0xFFd2d2d2));
 		return true;
 	}
 
@@ -95,10 +87,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		float currentTime = time - startTime;
 		Vector3D posPlayer = getAgent().getPosition();
 		Vector3D posBall = getBall().getPosition();
-		Vector2D playerInitial = new Vector2D(runInfo.getBeamX(),
-				runInfo.getBeamY());
-		Vector2D ballInitial = new Vector2D(runInfo.getBallX(),
-				runInfo.getBallY());
+		Vector2D playerInitial = new Vector2D(runInfo.getBeamX(), runInfo.getBeamY());
+		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
 		Vector2D ballNow = new Vector2D(posBall.getX(), posBall.getY());
 
@@ -108,8 +98,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 			return true;
 		}
 
-		if (state == RefereeState.CONNECTED
-				&& playerNow.distance(playerInitial) < 0.1) {
+		if (state == RefereeState.CONNECTED && playerNow.distance(playerInitial) < 0.1) {
 			state = RefereeState.BEAMED;
 		}
 
@@ -162,8 +151,7 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		// we give a penalty if player left circle around ball
 		Vector3D posPlayer = getAgent().getPosition();
 		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
-		Vector2D ballInitial = new Vector2D(runInfo.getBallX(),
-				runInfo.getBallY());
+		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 		if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
 			distanceError += PENALTY_LEAVING_CIRCLE;
 			hasPenalty = true;

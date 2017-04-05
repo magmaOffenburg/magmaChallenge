@@ -30,23 +30,19 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private final RoboVizDraw roboVizDraw;
 
-	public KeepAwayBenchmarkReferee(IMonitorWorldModel mWorldModel,
-			IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight,
-			RunInformation runInfo, String roboVizServer, String serverIP,
-			int agentPort)
+	public KeepAwayBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
+			SinglePlayerLauncher launcher, float runTime, float dropHeight, RunInformation runInfo,
+			String roboVizServer, String serverIP, int agentPort)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo,
-				false);
+		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, false);
 
 		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
-		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer,
-				RoboVizDraw.DEFAULT_PORT));
+		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT));
 		drawArea();
 
-		opponentLauncher = new SinglePlayerLauncher(serverIP, agentPort,
-				Paths.get("config/keepaway").toAbsolutePath().toString(),
-				"startOpponent.sh", "KeepAwayChallenge", false);
+		opponentLauncher =
+				new SinglePlayerLauncher(serverIP, agentPort, Paths.get("config/keepaway").toAbsolutePath().toString(),
+						"startOpponent.sh", "KeepAwayChallenge", false);
 	}
 
 	@Override
@@ -56,8 +52,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 		int players = worldModel.getSoccerAgents().size();
 		if (players < KeepAwayBenchmark.PLAYERS - 1 && !opponentLaunched) {
-			opponentLauncher.launchPlayer(new RunInformation(),
-					KeepAwayBenchmark.PLAYERS - 1);
+			opponentLauncher.launchPlayer(new RunInformation(), KeepAwayBenchmark.PLAYERS - 1);
 			opponentLaunched = true;
 			return false;
 		} else if (players < KeepAwayBenchmark.PLAYERS) {
@@ -81,13 +76,11 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
 
 		Vector3D ballPos = worldModel.getBall().getPosition();
-		if (!keepAwayArea.contains((float) ballPos.getX(),
-				(float) ballPos.getY())) {
+		if (!keepAwayArea.contains((float) ballPos.getX(), (float) ballPos.getY())) {
 			serverCommander.setPlaymode(PlayMode.GAME_OVER);
 		}
 
-		if (state == RefereeState.STARTED
-				&& worldModel.getPlayMode() == PlayMode.GAME_OVER) {
+		if (state == RefereeState.STARTED && worldModel.getPlayMode() == PlayMode.GAME_OVER) {
 			return true;
 		}
 

@@ -30,7 +30,7 @@ import magma.tools.SAProxy.impl.SimsparkAgentProxyServer;
 import magma.tools.benchmark.model.bench.RunInformation;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
@@ -43,8 +43,7 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 
 	private RunInformation runInfo;
 
-	public BenchmarkAgentProxyServer(
-			SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers,
+	public BenchmarkAgentProxyServer(SimsparkAgentProxyServerParameter parameterObject, int allowedPlayers,
 			boolean allowPlayerBeaming, boolean isGazebo)
 	{
 		super(parameterObject);
@@ -58,13 +57,11 @@ public class BenchmarkAgentProxyServer extends SimsparkAgentProxyServer
 	protected AgentProxy createAgentProxy(Socket clientSocket)
 	{
 		if (agentProxies.size() > allowedPlayers) {
-			System.out
-					.println("Already " + allowedPlayers + " agent(s) connected!");
+			System.out.println("Already " + allowedPlayers + " agent(s) connected!");
 			return null;
 		}
-		BenchmarkAgentProxy benchmarkAgentProxy = new BenchmarkAgentProxy(
-				clientSocket, ssHost, ssPort, showMessages, allowPlayerBeaming,
-				isGazebo);
+		BenchmarkAgentProxy benchmarkAgentProxy =
+				new BenchmarkAgentProxy(clientSocket, ssHost, ssPort, showMessages, allowPlayerBeaming, isGazebo);
 		benchmarkAgentProxy.updateProxy(runInfo);
 		return benchmarkAgentProxy;
 	}

@@ -1,7 +1,6 @@
 package magma.tools.benchmark;
 
-public interface ChallengeConstants
-{
+public interface ChallengeConstants {
 	String RUN = "Run Challenge";
 
 	String RUN_GAZEBO = "Run Challenge (Gazebo)";

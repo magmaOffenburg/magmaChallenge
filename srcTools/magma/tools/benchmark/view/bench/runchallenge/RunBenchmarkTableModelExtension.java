@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.TeamConfiguration;
 
 /**
- * 
+ *
  * @author kdorer
  */
 class RunBenchmarkTableModelExtension extends DefaultTableModel
@@ -62,15 +62,13 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 
 	private final boolean[] editableColumns;
 
-	public static RunBenchmarkTableModelExtension getInstance(
-			List<TeamConfiguration> config)
+	public static RunBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 12;
 
 		if (config == null) {
-			TeamConfiguration singleTeam = new TeamConfiguration("magma",
-					"/mnt/hgfs/c_drive/Users/Jens/Dropbox/RoboCup/walkingAgentBinary",
-					0.4f);
+			TeamConfiguration singleTeam = new TeamConfiguration(
+					"magma", "/mnt/hgfs/c_drive/Users/Jens/Dropbox/RoboCup/walkingAgentBinary", 0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -91,24 +89,20 @@ class RunBenchmarkTableModelExtension extends DefaultTableModel
 			i++;
 		}
 
-		String[] headers = new String[] { "team", "status", "score", "kicks",
-				"falls", "speed", "off ground", "one leg", "two legs", "path",
-				"drop height" };
+		String[] headers = new String[] {"team", "status", "score", "kicks", "falls", "speed", "off ground", "one leg",
+				"two legs", "path", "drop height"};
 
 		return new RunBenchmarkTableModelExtension(content, headers);
 	}
 
-	private RunBenchmarkTableModelExtension(Object[][] data,
-			Object[] columnNames)
+	private RunBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] { String.class, Object.class, Float.class,
-				Integer.class, Integer.class, Float.class, Float.class, Float.class,
-				Float.class, String.class, Float.class };
+		columnTypes = new Class[] {String.class, Object.class, Float.class, Integer.class, Integer.class, Float.class,
+				Float.class, Float.class, Float.class, String.class, Float.class};
 
-		editableColumns = new boolean[] { true, false, false, false, false, false,
-				false, false, false, true, true };
+		editableColumns = new boolean[] {true, false, false, false, false, false, false, false, false, true, true};
 	}
 
 	@Override

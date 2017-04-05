@@ -54,8 +54,8 @@ public class SinglePlayerLauncher
 
 	private StreamBufferer stdErr;
 
-	public SinglePlayerLauncher(String serverIP, int agentPort, String path,
-			String binary, String challengeName, boolean isGazebo)
+	public SinglePlayerLauncher(
+			String serverIP, int agentPort, String path, String binary, String challengeName, boolean isGazebo)
 	{
 		this.serverIP = serverIP;
 		this.agentPort = agentPort;
@@ -92,12 +92,7 @@ public class SinglePlayerLauncher
 	private void startPlayer(RunInformation runInfo)
 	{
 		// @formatter:off
-		runScript(binary, new Object[] {
-				serverIP,
-				agentPort,
-				runInfo.getBeamX(),
-				runInfo.getBallY(),
-				challengeName });
+		runScript(binary, new Object[] {serverIP, agentPort, runInfo.getBeamX(), runInfo.getBallY(), challengeName});
 		// @formatter:on
 	}
 
@@ -119,8 +114,7 @@ public class SinglePlayerLauncher
 			return;
 		}
 
-		Object[] commands = ArrayUtils
-				.addAll(new Object[] { "bash", fullPath.getPath() }, arguments);
+		Object[] commands = ArrayUtils.addAll(new Object[] {"bash", fullPath.getPath()}, arguments);
 		String command = StringUtils.join(commands, " ");
 		System.out.println(command);
 
@@ -134,8 +128,7 @@ public class SinglePlayerLauncher
 		if (stdOut == null || stdErr == null) {
 			return "";
 		}
-		return "stderr: " + stdErr.getBuffer() + "\nstdout: "
-				+ stdOut.getBuffer();
+		return "stderr: " + stdErr.getBuffer() + "\nstdout: " + stdOut.getBuffer();
 	}
 
 	private boolean validatePath(File path)

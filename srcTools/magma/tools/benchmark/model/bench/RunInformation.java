@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package magma.tools.benchmark.model.bench;
 
@@ -29,8 +29,7 @@ public class RunInformation
 		this(0, -13.5, 0, 0, 0);
 	}
 
-	public RunInformation(int runID, double beamX, double beamY, double ballX,
-			double ballY)
+	public RunInformation(int runID, double beamX, double beamY, double ballX, double ballY)
 	{
 		super();
 		this.runID = runID;
@@ -64,5 +63,4 @@ public class RunInformation
 	{
 		return ballY;
 	}
-
 }

@@ -14,8 +14,8 @@ public class KeepAwayMonitorComponentFactory extends MonitorComponentFactory
 
 	private final String roboVizServer;
 
-	public KeepAwayMonitorComponentFactory(FactoryParameter parameterObject,
-			RunInformation runInfo, String roboVizServer)
+	public KeepAwayMonitorComponentFactory(
+			FactoryParameter parameterObject, RunInformation runInfo, String roboVizServer)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;
@@ -23,15 +23,12 @@ public class KeepAwayMonitorComponentFactory extends MonitorComponentFactory
 	}
 
 	@Override
-	public IReferee createReferee(IMonitorWorldModel worldModel,
-			IServerCommander serverCommander, int refereeID)
+	public IReferee createReferee(IMonitorWorldModel worldModel, IServerCommander serverCommander, int refereeID)
 	{
-		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
-				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
-				params.getTeam2Name(), "KeepAwayChallenge", false);
-		return new KeepAwayBenchmarkReferee(worldModel, serverCommander,
-				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo, roboVizServer,
-				params.getServerIP(), params.getAgentPort());
+		SinglePlayerLauncher launcher = new SinglePlayerLauncher(params.getServerIP(), params.getAgentPort(),
+				params.getTeam1Jar(), params.getTeam2Name(), "KeepAwayChallenge", false);
+		return new KeepAwayBenchmarkReferee(worldModel, serverCommander, params.getServerPid(), launcher,
+				params.getPlayersPerTeam(), params.getDropHeight(), runInfo, roboVizServer, params.getServerIP(),
+				params.getAgentPort());
 	}
 }

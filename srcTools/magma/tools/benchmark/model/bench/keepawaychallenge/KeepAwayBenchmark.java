@@ -26,8 +26,7 @@ public class KeepAwayBenchmark extends BenchmarkMain
 		float time = 0;
 		boolean valid = false;
 		if (monitor != null) {
-			KeepAwayBenchmarkReferee referee = (KeepAwayBenchmarkReferee) monitor
-					.getReferee();
+			KeepAwayBenchmarkReferee referee = (KeepAwayBenchmarkReferee) monitor.getReferee();
 			if (referee.getState() == IReferee.RefereeState.STOPPED) {
 				valid = true;
 				time = referee.getTime();
@@ -36,17 +35,14 @@ public class KeepAwayBenchmark extends BenchmarkMain
 			}
 		}
 
-		return new KeepAwayBenchmarkSingleResult(valid, false, false, statusText,
-				time);
+		return new KeepAwayBenchmarkSingleResult(valid, false, false, statusText, time);
 	}
 
 	@Override
 	protected MonitorComponentFactory createMonitorFactory(
-			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo, String roboVizServer)
+			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer)
 	{
-		return new KeepAwayMonitorComponentFactory(
-				createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
+		return new KeepAwayMonitorComponentFactory(createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
 	}
 
 	@Override

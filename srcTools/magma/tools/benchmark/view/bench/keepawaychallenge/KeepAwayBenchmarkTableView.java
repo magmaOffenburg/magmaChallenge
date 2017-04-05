@@ -18,11 +18,9 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
  */
 public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 {
-	public static KeepAwayBenchmarkTableView getInstance(IModelReadOnly model,
-			String defaultPath)
+	public static KeepAwayBenchmarkTableView getInstance(IModelReadOnly model, String defaultPath)
 	{
-		KeepAwayBenchmarkTableView view = new KeepAwayBenchmarkTableView(model,
-				defaultPath);
+		KeepAwayBenchmarkTableView view = new KeepAwayBenchmarkTableView(model, defaultPath);
 		view.createTeamTable(null);
 		model.attach(view);
 		return view;
@@ -40,20 +38,16 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		int teamid = 0;
 		String teamName;
 		do {
-			String teamPath = (String) table.getValueAt(teamid,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_PATH);
-			teamName = (String) table.getValueAt(teamid,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			float dropHeight = (Float) table.getValueAt(teamid,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
+			String teamPath = (String) table.getValueAt(teamid, KeepAwayBenchmarkTableModelExtension.COLUMN_PATH);
+			teamName = (String) table.getValueAt(teamid, KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME);
+			float dropHeight =
+					(Float) table.getValueAt(teamid, KeepAwayBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
-				TeamConfiguration config = new TeamConfiguration(teamName, teamPath,
-						dropHeight);
+				TeamConfiguration config = new TeamConfiguration(teamName, teamPath, dropHeight);
 				result.add(config);
 				teamid++;
 			}
-		} while (teamName != null && !teamName.isEmpty()
-				&& teamid < table.getRowCount());
+		} while (teamName != null && !teamName.isEmpty() && teamid < table.getRowCount());
 
 		return result;
 	}
@@ -67,11 +61,9 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 			int teamRow = getTeamRow(teamResult.getName());
 
 			float averageScore = teamResult.getAverageScore();
-			table.setValueAt(averageScore, teamRow,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_TIME);
+			table.setValueAt(averageScore, teamRow, KeepAwayBenchmarkTableModelExtension.COLUMN_TIME);
 
-			table.setValueAt("", teamRow,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_STATUS);
+			table.setValueAt("", teamRow, KeepAwayBenchmarkTableModelExtension.COLUMN_STATUS);
 		}
 
 		if (!model.isRunning()) {
@@ -82,8 +74,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 	private int getTeamRow(String name)
 	{
 		for (int i = 0; i < table.getRowCount(); i++) {
-			if (name.equals(table.getValueAt(i,
-					KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME))) {
+			if (name.equals(table.getValueAt(i, KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME))) {
 				return i;
 			}
 		}
@@ -96,8 +87,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
-		DefaultTableModel tableModel = KeepAwayBenchmarkTableModelExtension
-				.getInstance(config);
+		DefaultTableModel tableModel = KeepAwayBenchmarkTableModelExtension.getInstance(config);
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(102);
 		table.getColumnModel().getColumn(1).setPreferredWidth(56);
@@ -111,8 +101,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		table.getColumn("status").setCellRenderer(benchmarkTableCell);
 		table.getColumn("status").setCellEditor(benchmarkTableCell);
 		table.setRowHeight(30);
-		table.addMouseListener(new TableMouseListener(
-				KeepAwayBenchmarkTableModelExtension.COLUMN_STATUS,
+		table.addMouseListener(new TableMouseListener(KeepAwayBenchmarkTableModelExtension.COLUMN_STATUS,
 				KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME));
 		return table;
 	}
@@ -120,7 +109,6 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 	@Override
 	public ResultStatus getStatus(int row)
 	{
-		return getLocalStatus(row,
-				KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME);
+		return getLocalStatus(row, KeepAwayBenchmarkTableModelExtension.COLUMN_TEAMNAME);
 	}
 }

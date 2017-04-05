@@ -24,15 +24,14 @@ package magma.tools.benchmark.model.bench.kickchallenge;
 import magma.tools.benchmark.model.bench.SingleResult;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class KickBenchmarkSingleResult extends SingleResult
 {
 	private final float distance;
 
-	public KickBenchmarkSingleResult(boolean valid, boolean fallen,
-			boolean penalty, String statusText, float distance)
+	public KickBenchmarkSingleResult(boolean valid, boolean fallen, boolean penalty, String statusText, float distance)
 	{
 		super(valid, fallen, penalty, statusText);
 		this.distance = distance;

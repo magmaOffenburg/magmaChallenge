@@ -64,10 +64,10 @@ public class BenchmarkController
 
 	public static void main(String[] args)
 	{
-		StringArgument DEFAULT_PATH = new StringArgument("defaultPath",
-				"examples", "the initial path to use for file dialogs");
-		StringArgument ROBO_VIZ_SERVER = new StringArgument("roboVizServer",
-				"localhost", "which IP to connect to for RoboViz drawings");
+		StringArgument DEFAULT_PATH =
+				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
+		StringArgument ROBO_VIZ_SERVER =
+				new StringArgument("roboVizServer", "localhost", "which IP to connect to for RoboViz drawings");
 		new HelpArgument(DEFAULT_PATH, ROBO_VIZ_SERVER).parse(args);
 
 		String defaultPath = DEFAULT_PATH.parse(args);
@@ -82,10 +82,8 @@ public class BenchmarkController
 		this.defaultPath = defaultPath;
 		this.roboVizServer = roboVizServer;
 		model = new RunBenchmark(roboVizServer, true);
-		BenchmarkTableView tableView = RunBenchmarkTableView.getInstance(model,
-				defaultPath);
-		view = BenchmarkView.getInstance(model, tableView, defaultPath,
-				roboVizServer);
+		BenchmarkTableView tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
+		view = BenchmarkView.getInstance(model, tableView, defaultPath, roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
 		view.addCompetitionButtonListener(new CompetitionListener(false));
@@ -103,8 +101,7 @@ public class BenchmarkController
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			String challenge = (String) ((JComboBox<String>) event.getSource())
-					.getSelectedItem();
+			String challenge = (String) ((JComboBox<String>) event.getSource()).getSelectedItem();
 
 			BenchmarkTableView tableView = null;
 			IModelReadWrite newModel = null;
@@ -123,8 +120,7 @@ public class BenchmarkController
 				break;
 			case ChallengeConstants.KEEP_AWAY:
 				newModel = new KeepAwayBenchmark(roboVizServer);
-				tableView = KeepAwayBenchmarkTableView.getInstance(model,
-						defaultPath);
+				tableView = KeepAwayBenchmarkTableView.getInstance(model, defaultPath);
 				break;
 			default:
 			}
@@ -154,8 +150,7 @@ public class BenchmarkController
 				config.setAverageOutRuns(1);
 				config.setIsTest(true);
 			}
-			List<TeamConfiguration> teamConfigurations = view
-					.getTeamConfiguration();
+			List<TeamConfiguration> teamConfigurations = view.getTeamConfiguration();
 			view.disableEditing();
 			model.start(config, teamConfigurations);
 		}
@@ -209,10 +204,8 @@ public class BenchmarkController
 				return;
 			}
 
-			TeamConfiguration config = new TeamConfiguration("teamname",
-					folder.getAbsolutePath(), 0.4f);
-			List<TeamConfiguration> loadConfigFile = Collections
-					.singletonList(config);
+			TeamConfiguration config = new TeamConfiguration("teamname", folder.getAbsolutePath(), 0.4f);
+			List<TeamConfiguration> loadConfigFile = Collections.singletonList(config);
 			model.resetModel();
 			view.updateConfigTable(loadConfigFile);
 		}
@@ -229,10 +222,8 @@ public class BenchmarkController
 				}
 				if (!containsStartScript(folder)) {
 					int selection = JOptionPane.showConfirmDialog(view,
-							"Folder must contain a file named "
-									+ BenchmarkMain.START_SCRIPT_NAME + ". Retry?",
-							"No start script found", JOptionPane.YES_NO_OPTION,
-							JOptionPane.ERROR_MESSAGE);
+							"Folder must contain a file named " + BenchmarkMain.START_SCRIPT_NAME + ". Retry?",
+							"No start script found", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 					retry = (selection == JOptionPane.YES_OPTION);
 					folder = null;
 				}
