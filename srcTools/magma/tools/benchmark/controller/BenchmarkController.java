@@ -39,11 +39,13 @@ import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmark;
 import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmark;
+import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmark;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
 import magma.tools.benchmark.view.BenchmarkView;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 import magma.tools.benchmark.view.bench.keepawaychallenge.KeepAwayBenchmarkTableView;
 import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
+import magma.tools.benchmark.view.bench.passingchallenge.PassingBenchmarkTableView;
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 import magma.util.commandline.Argument;
 import magma.util.commandline.HelpArgument;
@@ -123,8 +125,11 @@ public class BenchmarkController
 				break;
 			case ChallengeConstants.KEEP_AWAY:
 				newModel = new KeepAwayBenchmark(roboVizServer);
-				tableView = KeepAwayBenchmarkTableView.getInstance(model,
-						defaultPath);
+				tableView = KeepAwayBenchmarkTableView.getInstance(model, defaultPath);
+				break;
+			case ChallengeConstants.PASSING:
+				newModel = new PassingBenchmark(roboVizServer);
+				tableView = PassingBenchmarkTableView.getInstance(newModel, defaultPath);
 				break;
 			default:
 			}
