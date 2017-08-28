@@ -103,15 +103,16 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private final String roboVizServer;
 
-	public static BenchmarkView getInstance(
-			IModelReadOnly model, BenchmarkTableView tableView, String defaultPath, String roboVizServer)
+	public static BenchmarkView getInstance(IModelReadOnly model, BenchmarkTableView tableView,
+			ChallengeType defaultChallenge, String defaultPath, String roboVizServer)
 	{
-		BenchmarkView view = new BenchmarkView(model, tableView, defaultPath, roboVizServer);
+		BenchmarkView view = new BenchmarkView(model, tableView, defaultChallenge, defaultPath, roboVizServer);
 		model.attach(view);
 		return view;
 	}
 
-	private BenchmarkView(IModelReadOnly model, BenchmarkTableView tableView, String defaultPath, String roboVizServer)
+	private BenchmarkView(IModelReadOnly model, BenchmarkTableView tableView, ChallengeType defaultChallenge,
+			String defaultPath, String roboVizServer)
 	{
 		this.model = model;
 		this.tableView = tableView;
@@ -136,7 +137,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		challenge = new JComboBox<>(ChallengeType.values());
-		challenge.setSelectedItem(ChallengeType.DEFAULT);
+		challenge.setSelectedItem(defaultChallenge);
 		panel.add(challenge);
 
 		JLabel lblRuntime = new JLabel("Runtime:");

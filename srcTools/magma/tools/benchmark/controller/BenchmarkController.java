@@ -22,6 +22,7 @@
 package magma.tools.benchmark.controller;
 
 import hso.autonomy.util.commandline.Argument;
+import hso.autonomy.util.commandline.EnumArgument;
 import hso.autonomy.util.commandline.HelpArgument;
 import hso.autonomy.util.commandline.StringArgument;
 import java.awt.event.ActionEvent;
@@ -56,31 +57,35 @@ public class BenchmarkController
 
 	public static void main(String[] args)
 	{
-		StringArgument DEFAULT_PATH =
-				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
+		EnumArgument<ChallengeType> CHALLENGE = new EnumArgument<>(
+				"challenge", ChallengeType.DEFAULT, "which challenge to select by default", ChallengeType.class);
 		StringArgument START_SCRIPT_FOLDER = new StringArgument(
 				"startScriptFolder", "", "directory in which startChallengePlayer.sh (and kill.sh) are located");
 		StringArgument ROBO_VIZ_SERVER =
 				new StringArgument("roboVizServer", "localhost", "which IP to connect to for RoboViz drawings");
 
-		new HelpArgument(DEFAULT_PATH, START_SCRIPT_FOLDER, ROBO_VIZ_SERVER).parse(args);
+		StringArgument DEFAULT_PATH =
+				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
 
-		String defaultPath = DEFAULT_PATH.parse(args);
+		new HelpArgument(CHALLENGE, START_SCRIPT_FOLDER, ROBO_VIZ_SERVER, DEFAULT_PATH).parse(args);
+
+		ChallengeType challenge = CHALLENGE.parse(args);
 		String startScriptFolder = START_SCRIPT_FOLDER.parse(args);
 		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
+		String defaultPath = DEFAULT_PATH.parse(args);
 		Argument.endParse(args);
 
-		new BenchmarkController(defaultPath, startScriptFolder, roboVizServer);
+		new BenchmarkController(challenge, startScriptFolder, defaultPath, roboVizServer);
 	}
 
-	public BenchmarkController(String defaultPath, String startScriptFolder, String roboVizServer)
+	public BenchmarkController(
+			ChallengeType challenge, String startScriptFolder, String roboVizServer, String defaultPath)
 	{
 		this.startScriptFolder = startScriptFolder;
 		this.roboVizServer = roboVizServer;
-		model = ChallengeType.DEFAULT.benchmarkMainConstructor.create(roboVizServer);
-		BenchmarkTableView tableView =
-				ChallengeType.DEFAULT.benchmarkTableViewConstructor.create(model, startScriptFolder);
-		view = BenchmarkView.getInstance(model, tableView, defaultPath, roboVizServer);
+		model = challenge.benchmarkMainConstructor.create(roboVizServer);
+		BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptFolder);
+		view = BenchmarkView.getInstance(model, tableView, challenge, defaultPath, roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
 		view.addCompetitionButtonListener(new CompetitionListener(false));
