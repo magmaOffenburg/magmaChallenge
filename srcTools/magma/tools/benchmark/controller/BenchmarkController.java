@@ -50,7 +50,7 @@ public class BenchmarkController
 
 	private final BenchmarkView view;
 
-	private final String startScriptPath;
+	private final String startScriptFolder;
 
 	private final String roboVizServer;
 
@@ -58,28 +58,28 @@ public class BenchmarkController
 	{
 		StringArgument DEFAULT_PATH =
 				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
-		StringArgument START_SCRIPT_PATH = new StringArgument(
-				"startScriptPath", "", "directory in which startChallengePlayer.sh and kill.sh are located");
+		StringArgument START_SCRIPT_FOLDER = new StringArgument(
+				"startScriptFolder", "", "directory in which startChallengePlayer.sh (and kill.sh) are located");
 		StringArgument ROBO_VIZ_SERVER =
 				new StringArgument("roboVizServer", "localhost", "which IP to connect to for RoboViz drawings");
 
-		new HelpArgument(DEFAULT_PATH, START_SCRIPT_PATH, ROBO_VIZ_SERVER).parse(args);
+		new HelpArgument(DEFAULT_PATH, START_SCRIPT_FOLDER, ROBO_VIZ_SERVER).parse(args);
 
 		String defaultPath = DEFAULT_PATH.parse(args);
-		String startScriptPath = START_SCRIPT_PATH.parse(args);
+		String startScriptFolder = START_SCRIPT_FOLDER.parse(args);
 		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
 		Argument.endParse(args);
 
-		new BenchmarkController(defaultPath, startScriptPath, roboVizServer);
+		new BenchmarkController(defaultPath, startScriptFolder, roboVizServer);
 	}
 
-	public BenchmarkController(String defaultPath, String startScriptPath, String roboVizServer)
+	public BenchmarkController(String defaultPath, String startScriptFolder, String roboVizServer)
 	{
-		this.startScriptPath = startScriptPath;
+		this.startScriptFolder = startScriptFolder;
 		this.roboVizServer = roboVizServer;
 		model = ChallengeType.DEFAULT.benchmarkMainConstructor.create(roboVizServer);
 		BenchmarkTableView tableView =
-				ChallengeType.DEFAULT.benchmarkTableViewConstructor.create(model, startScriptPath);
+				ChallengeType.DEFAULT.benchmarkTableViewConstructor.create(model, startScriptFolder);
 		view = BenchmarkView.getInstance(model, tableView, defaultPath, roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
@@ -103,7 +103,7 @@ public class BenchmarkController
 				return;
 			}
 
-			BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptPath);
+			BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptFolder);
 			IModelReadWrite newModel = challenge.benchmarkMainConstructor.create(roboVizServer);
 
 			model.stop();

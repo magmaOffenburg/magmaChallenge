@@ -41,16 +41,16 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
  */
 public class KickBenchmarkTableView extends BenchmarkTableView
 {
-	public static KickBenchmarkTableView getInstance(IModelReadOnly model, String startScriptPath)
+	public static KickBenchmarkTableView getInstance(IModelReadOnly model, String startScriptFolder)
 	{
-		KickBenchmarkTableView view = new KickBenchmarkTableView(model, startScriptPath);
+		KickBenchmarkTableView view = new KickBenchmarkTableView(model, startScriptFolder);
 		model.attach(view);
 		return view;
 	}
 
-	private KickBenchmarkTableView(IModelReadOnly model, String startScriptPath)
+	private KickBenchmarkTableView(IModelReadOnly model, String startScriptFolder)
 	{
-		super(model, startScriptPath);
+		super(model, startScriptFolder);
 	}
 
 	@Override

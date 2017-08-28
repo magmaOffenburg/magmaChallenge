@@ -55,6 +55,6 @@ public enum ChallengeType {
 
 	@FunctionalInterface
 	public interface BenchmarkTableViewConstructor {
-		BenchmarkTableView create(IModelReadOnly model, String startScriptPath);
+		BenchmarkTableView create(IModelReadOnly model, String startScriptFolder);
 	}
 }

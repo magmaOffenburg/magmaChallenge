@@ -58,12 +58,12 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 
 	protected final IModelReadOnly model;
 
-	private final String startScriptPath;
+	private final String startScriptFolder;
 
-	protected BenchmarkTableView(IModelReadOnly model, String startScriptPath)
+	protected BenchmarkTableView(IModelReadOnly model, String startScriptFolder)
 	{
 		this.model = model;
-		this.startScriptPath = startScriptPath;
+		this.startScriptFolder = startScriptFolder;
 		createTeamTable();
 	}
 
@@ -81,7 +81,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 
 	protected List<TeamConfiguration> getDefaultConfig()
 	{
-		return Collections.singletonList(new TeamConfiguration("magma", startScriptPath, 0.4f));
+		return Collections.singletonList(new TeamConfiguration("magma", startScriptFolder, 0.4f));
 	}
 
 	private ITeamResult getTeamEntry(String name, List<ITeamResult> teamResults)

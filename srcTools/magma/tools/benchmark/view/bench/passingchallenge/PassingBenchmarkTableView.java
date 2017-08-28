@@ -15,16 +15,16 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
 public class PassingBenchmarkTableView extends BenchmarkTableView
 {
-	public static PassingBenchmarkTableView getInstance(IModelReadOnly model, String startScriptPath)
+	public static PassingBenchmarkTableView getInstance(IModelReadOnly model, String startScriptFolder)
 	{
-		PassingBenchmarkTableView view = new PassingBenchmarkTableView(model, startScriptPath);
+		PassingBenchmarkTableView view = new PassingBenchmarkTableView(model, startScriptFolder);
 		model.attach(view);
 		return view;
 	}
 
-	private PassingBenchmarkTableView(IModelReadOnly model, String startScriptPath)
+	private PassingBenchmarkTableView(IModelReadOnly model, String startScriptFolder)
 	{
-		super(model, startScriptPath);
+		super(model, startScriptFolder);
 	}
 
 	@Override

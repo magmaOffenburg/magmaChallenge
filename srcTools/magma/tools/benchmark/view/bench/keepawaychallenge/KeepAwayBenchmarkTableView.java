@@ -18,16 +18,16 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
  */
 public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 {
-	public static KeepAwayBenchmarkTableView getInstance(IModelReadOnly model, String startScriptPath)
+	public static KeepAwayBenchmarkTableView getInstance(IModelReadOnly model, String startScriptFolder)
 	{
-		KeepAwayBenchmarkTableView view = new KeepAwayBenchmarkTableView(model, startScriptPath);
+		KeepAwayBenchmarkTableView view = new KeepAwayBenchmarkTableView(model, startScriptFolder);
 		model.attach(view);
 		return view;
 	}
 
-	private KeepAwayBenchmarkTableView(IModelReadOnly model, String startScriptPath)
+	private KeepAwayBenchmarkTableView(IModelReadOnly model, String startScriptFolder)
 	{
-		super(model, startScriptPath);
+		super(model, startScriptFolder);
 	}
 
 	@Override
