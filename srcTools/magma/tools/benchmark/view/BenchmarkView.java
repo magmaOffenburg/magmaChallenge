@@ -61,7 +61,7 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
  */
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
-	private static final String VERSION = "Version 2.5";
+	private static final String VERSION = "Version 2.6";
 
 	private final JComboBox<ChallengeType> challenge;
 

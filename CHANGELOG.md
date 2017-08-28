@@ -1,3 +1,11 @@
+Version 2.6 (to be released)
+---------------------
+- added the Passing and Scoring challenge from RoboCup 2017 ([#9](https://github.com/magmaOffenburg/magmaChallenge/pull/9))
+- added a headless mode / `startCLI.sh` ([#10](https://github.com/magmaOffenburg/magmaChallenge/issues/10))
+- added a `--startScriptFolder` argument
+- added a `--challenge` argument
+- moved `bin/startChallengeBenchmark` to `startGUI.sh`
+
 Version 2.5 (RoboCup 2016)
 ---------------------
 - added Gazebo run challenge for RoboCup 2016
@@ -17,8 +25,8 @@ Version 2.3 (RoboCup 2015)
 Version 2.2 (German Open 2015)
 ---------------------
 - only perform single run if test is selected
-- add RoboViz visualization for the penalty circle and the target position
-- Add `--roboVizServer` command line argument
+- added RoboViz visualization for the penalty circle and the target position
+- added a `--roboVizServer` argument
 - couple of GUI improvements
 - distance column shows last distance instead of average
 - added separated timeout for ball to leave circle
@@ -37,7 +45,7 @@ Version 2.0
 ---------------------
 - added kick challenge for RoboCup 2015
 
-Version 1.4 (World Cup 2014)
+Version 1.4 (RoboCup 2014)
 ---------------------
 - using client beaming instead of monitor beaming to beam and hover an agent the first 200 ms at its drop height to allow more reliable joint control (Patrick)
 - fixed a problem that multiple force resistance sensors were not properly detected (Patrick)
