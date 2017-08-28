@@ -21,8 +21,8 @@
 #*******************************************************************************
 #!/bin/bash
 ###########################################
-# Starts the magma challenge benchmark tool
-# example: sh start.sh
+# Starts the GUI version of magmaChallenge
+# example: sh startGUI.sh
 ###########################################
 
 # for Ubuntu
@@ -35,4 +35,4 @@ CLSPTH=${CLSPTH}${CLSEP}build/config
 CLSPTH=${CLSPTH}${CLSEP}lib/*
 CLSPTH=${CLSPTH}${CLSEP}config
 
-java -cp $CLSPTH -Dsun.java2d.xrender=false magma.tools.benchmark.controller.BenchmarkController $*
+java -cp $CLSPTH -Dsun.java2d.xrender=false magma.tools.benchmark.MagmaChallengeGUI $*

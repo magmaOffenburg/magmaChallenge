@@ -34,6 +34,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import magma.tools.benchmark.ChallengeType;
+import magma.tools.benchmark.UserInterface;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
@@ -55,7 +56,7 @@ public class BenchmarkController
 
 	private final String roboVizServer;
 
-	public static void main(String[] args)
+	public static void run(String[] args, UserInterface userInterface)
 	{
 		EnumArgument<ChallengeType> CHALLENGE = new EnumArgument<>(
 				"challenge", ChallengeType.DEFAULT, "which challenge to select by default", ChallengeType.class);
@@ -69,17 +70,22 @@ public class BenchmarkController
 
 		new HelpArgument(CHALLENGE, START_SCRIPT_FOLDER, ROBO_VIZ_SERVER, DEFAULT_PATH).parse(args);
 
+		if (userInterface == UserInterface.CLI) {
+			CHALLENGE.setRequired(true);
+			START_SCRIPT_FOLDER.setRequired(true);
+		}
+
 		ChallengeType challenge = CHALLENGE.parse(args);
 		String startScriptFolder = START_SCRIPT_FOLDER.parse(args);
 		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
 		String defaultPath = DEFAULT_PATH.parse(args);
 		Argument.endParse(args);
 
-		new BenchmarkController(challenge, startScriptFolder, defaultPath, roboVizServer);
+		new BenchmarkController(userInterface, challenge, startScriptFolder, defaultPath, roboVizServer);
 	}
 
-	public BenchmarkController(
-			ChallengeType challenge, String startScriptFolder, String roboVizServer, String defaultPath)
+	public BenchmarkController(UserInterface userInterface, ChallengeType challenge, String startScriptFolder,
+			String roboVizServer, String defaultPath)
 	{
 		this.startScriptFolder = startScriptFolder;
 		this.roboVizServer = roboVizServer;
@@ -87,14 +93,22 @@ public class BenchmarkController
 		BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptFolder);
 		view = BenchmarkView.getInstance(model, tableView, challenge, defaultPath, roboVizServer);
 
-		view.addChallengeListener(new ChallengeListener());
-		view.addCompetitionButtonListener(new CompetitionListener(false));
-		view.addOpenScriptButtonListener(new LoadScriptFolderListener());
-		view.addOpenButtonListener(new LoadConfigFileListener());
-		view.addTestButtonListener(new CompetitionListener(true));
-		view.addStopButtonListener(new StopListener());
-		view.addKillServerListener(new KillServerListener());
-		view.setVisible(true);
+		switch (userInterface) {
+		case CLI:
+			// using an (invisible) view in the CLI version may not be the most elegant solution...
+			model.start(view.getBenchmarkConfiguration(), view.getTeamConfiguration());
+			break;
+		case GUI:
+			view.addChallengeListener(new ChallengeListener());
+			view.addCompetitionButtonListener(new CompetitionListener(false));
+			view.addOpenScriptButtonListener(new LoadScriptFolderListener());
+			view.addOpenButtonListener(new LoadConfigFileListener());
+			view.addTestButtonListener(new CompetitionListener(true));
+			view.addStopButtonListener(new StopListener());
+			view.addKillServerListener(new KillServerListener());
+			view.setVisible(true);
+			break;
+		}
 	}
 
 	private class ChallengeListener implements ActionListener
