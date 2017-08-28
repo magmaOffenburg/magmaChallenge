@@ -25,8 +25,8 @@ import java.net.Socket;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-import magma.tools.proxy.impl.AgentProxy;
-import magma.tools.proxy.impl.SimsparkAgentProxyServer;
+import magma.tools.SAProxy.impl.AgentProxy;
+import magma.tools.SAProxy.impl.SimsparkAgentProxyServer;
 import magma.tools.benchmark.model.bench.RunInformation;
 
 /**
