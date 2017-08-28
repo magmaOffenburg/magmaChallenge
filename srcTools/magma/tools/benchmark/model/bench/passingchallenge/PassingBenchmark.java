@@ -17,6 +17,7 @@ import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmarkRefe
 public class PassingBenchmark extends BenchmarkMain
 {
 	public static final int PLAYERS = 4;
+
 	public static final int AVG_OUT_OF_BEST = 3;
 
 	private ArrayList<Float> results;

@@ -1,21 +1,25 @@
 package magma.tools.benchmark.model.bench.passingchallenge;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import magma.tools.benchmark.model.bench.SingleResult;
 
 public class PassingBenchmarkSingleResult extends SingleResult
 {
-	public ArrayList<Float> scores;
+	private List<Float> scores;
 
 	private float time;
 
 	public PassingBenchmarkSingleResult(
-			boolean valid, boolean fallen, boolean penalty, String statusText, float time, ArrayList<Float> res)
+			boolean valid, boolean fallen, boolean penalty, String statusText, float time, List<Float> scores)
 	{
 		super(valid, fallen, penalty, statusText);
 		this.time = time;
-		scores = res;
+		this.scores = scores;
+	}
+
+	public List<Float> getScores()
+	{
+		return scores;
 	}
 
 	public float getTime()

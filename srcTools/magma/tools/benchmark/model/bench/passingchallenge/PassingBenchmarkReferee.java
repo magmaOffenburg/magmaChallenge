@@ -2,6 +2,7 @@ package magma.tools.benchmark.model.bench.passingchallenge;
 
 import java.awt.Color;
 
+import java.util.ArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.common.spark.PlayMode;
@@ -21,19 +22,17 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 
 	private final RoboVizDraw roboVizDraw;
 
-	private static final double touchRadius = 0.5;
+	private static final double TOUCH_RADIUS = 0.5;
 
-	private static final double passRadius = 1.0;
+	private static final double PASSING_RADIUS = 1.0;
 
-	private static final double timeLimit = 80.0;
+	private static final double TIME_LIMIT = 80.0;
 
-	private static final double minDistX = 3.0f;
+	private static final double MIN_X_DISTANCE = 3.0f;
 
-	private static final double minBallTravelDist = 2.5;
+	private static final double MIN_BALL_TRAVEL_DISTANCE = 2.5;
 
-	// private boolean touched[] = new boolean[PassingBenchmark.PLAYERS];
-
-	private AgentState agentState[] = new AgentState[PassingBenchmark.PLAYERS];
+	private AgentState agentStates[] = new AgentState[PassingBenchmark.PLAYERS];
 
 	private enum AgentState { NEUTRAL, TOUCHED, PASSED }
 
@@ -51,8 +50,6 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int delay = 125;
 
-	// private static final double ballSpeedThreshold = 1.0;
-
 	public PassingBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, RunInformation runInfo, String roboVizServer)
 	{
@@ -63,7 +60,7 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 		goal = false;
 
 		for (int i = 0; i < PassingBenchmark.PLAYERS; i++) {
-			agentState[i] = AgentState.NEUTRAL;
+			agentStates[i] = AgentState.NEUTRAL;
 		}
 		lastAgentTouched = -1;
 	}
@@ -88,7 +85,6 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 			} else {
 				return false;
 			}
-
 		} else if (state == RefereeState.BEAMED) {
 			if (validStartingPosition()) {
 				state = RefereeState.STARTED;
@@ -105,7 +101,7 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 		} else if (state == RefereeState.STARTED) {
 			validTouch();
 			drawHasTouched();
-			if (worldModel.getTime() > timeLimit) {
+			if (worldModel.getTime() > TIME_LIMIT) {
 				serverCommander.setPlaymode(PlayMode.GAME_OVER);
 			}
 
@@ -147,34 +143,34 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 		lastBallPos = ballPos;
 		lastBallSpeed = ballSpeed;
 
-		// if(distToBall > touchRadius || ballSpeed > ballSpeedThreshold) return;
-		if (distToBall > touchRadius || ballAcc <= 0)
+		if (distToBall > TOUCH_RADIUS || ballAcc <= 0) {
 			return;
+		}
 
 		for (int i = 0; i < worldModel.getSoccerAgents().size(); i++) {
 			if (i == index)
 				continue;
-			if (worldModel.getSoccerAgents().get(i).getPosition().distance(agentPos3D) < passRadius) {
+			if (worldModel.getSoccerAgents().get(i).getPosition().distance(agentPos3D) < PASSING_RADIUS) {
 				return;
 			}
 		}
 
-		if (lastAgentTouched != -1 && lastAgentTouched != index && agentState[lastAgentTouched] == AgentState.TOUCHED) {
-			if (ballPos.distance(ballTouchedPos) > minBallTravelDist) {
-				agentState[lastAgentTouched] = AgentState.PASSED;
+		if (lastAgentTouched != -1 && lastAgentTouched != index &&
+				agentStates[lastAgentTouched] == AgentState.TOUCHED) {
+			if (ballPos.distance(ballTouchedPos) > MIN_BALL_TRAVEL_DISTANCE) {
+				agentStates[lastAgentTouched] = AgentState.PASSED;
 			} else {
-				agentState[lastAgentTouched] = AgentState.NEUTRAL;
+				agentStates[lastAgentTouched] = AgentState.NEUTRAL;
 			}
 		}
 
 		lastAgentTouched = index;
 		ballTouchedPos = ballPos;
-		if (agentState[index] == AgentState.PASSED)
+		if (agentStates[index] == AgentState.PASSED) {
 			return;
+		}
 
-		agentState[index] = AgentState.TOUCHED;
-
-		// touched[index] = true;
+		agentStates[index] = AgentState.TOUCHED;
 	}
 
 	@Override
@@ -185,29 +181,28 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 
 	public float getTime()
 	{
-		if (((nTouched() == (PassingBenchmark.PLAYERS - 1) && agentState[lastAgentTouched] == AgentState.TOUCHED &&
+		int touches = getNumberOfTouches();
+		if (((touches == (PassingBenchmark.PLAYERS - 1) && agentStates[lastAgentTouched] == AgentState.TOUCHED &&
 					goal)) ||
-				(nTouched() == (PassingBenchmark.PLAYERS))) {
+				(touches == (PassingBenchmark.PLAYERS))) {
 			return worldModel.getTime();
 		} else {
 			float score = 85.0f;
-			score -= nTouched();
+			score -= touches;
 			if (goal) {
 				score--;
 			}
 			return score;
 		}
-
-		// return 80.0f;
 	}
 
 	private boolean validStartingPosition()
 	{
-		for (int i = 0; i < worldModel.getSoccerAgents().size(); i++) {
-			for (int j = i + 1; j < worldModel.getSoccerAgents().size(); j++) {
-				double dist = Math.abs(worldModel.getSoccerAgents().get(i).getPosition().getX() -
-									   worldModel.getSoccerAgents().get(j).getPosition().getX());
-				if (dist < minDistX) {
+		ArrayList<? extends ISoccerAgent> agents = worldModel.getSoccerAgents();
+		for (int i = 0; i < agents.size(); i++) {
+			for (int j = i + 1; j < agents.size(); j++) {
+				double distance = Math.abs(agents.get(i).getPosition().getX() - agents.get(j).getPosition().getX());
+				if (distance < MIN_X_DISTANCE) {
 					return false;
 				}
 			}
@@ -215,45 +210,40 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 		return true;
 	}
 
-	private int nTouched()
+	private int getNumberOfTouches()
 	{
-		int nTouch = 0;
-		for (AgentState touch : agentState) {
+		int touches = 0;
+		for (AgentState touch : agentStates) {
 			if (touch == AgentState.PASSED)
-				nTouch++;
+				touches++;
 		}
-		return nTouch;
+		return touches;
 	}
 
 	private void drawHasTouched()
 	{
 		for (int i = 0; i < worldModel.getSoccerAgents().size(); i++) {
-			Color c = Color.RED;
+			Color color = Color.RED;
 			Vector3D pos = worldModel.getSoccerAgents().get(i).getPosition();
-			if (agentState[i] == AgentState.PASSED) {
-				c = Color.GREEN;
-			} else if (agentState[i] == AgentState.TOUCHED) {
-				c = Color.ORANGE;
+			if (agentStates[i] == AgentState.PASSED) {
+				color = Color.GREEN;
+			} else if (agentStates[i] == AgentState.TOUCHED) {
+				color = Color.ORANGE;
 			}
-			roboVizDraw.drawCircle(ROBOVIZ_GROUP + Integer.toString(i), pos, 0.5f, 2.0f, c);
+			roboVizDraw.drawCircle(ROBOVIZ_GROUP + i, pos, 0.5f, 2.0f, color);
 		}
-
-		// Vector3D balltpos = new Vector3D(ballTouchedPos.x, ballTouchedPos.y,
-		// worldModel.getBall().getPosition().getZ());
-		// roboVizDraw.drawCircle(ROBOVIZ_GROUP + "BALL", balltpos, 0.2f, 2.0f,
-		// Color.WHITE);
 	}
 
 	private int getAgentClosestToBall()
 	{
 		Vector3D ballPos = worldModel.getBall().getPosition();
-		double minDist = 1000.0;
+		double minDistance = 1000.0;
 		int index = -1;
 		for (ISoccerAgent agent : worldModel.getSoccerAgents()) {
-			double distAgentBall = agent.getPosition().distance(ballPos);
-			if (distAgentBall < minDist) {
+			double agentBallDistance = agent.getPosition().distance(ballPos);
+			if (agentBallDistance < minDistance) {
 				index = worldModel.getSoccerAgents().indexOf(agent);
-				minDist = distAgentBall;
+				minDistance = agentBallDistance;
 			}
 		}
 		return index;
