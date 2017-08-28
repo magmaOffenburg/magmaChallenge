@@ -7,8 +7,8 @@ import javax.swing.table.DefaultTableModel;
 
 import magma.tools.benchmark.model.TeamConfiguration;
 
-public class PassingBenchmarkTableModelExtension extends DefaultTableModel {
-
+public class PassingBenchmarkTableModelExtension extends DefaultTableModel
+{
 	private static final long serialVersionUID = 1L;
 
 	static final int COLUMN_TEAMNAME = 0;
@@ -27,7 +27,7 @@ public class PassingBenchmarkTableModelExtension extends DefaultTableModel {
 	private final Class<?>[] columnTypes;
 
 	private final boolean[] editableColumns;
-	
+
 	public static PassingBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 8;
@@ -51,20 +51,22 @@ public class PassingBenchmarkTableModelExtension extends DefaultTableModel {
 			i++;
 		}
 
-		String[] headers = new String[] {"team", "status", "time", "best time", "second best time", "third best time", "path", "drop height"};
-		
-		return new PassingBenchmarkTableModelExtension(content, headers);
+		String[] headers = new String[] {
+				"team", "status", "time", "best time", "second best time", "third best time", "path", "drop height"};
 
+		return new PassingBenchmarkTableModelExtension(content, headers);
 	}
-	
-	public PassingBenchmarkTableModelExtension(Object[][] data, Object[] columnNames) {
+
+	public PassingBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
+	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] {String.class, Object.class, Float.class, Float.class, Float.class, Float.class, String.class, Float.class};
+		columnTypes = new Class[] {String.class, Object.class, Float.class, Float.class, Float.class, Float.class,
+				String.class, Float.class};
 
 		editableColumns = new boolean[] {true, false, false, false, false, false, true, true};
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex)
 	{
@@ -76,5 +78,4 @@ public class PassingBenchmarkTableModelExtension extends DefaultTableModel {
 	{
 		return editableColumns[column];
 	}
-	
 }

@@ -16,8 +16,8 @@ import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmark;
 import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmarkTeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
-public class PassingBenchmarkTableView extends BenchmarkTableView{
-
+public class PassingBenchmarkTableView extends BenchmarkTableView
+{
 	public static PassingBenchmarkTableView getInstance(IModelReadOnly model, String defaultPath)
 	{
 		PassingBenchmarkTableView view = new PassingBenchmarkTableView(model, defaultPath);
@@ -25,14 +25,16 @@ public class PassingBenchmarkTableView extends BenchmarkTableView{
 		model.attach(view);
 		return view;
 	}
-	
-	private PassingBenchmarkTableView(IModelReadOnly model, String defaultPath) {
+
+	private PassingBenchmarkTableView(IModelReadOnly model, String defaultPath)
+	{
 		super(model);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void update(IModelReadOnly arg0) {
+	public void update(IModelReadOnly arg0)
+	{
 		List<ITeamResult> teamResults = model.getTeamResults();
 
 		for (ITeamResult teamResult : teamResults) {
@@ -42,11 +44,13 @@ public class PassingBenchmarkTableView extends BenchmarkTableView{
 
 			float averageScore = passResult.getAverageScore();
 			table.setValueAt(averageScore, teamRow, PassingBenchmarkTableModelExtension.COLUMN_TIME);
-			
+
 			table.setValueAt(passResult.getBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_BEST_TIME);
-			table.setValueAt(passResult.getSecondBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_2_BEST_TIME);
-			table.setValueAt(passResult.getThirdBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_3_BEST_TIME);			
-			
+			table.setValueAt(
+					passResult.getSecondBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_2_BEST_TIME);
+			table.setValueAt(
+					passResult.getThirdBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_3_BEST_TIME);
+
 			table.setValueAt("", teamRow, PassingBenchmarkTableModelExtension.COLUMN_STATUS);
 		}
 
@@ -54,7 +58,7 @@ public class PassingBenchmarkTableView extends BenchmarkTableView{
 			enableEditing();
 		}
 	}
-	
+
 	private int getTeamRow(String name)
 	{
 		for (int i = 0; i < table.getRowCount(); i++) {
@@ -66,15 +70,15 @@ public class PassingBenchmarkTableView extends BenchmarkTableView{
 	}
 
 	@Override
-	public List<TeamConfiguration> getTeamConfiguration() {
+	public List<TeamConfiguration> getTeamConfiguration()
+	{
 		List<TeamConfiguration> result = new ArrayList<>();
 		int teamid = 0;
 		String teamName;
 		do {
 			String teamPath = (String) table.getValueAt(teamid, PassingBenchmarkTableModelExtension.COLUMN_PATH);
 			teamName = (String) table.getValueAt(teamid, PassingBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			float dropHeight =
-					(Float) table.getValueAt(teamid, PassingBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
+			float dropHeight = (Float) table.getValueAt(teamid, PassingBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath, dropHeight);
 				result.add(config);
@@ -86,7 +90,8 @@ public class PassingBenchmarkTableView extends BenchmarkTableView{
 	}
 
 	@Override
-	protected JTable createTeamTable(List<TeamConfiguration> config) {
+	protected JTable createTeamTable(List<TeamConfiguration> config)
+	{
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
@@ -113,8 +118,8 @@ public class PassingBenchmarkTableView extends BenchmarkTableView{
 	}
 
 	@Override
-	public ResultStatus getStatus(int row) {
+	public ResultStatus getStatus(int row)
+	{
 		return getLocalStatus(row, PassingBenchmarkTableModelExtension.COLUMN_TEAMNAME);
 	}
-
 }

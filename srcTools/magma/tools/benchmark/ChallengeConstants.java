@@ -8,6 +8,6 @@ public interface ChallengeConstants {
 	String KICK = "Kick Challenge";
 
 	String KEEP_AWAY = "Keep Away Challenge";
-	
+
 	String PASSING = "Passing Challenge";
 }

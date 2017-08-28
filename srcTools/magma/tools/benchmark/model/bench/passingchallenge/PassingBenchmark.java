@@ -14,14 +14,15 @@ import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.TeamResult;
 import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmarkReferee;
 
-public class PassingBenchmark extends BenchmarkMain{
-	
+public class PassingBenchmark extends BenchmarkMain
+{
 	public static final int PLAYERS = 4;
 	public static final int AVG_OUT_OF_BEST = 3;
-	
+
 	private ArrayList<Float> results;
-	
-	public PassingBenchmark(String roboVizServer) {
+
+	public PassingBenchmark(String roboVizServer)
+	{
 		super(roboVizServer, false);
 		allowedPlayers = PLAYERS;
 		allowPlayerBeaming = true;
@@ -29,7 +30,8 @@ public class PassingBenchmark extends BenchmarkMain{
 	}
 
 	@Override
-	protected ISingleResult benchmarkResults() {
+	protected ISingleResult benchmarkResults()
+	{
 		float time = 0;
 		boolean valid = false;
 		if (monitor != null) {
@@ -44,14 +46,14 @@ public class PassingBenchmark extends BenchmarkMain{
 		}
 		return new PassingBenchmarkSingleResult(valid, false, false, statusText, time, results);
 	}
-	
+
 	@Override
 	protected RunInformation createRunInformation(Random rand, int runID)
 	{
 		results.clear();
 		return super.createRunInformation(rand, runID);
 	}
-	
+
 	@Override
 	public void collectResults(ITeamResult currentRunResult)
 	{
@@ -60,14 +62,16 @@ public class PassingBenchmark extends BenchmarkMain{
 	}
 
 	@Override
-	protected MonitorComponentFactory createMonitorFactory(BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo, String roboVizServer) {
-		return new PassingBenchmarkMonitorComponentFactory(createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
+	protected MonitorComponentFactory createMonitorFactory(
+			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer)
+	{
+		return new PassingBenchmarkMonitorComponentFactory(
+				createFactoryParameter(config, teamConfig), runInfo, roboVizServer);
 	}
 
 	@Override
-	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig) {
+	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
+	{
 		return new PassingBenchmarkTeamResult(currentTeamConfig.getName());
 	}
-
 }
