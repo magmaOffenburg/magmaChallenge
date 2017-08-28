@@ -138,7 +138,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		String[] items = {ChallengeConstants.RUN_GAZEBO, ChallengeConstants.PASSING, ChallengeConstants.KEEP_AWAY,
+		String[] items = {ChallengeConstants.PASSING, ChallengeConstants.RUN_GAZEBO, ChallengeConstants.KEEP_AWAY,
 				ChallengeConstants.KICK, ChallengeConstants.RUN};
 		challenge = new JComboBox<>(items);
 		panel.add(challenge);
