@@ -1,7 +1,6 @@
 package magma.tools.benchmark.model;
 
-public interface ISingleResult
-{
+public interface ISingleResult {
 	boolean isFallen();
 
 	/**

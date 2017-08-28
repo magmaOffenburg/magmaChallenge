@@ -17,9 +17,8 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 
 	private final BenchmarkAgentProxyServer proxy;
 
-	public RunBenchmarkMonitorComponentFactory(FactoryParameter parameterObject,
-			RunInformation runInfo, boolean isGazebo,
-			BenchmarkAgentProxyServer proxy)
+	public RunBenchmarkMonitorComponentFactory(
+			FactoryParameter parameterObject, RunInformation runInfo, boolean isGazebo, BenchmarkAgentProxyServer proxy)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;
@@ -29,7 +28,7 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 
 	/**
 	 * Create a Referee
-	 * 
+	 *
 	 * @param worldModel - the world model of the monitor
 	 * @param serverCommander - the command interface to send server commands
 	 * @param refereeID - 0 (default) for dummy referee, 1 for standard game
@@ -37,14 +36,11 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 	 * @return New Referee
 	 */
 	@Override
-	public IReferee createReferee(IMonitorWorldModel worldModel,
-			IServerCommander serverCommander, int refereeID)
+	public IReferee createReferee(IMonitorWorldModel worldModel, IServerCommander serverCommander, int refereeID)
 	{
-		SinglePlayerLauncher launcher = new SinglePlayerLauncher(
-				params.getServerIP(), params.getAgentPort(), params.getTeam1Jar(),
-				params.getTeam2Name(), "RunChallenge", isGazebo);
-		return new RunBenchmarkReferee(worldModel, serverCommander,
-				params.getServerPid(), launcher, params.getPlayersPerTeam(),
-				params.getDropHeight(), runInfo, isGazebo, proxy);
+		SinglePlayerLauncher launcher = new SinglePlayerLauncher(params.getServerIP(), params.getAgentPort(),
+				params.getTeam1Jar(), params.getTeam2Name(), "RunChallenge", isGazebo);
+		return new RunBenchmarkReferee(worldModel, serverCommander, params.getServerPid(), launcher,
+				params.getPlayersPerTeam(), params.getDropHeight(), runInfo, isGazebo, proxy);
 	}
 }

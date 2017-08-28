@@ -1,4 +1,7 @@
 # magmaChallenge
+
+[![Build Status](https://travis-ci.org/magmaOffenburg/magmaChallenge.png)](https://travis-ci.org/magmaOffenburg/magmaChallenge)
+
 Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wiki.robocup.org/wiki/Soccer_Simulation_League) created by the [magmaOffenburg team](http://robocup.hs-offenburg.de/).
 
 ![](screenshots/userInterface.png)
@@ -17,6 +20,8 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 - Clone the repository: `git clone https://github.com/magmaOffenburg/magmaChallenge`.
 - Make sure you have Java installed and available on your command line.
 - Make sure you have [simspark and rcssserver3d](http://simspark.sourceforge.net/wiki/index.php/Main_Page) installed and the command `rcssserver3d` is available on your command line.
+
+For contributions, please set up `clang-format` as described [here](https://github.com/hsoautonomy/formatting). 
 
 ## Preparation
 Before you can use the challenge tool, you have to create a `startChallengePlayer.sh` start script for your team that starts a single player.
@@ -38,8 +43,7 @@ Additionally, there needs to be a `kill.sh` script that kills the agent process 
 ### Start script
 
 ```bash
-cd magmaChallenge/bin
-sh startChallengeBenchmark.sh
+bash start.sh
 ```
 
 The script can be used to configure the following arguments that are passed to `BenchmarkController`:

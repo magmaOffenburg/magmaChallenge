@@ -25,7 +25,7 @@ import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class KickBenchmarkTeamResult extends TeamResult

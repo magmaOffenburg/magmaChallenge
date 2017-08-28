@@ -27,11 +27,10 @@ import java.util.List;
 import magma.util.observer.IObserver;
 
 /**
- * 
+ *
  * @author kdorer
  */
-public interface IModelReadOnly
-{
+public interface IModelReadOnly {
 	/**
 	 * @return the results per team
 	 */
@@ -39,14 +38,13 @@ public interface IModelReadOnly
 
 	boolean isRunning();
 
-	List<TeamConfiguration> loadConfigFile(File file)
-			throws InvalidConfigFileException;
+	List<TeamConfiguration> loadConfigFile(File file) throws InvalidConfigFileException;
 
 	void attach(IObserver<IModelReadOnly> observer);
 
 	/**
 	 * Removes an observer from the list of observers
-	 * 
+	 *
 	 * @param observer The observer that wants to be removed
 	 * @return true if The observer has been in the list and was removed
 	 */

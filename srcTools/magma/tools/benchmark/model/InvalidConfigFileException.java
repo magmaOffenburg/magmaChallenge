@@ -22,7 +22,7 @@
 package magma.tools.benchmark.model;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class InvalidConfigFileException extends Exception

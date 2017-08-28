@@ -31,7 +31,7 @@ import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class RunBenchmark extends BenchmarkMain
@@ -52,8 +52,7 @@ public class RunBenchmark extends BenchmarkMain
 		boolean penalty = false;
 		boolean valid = false;
 		if (monitor != null) {
-			RunBenchmarkReferee referee = (RunBenchmarkReferee) monitor
-					.getReferee();
+			RunBenchmarkReferee referee = (RunBenchmarkReferee) monitor.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgSpeed = referee.getAverageSpeed();
 				fallen = referee.isHasFallen();
@@ -61,29 +60,24 @@ public class RunBenchmark extends BenchmarkMain
 				valid = true;
 
 				if (!isGazebo) {
-					bothLegsOffGround = proxy.getBothLegsOffGround()
-							/ (referee.getRunTime() * 50f);
-					oneLegOffGround = proxy.getOneLegOffGround()
-							/ (referee.getRunTime() * 50f);
-					noLegOffGround = proxy.getNoLegOffGround()
-							/ (referee.getRunTime() * 50f);
+					bothLegsOffGround = proxy.getBothLegsOffGround() / (referee.getRunTime() * 50f);
+					oneLegOffGround = proxy.getOneLegOffGround() / (referee.getRunTime() * 50f);
+					noLegOffGround = proxy.getNoLegOffGround() / (referee.getRunTime() * 50f);
 				}
 			} else {
 				statusText += referee.getStatusText();
 			}
 		}
-		return new RunBenchmarkSingleResult(valid, avgSpeed, bothLegsOffGround,
-				oneLegOffGround, noLegOffGround, fallen, penalty, statusText);
+		return new RunBenchmarkSingleResult(
+				valid, avgSpeed, bothLegsOffGround, oneLegOffGround, noLegOffGround, fallen, penalty, statusText);
 	}
 
 	@Override
 	protected MonitorComponentFactory createMonitorFactory(
-			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo, String roboVizServer)
+			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer)
 	{
 		return new RunBenchmarkMonitorComponentFactory(
-				createFactoryParameter(config, teamConfig), runInfo, isGazebo,
-				proxy);
+				createFactoryParameter(config, teamConfig), runInfo, isGazebo, proxy);
 	}
 
 	@Override

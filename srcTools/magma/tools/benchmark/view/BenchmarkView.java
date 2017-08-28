@@ -57,7 +57,7 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
 import magma.util.observer.IObserver;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
@@ -106,17 +106,15 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private final String roboVizServer;
 
-	public static BenchmarkView getInstance(IModelReadOnly model,
-			BenchmarkTableView tableView, String defaultPath, String roboVizServer)
+	public static BenchmarkView getInstance(
+			IModelReadOnly model, BenchmarkTableView tableView, String defaultPath, String roboVizServer)
 	{
-		BenchmarkView view = new BenchmarkView(model, tableView, defaultPath,
-				roboVizServer);
+		BenchmarkView view = new BenchmarkView(model, tableView, defaultPath, roboVizServer);
 		model.attach(view);
 		return view;
 	}
 
-	private BenchmarkView(IModelReadOnly model, BenchmarkTableView tableView,
-			String defaultPath, String roboVizServer)
+	private BenchmarkView(IModelReadOnly model, BenchmarkTableView tableView, String defaultPath, String roboVizServer)
 	{
 		this.model = model;
 		this.tableView = tableView;
@@ -129,8 +127,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		setSize(1000, 200);
 		setLocationRelativeTo(null);
 		try {
-			setIconImage(ImageIO
-					.read(BenchmarkView.class.getResource("/images/magma32.png")));
+			setIconImage(ImageIO.read(BenchmarkView.class.getResource("/images/magma32.png")));
 		} catch (IOException e) {
 		}
 
@@ -218,34 +215,28 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		getContentPane().add(toolBar, BorderLayout.SOUTH);
 
 		btnOpenScript = new JButton("Open Start Script Folder...");
-		btnOpenScript.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/documentOpen_16.png")));
+		btnOpenScript.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpenScript);
 
 		btnOpen = new JButton("Open Competition...");
-		btnOpen.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/documentOpen_16.png")));
+		btnOpen.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/documentOpen_16.png")));
 		toolBar.add(btnOpen);
 
 		btnTest = new JButton("Test");
-		btnTest.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/info_16.png")));
+		btnTest.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/info_16.png")));
 		toolBar.add(btnTest);
 
 		btnCompetition = new JButton("Competition");
-		btnCompetition.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/execute_16.png")));
+		btnCompetition.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/execute_16.png")));
 		toolBar.add(btnCompetition);
 
 		btnStop = new JButton("Stop");
-		btnStop.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/processStop_16.png")));
+		btnStop.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/processStop_16.png")));
 		btnStop.setEnabled(false);
 		toolBar.add(btnStop);
 
 		btnStopServer = new JButton("Stop Server");
-		btnStopServer.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/helpAbout_16.png")));
+		btnStopServer.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/helpAbout_16.png")));
 		toolBar.add(btnStopServer);
 
 		JButton btnAbout = new JButton("About");
@@ -257,13 +248,11 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				String text = "Magma Challenge Benchmark Tool.\n\n";
 				text += "Provided by the magmaOffenburg team.\n";
 				text += VERSION;
-				JOptionPane.showMessageDialog(BenchmarkView.this, text,
-						"Magma Challenge Benchmark Tool",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(
+						BenchmarkView.this, text, "Magma Challenge Benchmark Tool", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		btnAbout.setIcon(new ImageIcon(
-				BenchmarkView.class.getResource("/images/helpContents_16.png")));
+		btnAbout.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/helpContents_16.png")));
 		toolBar.add(btnAbout);
 	}
 
@@ -324,8 +313,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int averageOutRuns = getNumber(averageRuns.getText(), 1, 200);
 		int time = getNumber(runTime.getText(), 2, 20);
 		boolean verbose = checkboxVerbose.isSelected();
-		return new BenchmarkConfiguration(sIP, sPort, pPort, tPort,
-				averageOutRuns, time, verbose, false, 123L, roboVizServer);
+		return new BenchmarkConfiguration(
+				sIP, sPort, pPort, tPort, averageOutRuns, time, verbose, false, 123L, roboVizServer);
 	}
 
 	public void disableEditing()
@@ -381,8 +370,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 				return new Dimension(600, 320);
 			}
 		};
-		JOptionPane.showMessageDialog(this, jsp, "Problem",
-				JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, jsp, "Problem", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public List<TeamConfiguration> getTeamConfiguration()
@@ -395,8 +383,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		scrollPane.setViewportView(tableView.updateConfigTable(loadConfigFile));
 	}
 
-	public void setDependencies(IModelReadWrite model2,
-			BenchmarkTableView tableView2)
+	public void setDependencies(IModelReadWrite model2, BenchmarkTableView tableView2)
 	{
 		model = model2;
 		tableView = tableView2;

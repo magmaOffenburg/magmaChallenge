@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.TeamConfiguration;
 
 /**
- * 
+ *
  * @author kdorer
  */
 class KickBenchmarkTableModelExtension extends DefaultTableModel
@@ -56,15 +56,13 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 
 	private final boolean[] editableColumns;
 
-	public static KickBenchmarkTableModelExtension getInstance(
-			List<TeamConfiguration> config)
+	public static KickBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 8;
 
 		if (config == null) {
-			TeamConfiguration singleTeam = new TeamConfiguration("magma",
-					"/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/",
-					0.4f);
+			TeamConfiguration singleTeam =
+					new TeamConfiguration("magma", "/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/", 0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -82,23 +80,20 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 			i++;
 		}
 
-		String[] headers = new String[] { "team", "status", "score", "runs",
-				"penalties", "distance", "path", "drop height" };
+		String[] headers =
+				new String[] {"team", "status", "score", "runs", "penalties", "distance", "path", "drop height"};
 
 		return new KickBenchmarkTableModelExtension(content, headers);
 	}
 
-	private KickBenchmarkTableModelExtension(Object[][] data,
-			Object[] columnNames)
+	private KickBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] { String.class, Object.class, Float.class,
-				Integer.class, Integer.class, Float.class, String.class,
-				Float.class };
+		columnTypes = new Class[] {String.class, Object.class, Float.class, Integer.class, Integer.class, Float.class,
+				String.class, Float.class};
 
-		editableColumns = new boolean[] { true, false, false, false, false, false,
-				true, true };
+		editableColumns = new boolean[] {true, false, false, false, false, false, true, true};
 	}
 
 	@Override

@@ -25,14 +25,12 @@ class KeepAwayBenchmarkTableModelExtension extends DefaultTableModel
 
 	private final boolean[] editableColumns;
 
-	public static KeepAwayBenchmarkTableModelExtension getInstance(
-			List<TeamConfiguration> config)
+	public static KeepAwayBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 5;
 
 		if (config == null) {
-			TeamConfiguration singleTeam = new TeamConfiguration("magma",
-					"/media/sf_RoboCup/Challenge", 0.4f);
+			TeamConfiguration singleTeam = new TeamConfiguration("magma", "/media/sf_RoboCup/Challenge", 0.4f);
 			config = Collections.singletonList(singleTeam);
 		}
 
@@ -47,21 +45,18 @@ class KeepAwayBenchmarkTableModelExtension extends DefaultTableModel
 			i++;
 		}
 
-		String[] headers = new String[] { "team", "status", "time", "path",
-				"drop height" };
+		String[] headers = new String[] {"team", "status", "time", "path", "drop height"};
 
 		return new KeepAwayBenchmarkTableModelExtension(content, headers);
 	}
 
-	private KeepAwayBenchmarkTableModelExtension(Object[][] data,
-			Object[] columnNames)
+	private KeepAwayBenchmarkTableModelExtension(Object[][] data, Object[] columnNames)
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] { String.class, Object.class, Float.class,
-				String.class, Float.class };
+		columnTypes = new Class[] {String.class, Object.class, Float.class, String.class, Float.class};
 
-		editableColumns = new boolean[] { true, false, false, true, true };
+		editableColumns = new boolean[] {true, false, false, true, true};
 	}
 
 	@Override

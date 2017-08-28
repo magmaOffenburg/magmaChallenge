@@ -33,7 +33,7 @@ import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
- * 
+ *
  * @author kdorer
  */
 public class KickBenchmark extends BenchmarkMain
@@ -63,8 +63,7 @@ public class KickBenchmark extends BenchmarkMain
 		boolean penalty = false;
 		boolean valid = false;
 		if (monitor != null) {
-			KickBenchmarkReferee referee = (KickBenchmarkReferee) monitor
-					.getReferee();
+			KickBenchmarkReferee referee = (KickBenchmarkReferee) monitor.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
 				avgScore = (float) referee.getDistanceError();
 				fallen = referee.isHasFallen();
@@ -74,14 +73,12 @@ public class KickBenchmark extends BenchmarkMain
 				statusText += referee.getStatusText();
 			}
 		}
-		return new KickBenchmarkSingleResult(valid, fallen, penalty, statusText,
-				avgScore);
+		return new KickBenchmarkSingleResult(valid, fallen, penalty, statusText, avgScore);
 	}
 
 	@Override
 	protected MonitorComponentFactory createMonitorFactory(
-			BenchmarkConfiguration config, TeamConfiguration teamConfig,
-			RunInformation runInfo, String roboVizServer)
+			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer)
 	{
 		return new KickBenchmarkMonitorComponentFactory(
 				createFactoryParameter(config, teamConfig), runInfo, roboVizServer);

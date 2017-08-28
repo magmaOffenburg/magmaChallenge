@@ -37,8 +37,7 @@ public class SingleResult implements ISingleResult
 
 	private final String statusText;
 
-	public SingleResult(boolean valid, boolean fallen, boolean penalty,
-			String statusText)
+	public SingleResult(boolean valid, boolean fallen, boolean penalty, String statusText)
 	{
 		this.valid = valid;
 		this.fallen = fallen;

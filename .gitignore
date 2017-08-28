@@ -19,3 +19,8 @@ hs_err_pid*
 test.xml
 /doc/
 *.log
+
+#clang-format
+.clang-format
+*.TMP
+*.java-*
