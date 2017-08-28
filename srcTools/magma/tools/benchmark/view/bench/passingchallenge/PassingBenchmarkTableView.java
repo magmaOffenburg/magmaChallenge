@@ -29,7 +29,6 @@ public class PassingBenchmarkTableView extends BenchmarkTableView
 	private PassingBenchmarkTableView(IModelReadOnly model, String defaultPath)
 	{
 		super(model);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -38,7 +37,6 @@ public class PassingBenchmarkTableView extends BenchmarkTableView
 		List<ITeamResult> teamResults = model.getTeamResults();
 
 		for (ITeamResult teamResult : teamResults) {
-			//((PassingBenchmark) model).collectResults(teamResult);
 			PassingBenchmarkTeamResult passResult = (PassingBenchmarkTeamResult) teamResult;
 			int teamRow = getTeamRow(passResult.getName());
 

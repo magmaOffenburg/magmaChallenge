@@ -5,6 +5,7 @@ import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee;
 import magma.monitor.worldmodel.IMonitorWorldModel;
+import magma.tools.benchmark.ChallengeType;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 
@@ -35,7 +36,7 @@ public class KickBenchmarkMonitorComponentFactory extends MonitorComponentFactor
 	public IReferee createReferee(IMonitorWorldModel worldModel, IServerCommander serverCommander, int refereeID)
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(params.getServerIP(), params.getAgentPort(),
-				params.getTeam1Jar(), params.getTeam2Name(), "KickChallenge", false);
+				params.getTeam1Jar(), params.getTeam2Name(), ChallengeType.KICK.startScriptArgument, false);
 		return new KickBenchmarkReferee(worldModel, serverCommander, params.getServerPid(), launcher,
 				params.getDropHeight(), runInfo, roboVizServer);
 	}

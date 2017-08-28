@@ -23,7 +23,6 @@ package magma.tools.benchmark.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -48,7 +47,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import magma.tools.benchmark.ChallengeConstants;
+import magma.tools.benchmark.ChallengeType;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.IModelReadWrite;
@@ -66,7 +65,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private static final long serialVersionUID = 1L;
 
-	private final JComboBox<String> challenge;
+	private final JComboBox<ChallengeType> challenge;
 
 	private final JTextField runTime;
 
@@ -138,9 +137,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		String[] items = {ChallengeConstants.PASSING, ChallengeConstants.RUN_GAZEBO, ChallengeConstants.KEEP_AWAY,
-				ChallengeConstants.KICK, ChallengeConstants.RUN};
-		challenge = new JComboBox<>(items);
+		challenge = new JComboBox<>(ChallengeType.values());
+		challenge.setSelectedItem(ChallengeType.DEFAULT);
 		panel.add(challenge);
 
 		JLabel lblRuntime = new JLabel("Runtime:");
@@ -240,17 +238,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		toolBar.add(btnStopServer);
 
 		JButton btnAbout = new JButton("About");
-		btnAbout.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				String text = "Magma Challenge Benchmark Tool.\n\n";
-				text += "Provided by the magmaOffenburg team.\n";
-				text += VERSION;
-				JOptionPane.showMessageDialog(
-						BenchmarkView.this, text, "Magma Challenge Benchmark Tool", JOptionPane.INFORMATION_MESSAGE);
-			}
+		btnAbout.addActionListener(e -> {
+			String text = "Magma Challenge Benchmark Tool.\n\n";
+			text += "Provided by the magmaOffenburg team.\n";
+			text += VERSION;
+			JOptionPane.showMessageDialog(
+					BenchmarkView.this, text, "Magma Challenge Benchmark Tool", JOptionPane.INFORMATION_MESSAGE);
 		});
 		btnAbout.setIcon(new ImageIcon(BenchmarkView.class.getResource("/images/helpContents_16.png")));
 		toolBar.add(btnAbout);

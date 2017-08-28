@@ -3,6 +3,7 @@ package magma.tools.benchmark.model.bench.keepawaychallenge;
 import java.awt.Color;
 import java.nio.file.Paths;
 
+import magma.tools.benchmark.ChallengeType;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.common.challenge.KeepAwayArea;
@@ -42,7 +43,7 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 		opponentLauncher =
 				new SinglePlayerLauncher(serverIP, agentPort, Paths.get("config/keepaway").toAbsolutePath().toString(),
-						"startOpponent.sh", "KeepAwayChallenge", false);
+						"startOpponent.sh", ChallengeType.KEEP_AWAY.startScriptArgument, false);
 	}
 
 	@Override

@@ -26,27 +26,18 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
-import magma.tools.benchmark.ChallengeConstants;
+import magma.tools.benchmark.ChallengeType;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
-import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmark;
-import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmark;
 import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmark;
-import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
 import magma.tools.benchmark.view.BenchmarkView;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
-import magma.tools.benchmark.view.bench.keepawaychallenge.KeepAwayBenchmarkTableView;
-import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
-import magma.tools.benchmark.view.bench.passingchallenge.PassingBenchmarkTableView;
-import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 import magma.util.commandline.Argument;
 import magma.util.commandline.HelpArgument;
 import magma.util.commandline.StringArgument;
@@ -83,8 +74,8 @@ public class BenchmarkController
 	{
 		this.defaultPath = defaultPath;
 		this.roboVizServer = roboVizServer;
-		model = new PassingBenchmark(roboVizServer);
-		BenchmarkTableView tableView = PassingBenchmarkTableView.getInstance(model, defaultPath);
+		model = ChallengeType.DEFAULT.benchmarkMainConstructor.create(roboVizServer);
+		BenchmarkTableView tableView = ChallengeType.DEFAULT.benchmarkTableViewConstructor.create(model, defaultPath);
 		view = BenchmarkView.getInstance(model, tableView, defaultPath, roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
@@ -103,33 +94,13 @@ public class BenchmarkController
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			String challenge = (String) ((JComboBox<String>) event.getSource()).getSelectedItem();
-
-			BenchmarkTableView tableView = null;
-			IModelReadWrite newModel = null;
-			switch (challenge) {
-			case ChallengeConstants.RUN:
-				newModel = new RunBenchmark(roboVizServer, false);
-				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
-				break;
-			case ChallengeConstants.RUN_GAZEBO:
-				newModel = new RunBenchmark(roboVizServer, true);
-				tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
-				break;
-			case ChallengeConstants.KICK:
-				newModel = new KickBenchmark(roboVizServer);
-				tableView = KickBenchmarkTableView.getInstance(model, defaultPath);
-				break;
-			case ChallengeConstants.KEEP_AWAY:
-				newModel = new KeepAwayBenchmark(roboVizServer);
-				tableView = KeepAwayBenchmarkTableView.getInstance(model, defaultPath);
-				break;
-			case ChallengeConstants.PASSING:
-				newModel = new PassingBenchmark(roboVizServer);
-				tableView = PassingBenchmarkTableView.getInstance(newModel, defaultPath);
-				break;
-			default:
+			ChallengeType challenge = (ChallengeType) ((JComboBox<ChallengeType>) event.getSource()).getSelectedItem();
+			if (challenge == null) {
+				return;
 			}
+
+			BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, defaultPath);
+			IModelReadWrite newModel = challenge.benchmarkMainConstructor.create(roboVizServer);
 
 			model.stop();
 			model = newModel;
