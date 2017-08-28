@@ -13,8 +13,11 @@ hs_err_pid*
 /build/
 
 #Intelij
-/.idea
-*.iml
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/watcherTasks.xml
+.idea/dictionaries
+
 /buildDefault
 test.xml
 /doc/
