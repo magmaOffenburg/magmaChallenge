@@ -11,4 +11,4 @@ Please include the following in bug reports:
 
 ## Contributing code
 
-The repository includes an Eclipse source formatter file ([`RobocupSourceFormatter.xml`](https://github.com/klausdorer/magmaChallenge/blob/dev/RobocupSourceFormatter.xml)), be sure to use it to format your code. Eclipse's "Organize Imports" feature should also be used. Both of these can be configured to run each time a source file is saved.
+Code is auto-formatted using clang-format. The configuration and setup instructions for different IDEs can be found [here](https://github.com/hsoautonomy/formatting).
