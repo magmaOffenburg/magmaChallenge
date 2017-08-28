@@ -13,18 +13,15 @@ import magma.tools.benchmark.view.bench.passingchallenge.PassingBenchmarkTableVi
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 
 public enum ChallengeType {
-	RUN("Run Challenge", "RunChallenge",
-			roboVizServer -> new RunBenchmark(roboVizServer, false), RunBenchmarkTableView::getInstance),
+	RUN("Run", server -> new RunBenchmark(server, false), RunBenchmarkTableView::getInstance),
 
-	RUN_GAZEBO("Run Challenge (Gazebo)", "RunChallenge",
-			roboVizServer -> new RunBenchmark(roboVizServer, true), RunBenchmarkTableView::getInstance),
+	KICK("Kick", KickBenchmark::new, KickBenchmarkTableView::getInstance),
 
-	KICK("Kick Challenge", "KickChallenge", KickBenchmark::new, KickBenchmarkTableView::getInstance),
+	KEEP_AWAY("Keep Away", KeepAwayBenchmark::new, KeepAwayBenchmarkTableView::getInstance),
 
-	KEEP_AWAY("Keep Away Challenge", "KeepAwayChallenge", KeepAwayBenchmark::new,
-			KeepAwayBenchmarkTableView::getInstance),
+	GAZEBO_RUN("Gazebo Run", server -> new RunBenchmark(server, true), RunBenchmarkTableView::getInstance),
 
-	PASSING("Passing Challenge", "PassingChallenge", PassingBenchmark::new, PassingBenchmarkTableView::getInstance);
+	PASSING("Passing", PassingBenchmark::new, PassingBenchmarkTableView::getInstance);
 
 	public static final ChallengeType DEFAULT = PASSING;
 
@@ -36,11 +33,11 @@ public enum ChallengeType {
 
 	public final BenchmarkTableViewConstructor benchmarkTableViewConstructor;
 
-	ChallengeType(String name, String startScriptArgument, BenchmarkMainConstructor benchmarkMainConstructor,
+	ChallengeType(String name, BenchmarkMainConstructor benchmarkMainConstructor,
 			BenchmarkTableViewConstructor benchmarkTableViewConstructor)
 	{
-		this.name = name;
-		this.startScriptArgument = startScriptArgument;
+		this.name = name + " Challenge";
+		startScriptArgument = this.name.replace(" ", "");
 		this.benchmarkMainConstructor = benchmarkMainConstructor;
 		this.benchmarkTableViewConstructor = benchmarkTableViewConstructor;
 	}
