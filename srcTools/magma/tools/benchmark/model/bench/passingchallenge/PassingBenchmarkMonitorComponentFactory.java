@@ -26,7 +26,7 @@ public class PassingBenchmarkMonitorComponentFactory extends MonitorComponentFac
 	public IReferee createReferee(IMonitorWorldModel worldModel, IServerCommander serverCommander, int refereeID)
 	{
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(params.getServerIP(), params.getAgentPort(),
-				params.getTeam1Jar(), params.getTeam2Name(), "Passing Challenge", false);
+				params.getTeam1Jar(), params.getTeam2Name(), "PassingChallenge", false);
 		return new PassingBenchmarkReferee(worldModel, serverCommander, params.getServerPid(), launcher,
 				params.getDropHeight(), runInfo, roboVizServer);
 	}
