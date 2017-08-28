@@ -4,8 +4,6 @@ import java.awt.Color;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-import com.sun.javafx.geom.Vec2d;
-
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
@@ -15,6 +13,7 @@ import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 import magma.util.roboviz.RoboVizDraw;
 import magma.util.roboviz.RoboVizParameters;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 {
@@ -40,11 +39,14 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 
 	private boolean goal;
 
-	private Vec2d ballTouchedPos;
-	private Vec2d lastBallPos;
+	private Vector2D ballTouchedPos;
+
+	private Vector2D lastBallPos;
+
 	private double lastTime;
 
 	private double lastBallSpeed;
+
 	private int lastAgentTouched;
 
 	private int delay = 125;
@@ -92,7 +94,7 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 				state = RefereeState.STARTED;
 
 				Vector3D ballPos3D = worldModel.getBall().getPosition();
-				lastBallPos = new Vec2d(ballPos3D.getX(), ballPos3D.getY());
+				lastBallPos = new Vector2D(ballPos3D.getX(), ballPos3D.getY());
 				ballTouchedPos = lastBallPos;
 				lastTime = worldModel.getTime();
 				lastBallSpeed = 0.0;
@@ -133,8 +135,8 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 		Vector3D agentPos3D = worldModel.getSoccerAgents().get(index).getPosition();
 		Vector3D ballPos3D = worldModel.getBall().getPosition();
 
-		Vec2d agentPos = new Vec2d(agentPos3D.getX(), agentPos3D.getY());
-		Vec2d ballPos = new Vec2d(ballPos3D.getX(), ballPos3D.getY());
+		Vector2D agentPos = new Vector2D(agentPos3D.getX(), agentPos3D.getY());
+		Vector2D ballPos = new Vector2D(ballPos3D.getX(), ballPos3D.getY());
 
 		double distToBall = lastBallPos.distance(agentPos);
 		double deltaTime = worldModel.getTime() - lastTime;
