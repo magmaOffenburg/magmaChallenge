@@ -27,9 +27,23 @@ package magma.tools.benchmark.model;
  */
 public class BenchmarkConfiguration
 {
+	public static final String DEFAULT_SERVER_IP = "localhost";
+
+	public static final int DEFAULT_SERVER_PORT = 3100;
+
+	public static final int DEFAULT_PROXY_PORT = 3110;
+
+	public static final int DEFAULT_TRAINER_PORT = 3200;
+
+	public static final int DEFAULT_AVERAGE_OUT_RUNS = 1;
+
+	public static final int DEFAULT_RUNTIME = 20;
+
+	public static final boolean DEFAULT_VERBOSE = false;
+
 	private final String serverIP;
 
-	private final int agentPort;
+	private final int proxyPort;
 
 	private final int trainerPort;
 
@@ -47,15 +61,21 @@ public class BenchmarkConfiguration
 
 	private final String roboVizServer;
 
+	public BenchmarkConfiguration(String roboVizServer)
+	{
+		this(DEFAULT_SERVER_IP, DEFAULT_SERVER_PORT, DEFAULT_PROXY_PORT, DEFAULT_TRAINER_PORT, DEFAULT_AVERAGE_OUT_RUNS,
+				DEFAULT_RUNTIME, DEFAULT_VERBOSE, false, 123L, roboVizServer);
+	}
+
 	/**
 	 * @param runtime time to run in seconds
 	 */
-	public BenchmarkConfiguration(String serverIP, int serverPort, int agentPort, int trainerPort, int averageOutRuns,
+	public BenchmarkConfiguration(String serverIP, int serverPort, int proxyPort, int trainerPort, int averageOutRuns,
 			int runtime, boolean verbose, boolean isTest, long randomSeed, String roboVizServer)
 	{
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;
-		this.agentPort = agentPort;
+		this.proxyPort = proxyPort;
 		this.trainerPort = trainerPort;
 		this.averageOutRuns = averageOutRuns;
 		this.runtime = runtime;
@@ -70,9 +90,9 @@ public class BenchmarkConfiguration
 		return serverIP;
 	}
 
-	public int getAgentPort()
+	public int getProxyPort()
 	{
-		return agentPort;
+		return proxyPort;
 	}
 
 	public int getTrainerPort()

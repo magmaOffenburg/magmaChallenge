@@ -166,7 +166,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 	{
 		// start proxy to get force information
 		SimsparkAgentProxyServerParameter parameterObject = new SimsparkAgentProxyServerParameter(
-				config.getAgentPort(), config.getServerIP(), config.getServerPort(), config.isVerbose());
+				config.getProxyPort(), config.getServerIP(), config.getServerPort(), config.isVerbose());
 		proxy = new BenchmarkAgentProxyServer(parameterObject, allowedPlayers, allowPlayerBeaming, isGazebo);
 		proxy.start();
 		try {
@@ -211,7 +211,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 	protected BenchmarkFactoryParameters createFactoryParameter(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig)
 	{
-		return new BenchmarkFactoryParameters(config.getServerIP(), config.getAgentPort(), teamConfig.getName(),
+		return new BenchmarkFactoryParameters(config.getServerIP(), config.getProxyPort(), teamConfig.getName(),
 				teamConfig.getPath(), START_SCRIPT_NAME, config.getRuntime(), teamConfig.getDropHeight());
 	}
 

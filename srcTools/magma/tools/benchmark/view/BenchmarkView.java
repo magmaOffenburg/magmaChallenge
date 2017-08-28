@@ -152,7 +152,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 			}
 		});
 		runTime.setHorizontalAlignment(SwingConstants.RIGHT);
-		runTime.setText("20");
+		runTime.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_RUNTIME));
 		panel.add(runTime);
 		runTime.setColumns(4);
 
@@ -169,7 +169,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		});
 		averageRuns.setEnabled(true);
 		averageRuns.setEditable(true);
-		averageRuns.setText("1");
+		averageRuns.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_AVERAGE_OUT_RUNS));
 		panel.add(averageRuns);
 		averageRuns.setColumns(4);
 
@@ -177,7 +177,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		// panel.add(lblServer);
 
 		serverIP = new JTextField();
-		serverIP.setText("127.0.0.1");
+		serverIP.setText(BenchmarkConfiguration.DEFAULT_SERVER_IP);
 		// panel.add(serverIP);
 		// serverIP.setColumns(8);
 
@@ -185,7 +185,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(lblServerPort);
 
 		serverPort = new JTextField();
-		serverPort.setText("3100");
+		serverPort.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_SERVER_PORT));
 		panel.add(serverPort);
 		serverPort.setColumns(5);
 
@@ -193,7 +193,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(lblProxyPort);
 
 		proxyPort = new JTextField();
-		proxyPort.setText("3110");
+		proxyPort.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_PROXY_PORT));
 		panel.add(proxyPort);
 		proxyPort.setColumns(5);
 
@@ -201,11 +201,12 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(lblTrainerPort);
 
 		trainerPort = new JTextField();
-		trainerPort.setText("3200");
+		trainerPort.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_TRAINER_PORT));
 		panel.add(trainerPort);
 		trainerPort.setColumns(5);
 
 		checkboxVerbose = new JCheckBox("Verbose");
+		checkboxVerbose.setSelected(BenchmarkConfiguration.DEFAULT_VERBOSE);
 		panel.add(checkboxVerbose);
 
 		JToolBar toolBar = new JToolBar();
@@ -298,15 +299,15 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	public BenchmarkConfiguration getBenchmarkConfiguration()
 	{
-		String sIP = serverIP.getText();
-		int sPort = getNumber(serverPort.getText(), 1, 65536);
-		int pPort = getNumber(proxyPort.getText(), 1, 65536);
-		int tPort = getNumber(trainerPort.getText(), 1, 65536);
+		String serverIP = this.serverIP.getText();
+		int serverPort = getNumber(this.serverPort.getText(), 1, 65536);
+		int proxyPort = getNumber(this.proxyPort.getText(), 1, 65536);
+		int trainerPort = getNumber(this.trainerPort.getText(), 1, 65536);
 		int averageOutRuns = getNumber(averageRuns.getText(), 1, 200);
 		int time = getNumber(runTime.getText(), 2, 20);
 		boolean verbose = checkboxVerbose.isSelected();
-		return new BenchmarkConfiguration(
-				sIP, sPort, pPort, tPort, averageOutRuns, time, verbose, false, 123L, roboVizServer);
+		return new BenchmarkConfiguration(serverIP, serverPort, proxyPort, trainerPort, averageOutRuns, time, verbose,
+				false, 123L, roboVizServer);
 	}
 
 	public void disableEditing()

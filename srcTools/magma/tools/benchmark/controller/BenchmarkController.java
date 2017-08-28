@@ -50,7 +50,7 @@ public class BenchmarkController
 {
 	private IModelReadWrite model;
 
-	private final BenchmarkView view;
+	private BenchmarkView view;
 
 	private final String startScriptFolder;
 
@@ -58,8 +58,8 @@ public class BenchmarkController
 
 	public static void run(String[] args, UserInterface userInterface)
 	{
-		EnumArgument<ChallengeType> CHALLENGE = new EnumArgument<>(
-				"challenge", ChallengeType.DEFAULT, "which challenge to select by default", ChallengeType.class);
+		EnumArgument<ChallengeType> CHALLENGE = new EnumArgument<>("challenge", ChallengeType.DEFAULT,
+				"which challenge to run (CLI version) or to select by default (GUI version)", ChallengeType.class);
 		StringArgument START_SCRIPT_FOLDER = new StringArgument(
 				"startScriptFolder", "", "directory in which startChallengePlayer.sh (and kill.sh) are located");
 		StringArgument ROBO_VIZ_SERVER =
@@ -90,15 +90,15 @@ public class BenchmarkController
 		this.startScriptFolder = startScriptFolder;
 		this.roboVizServer = roboVizServer;
 		model = challenge.benchmarkMainConstructor.create(roboVizServer);
-		BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptFolder);
-		view = BenchmarkView.getInstance(model, tableView, challenge, defaultPath, roboVizServer);
 
 		switch (userInterface) {
 		case CLI:
-			// using an (invisible) view in the CLI version may not be the most elegant solution...
-			model.start(view.getBenchmarkConfiguration(), view.getTeamConfiguration());
+			model.start(new BenchmarkConfiguration(roboVizServer),
+					Collections.singletonList(new TeamConfiguration("magma", startScriptFolder, 0.4f)));
 			break;
 		case GUI:
+			BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptFolder);
+			view = BenchmarkView.getInstance(model, tableView, challenge, defaultPath, roboVizServer);
 			view.addChallengeListener(new ChallengeListener());
 			view.addCompetitionButtonListener(new CompetitionListener(false));
 			view.addOpenScriptButtonListener(new LoadScriptFolderListener());
