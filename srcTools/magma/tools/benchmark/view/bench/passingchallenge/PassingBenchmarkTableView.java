@@ -10,25 +10,21 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmark;
-import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmarkTeamResult;
-import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmark;
 import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmarkTeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
 public class PassingBenchmarkTableView extends BenchmarkTableView
 {
-	public static PassingBenchmarkTableView getInstance(IModelReadOnly model, String defaultPath)
+	public static PassingBenchmarkTableView getInstance(IModelReadOnly model, String startScriptPath)
 	{
-		PassingBenchmarkTableView view = new PassingBenchmarkTableView(model, defaultPath);
-		view.createTeamTable(null);
+		PassingBenchmarkTableView view = new PassingBenchmarkTableView(model, startScriptPath);
 		model.attach(view);
 		return view;
 	}
 
-	private PassingBenchmarkTableView(IModelReadOnly model, String defaultPath)
+	private PassingBenchmarkTableView(IModelReadOnly model, String startScriptPath)
 	{
-		super(model);
+		super(model, startScriptPath);
 	}
 
 	@Override

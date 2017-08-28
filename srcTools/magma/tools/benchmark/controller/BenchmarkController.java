@@ -35,7 +35,6 @@ import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
-import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmark;
 import magma.tools.benchmark.view.BenchmarkView;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 import magma.util.commandline.Argument;
@@ -51,7 +50,7 @@ public class BenchmarkController
 
 	private final BenchmarkView view;
 
-	private final String defaultPath;
+	private final String startScriptPath;
 
 	private final String roboVizServer;
 
@@ -59,23 +58,28 @@ public class BenchmarkController
 	{
 		StringArgument DEFAULT_PATH =
 				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
+		StringArgument START_SCRIPT_PATH = new StringArgument(
+				"startScriptPath", "", "directory in which startChallengePlayer.sh and kill.sh are located");
 		StringArgument ROBO_VIZ_SERVER =
 				new StringArgument("roboVizServer", "localhost", "which IP to connect to for RoboViz drawings");
-		new HelpArgument(DEFAULT_PATH, ROBO_VIZ_SERVER).parse(args);
+
+		new HelpArgument(DEFAULT_PATH, START_SCRIPT_PATH, ROBO_VIZ_SERVER).parse(args);
 
 		String defaultPath = DEFAULT_PATH.parse(args);
+		String startScriptPath = START_SCRIPT_PATH.parse(args);
 		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
 		Argument.endParse(args);
 
-		new BenchmarkController(defaultPath, roboVizServer);
+		new BenchmarkController(defaultPath, startScriptPath, roboVizServer);
 	}
 
-	public BenchmarkController(String defaultPath, String roboVizServer)
+	public BenchmarkController(String defaultPath, String startScriptPath, String roboVizServer)
 	{
-		this.defaultPath = defaultPath;
+		this.startScriptPath = startScriptPath;
 		this.roboVizServer = roboVizServer;
 		model = ChallengeType.DEFAULT.benchmarkMainConstructor.create(roboVizServer);
-		BenchmarkTableView tableView = ChallengeType.DEFAULT.benchmarkTableViewConstructor.create(model, defaultPath);
+		BenchmarkTableView tableView =
+				ChallengeType.DEFAULT.benchmarkTableViewConstructor.create(model, startScriptPath);
 		view = BenchmarkView.getInstance(model, tableView, defaultPath, roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
@@ -99,7 +103,7 @@ public class BenchmarkController
 				return;
 			}
 
-			BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, defaultPath);
+			BenchmarkTableView tableView = challenge.benchmarkTableViewConstructor.create(model, startScriptPath);
 			IModelReadWrite newModel = challenge.benchmarkMainConstructor.create(roboVizServer);
 
 			model.stop();

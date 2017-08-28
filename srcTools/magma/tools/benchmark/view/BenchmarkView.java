@@ -63,8 +63,6 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
 	private static final String VERSION = "Version 2.5";
 
-	private static final long serialVersionUID = 1L;
-
 	private final JComboBox<ChallengeType> challenge;
 
 	private final JTextField runTime;

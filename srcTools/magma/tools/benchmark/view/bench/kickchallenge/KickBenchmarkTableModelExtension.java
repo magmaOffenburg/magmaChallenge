@@ -21,11 +21,8 @@
 
 package magma.tools.benchmark.view.bench.kickchallenge;
 
-import java.util.Collections;
 import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
-
 import magma.tools.benchmark.model.TeamConfiguration;
 
 /**
@@ -34,8 +31,6 @@ import magma.tools.benchmark.model.TeamConfiguration;
  */
 class KickBenchmarkTableModelExtension extends DefaultTableModel
 {
-	private static final long serialVersionUID = 1L;
-
 	static final int COLUMN_TEAMNAME = 0;
 
 	static final int COLUMN_STATUS = 1;
@@ -59,12 +54,6 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 	public static KickBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 8;
-
-		if (config == null) {
-			TeamConfiguration singleTeam =
-					new TeamConfiguration("magma", "/host/Data/Projekte/RoboCup/Konfigurationen/runChallenge/", 0.4f);
-			config = Collections.singletonList(singleTeam);
-		}
 
 		Object[][] content = new Object[config.size()][COLUMNS];
 		int i = 0;

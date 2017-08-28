@@ -1,16 +1,11 @@
 package magma.tools.benchmark.view.bench.passingchallenge;
 
-import java.util.Collections;
 import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
-
 import magma.tools.benchmark.model.TeamConfiguration;
 
 public class PassingBenchmarkTableModelExtension extends DefaultTableModel
 {
-	private static final long serialVersionUID = 1L;
-
 	static final int COLUMN_TEAMNAME = 0;
 
 	static final int COLUMN_STATUS = 1;
@@ -31,11 +26,6 @@ public class PassingBenchmarkTableModelExtension extends DefaultTableModel
 	public static PassingBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
 		final int COLUMNS = 8;
-
-		if (config == null) {
-			TeamConfiguration singleTeam = new TeamConfiguration("magma", "/media/sf_RoboCup/Challenge", 0.4f);
-			config = Collections.singletonList(singleTeam);
-		}
 
 		Object[][] content = new Object[config.size()][COLUMNS];
 		int i = 0;

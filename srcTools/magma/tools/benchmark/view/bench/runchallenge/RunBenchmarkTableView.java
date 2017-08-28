@@ -22,6 +22,7 @@
 package magma.tools.benchmark.view.bench.runchallenge;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -40,17 +41,16 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
  */
 public class RunBenchmarkTableView extends BenchmarkTableView
 {
-	public static RunBenchmarkTableView getInstance(IModelReadOnly model, String defaultPath)
+	public static RunBenchmarkTableView getInstance(IModelReadOnly model, String startScriptPath)
 	{
-		RunBenchmarkTableView view = new RunBenchmarkTableView(model, defaultPath);
-		view.createTeamTable(null);
+		RunBenchmarkTableView view = new RunBenchmarkTableView(model, startScriptPath);
 		model.attach(view);
 		return view;
 	}
 
-	private RunBenchmarkTableView(IModelReadOnly model, String defaultPath)
+	private RunBenchmarkTableView(IModelReadOnly model, String startScriptPath)
 	{
-		super(model);
+		super(model, startScriptPath);
 	}
 
 	@Override

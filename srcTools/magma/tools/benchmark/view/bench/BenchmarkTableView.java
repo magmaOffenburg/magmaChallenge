@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.AbstractCellEditor;
@@ -57,9 +58,13 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 
 	protected final IModelReadOnly model;
 
-	protected BenchmarkTableView(IModelReadOnly model)
+	private final String startScriptPath;
+
+	protected BenchmarkTableView(IModelReadOnly model, String startScriptPath)
 	{
 		this.model = model;
+		this.startScriptPath = startScriptPath;
+		createTeamTable();
 	}
 
 	public abstract List<TeamConfiguration> getTeamConfiguration();
@@ -72,6 +77,11 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 	public void enableEditing()
 	{
 		table.setEnabled(true);
+	}
+
+	protected List<TeamConfiguration> getDefaultConfig()
+	{
+		return Collections.singletonList(new TeamConfiguration("magma", startScriptPath, 0.4f));
 	}
 
 	private ITeamResult getTeamEntry(String name, List<ITeamResult> teamResults)
@@ -100,7 +110,12 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 
 	public JTable updateConfigTable(List<TeamConfiguration> loadConfigFile)
 	{
-		return createTeamTable(loadConfigFile);
+		return loadConfigFile == null ? createTeamTable() : createTeamTable(loadConfigFile);
+	}
+
+	protected JTable createTeamTable()
+	{
+		return createTeamTable(getDefaultConfig());
 	}
 
 	protected abstract JTable createTeamTable(List<TeamConfiguration> config);
@@ -166,8 +181,6 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 
 	protected class BenchmarkTableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer
 	{
-		private static final long serialVersionUID = 1L;
-
 		final JPanel panel;
 
 		final JButton statusButton;
@@ -177,13 +190,7 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 			statusButton = new JButton();
 			statusButton.setIcon(new ImageIcon(BenchmarkTableView.class.getResource("/images/info_16.png")));
 			statusButton.setSize(30, 30);
-			statusButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0)
-				{
-					System.out.println("pressed");
-				}
-			});
+			statusButton.addActionListener(e -> System.out.println("pressed"));
 
 			panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			panel.add(statusButton);
