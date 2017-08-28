@@ -38,4 +38,4 @@ CLSPTH=${CLSPTH}${CLSEP}config
 ROBO_VIZ_SERVER=localhost
 DEFAULT_PATH=examples
 
-java -cp $CLSPTH magma.tools.benchmark.controller.BenchmarkController --defaultPath=$DEFAULT_PATH --roboVizServer=$ROBO_VIZ_SERVER
+java -cp $CLSPTH -Dsun.java2d.xrender=false magma.tools.benchmark.controller.BenchmarkController --defaultPath=$DEFAULT_PATH --roboVizServer=$ROBO_VIZ_SERVER

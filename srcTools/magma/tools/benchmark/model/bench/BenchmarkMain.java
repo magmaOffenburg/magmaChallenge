@@ -145,7 +145,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 		return runThread != null;
 	}
 
-	private void collectResults(ITeamResult currentRunResult)
+	public void collectResults(ITeamResult currentRunResult)
 	{
 		ISingleResult result = benchmarkResults();
 		currentRunResult.addResult(result);

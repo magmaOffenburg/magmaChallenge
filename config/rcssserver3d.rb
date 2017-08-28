@@ -79,6 +79,7 @@ end
 addSoccerVar('AgentRadius', 0.4)
 addSoccerVar('BeamNoiseXY', 0.0)
 addSoccerVar('BeamNoiseAngle', 0.0)
+addSoccerVar('StartAnyFieldPosition', true)
 
 # setup the integrated agent
 #sparkSetupTrain()
