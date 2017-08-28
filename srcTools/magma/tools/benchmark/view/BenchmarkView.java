@@ -21,6 +21,7 @@
 
 package magma.tools.benchmark.view;
 
+import hso.autonomy.util.observer.IObserver;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -53,7 +54,6 @@ import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.IModelReadWrite;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
-import magma.util.observer.IObserver;
 
 /**
  *

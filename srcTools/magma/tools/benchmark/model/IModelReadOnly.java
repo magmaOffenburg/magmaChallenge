@@ -21,10 +21,9 @@
 
 package magma.tools.benchmark.model;
 
+import hso.autonomy.util.observer.IObserver;
 import java.io.File;
 import java.util.List;
-
-import magma.util.observer.IObserver;
 
 /**
  *

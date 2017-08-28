@@ -1,9 +1,9 @@
 package magma.tools.benchmark.model.bench;
 
-import magma.monitor.general.impl.MonitorParameter;
+import hso.autonomy.util.connection.ConnectionException;
+import hso.autonomy.util.connection.impl.TCPConnection;
+import magma.monitor.general.impl.MonitorParameters;
 import magma.monitor.general.impl.MonitorRuntime;
-import magma.util.connection.ConnectionException;
-import magma.util.connection.impl.TCPConnection;
 
 public class BenchmarkMonitorRuntime extends MonitorRuntime
 {
@@ -11,7 +11,7 @@ public class BenchmarkMonitorRuntime extends MonitorRuntime
 
 	private boolean shutdown;
 
-	public BenchmarkMonitorRuntime(MonitorParameter parameter, boolean isGazebo)
+	public BenchmarkMonitorRuntime(MonitorParameters parameter, boolean isGazebo)
 	{
 		super(parameter);
 		this.isGazebo = isGazebo;

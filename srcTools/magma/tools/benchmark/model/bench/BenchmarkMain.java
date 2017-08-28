@@ -21,6 +21,10 @@
 
 package magma.tools.benchmark.model.bench;
 
+import hso.autonomy.util.connection.ConnectionException;
+import hso.autonomy.util.observer.IObserver;
+import hso.autonomy.util.observer.IPublishSubscribe;
+import hso.autonomy.util.observer.Subject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,12 +35,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 import magma.monitor.general.IMonitorRuntimeListener;
-import magma.monitor.general.impl.FactoryParameter;
 import magma.monitor.general.impl.MonitorComponentFactory;
-import magma.monitor.general.impl.MonitorParameter;
+import magma.monitor.general.impl.MonitorParameters;
 import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.server.ServerController;
@@ -51,10 +53,6 @@ import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.proxy.BenchmarkAgentProxy;
 import magma.tools.benchmark.model.proxy.BenchmarkAgentProxyServer;
-import magma.util.connection.ConnectionException;
-import magma.util.observer.IObserver;
-import magma.util.observer.IPublishSubscribe;
-import magma.util.observer.Subject;
 
 /**
  *
@@ -184,8 +182,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 		MonitorComponentFactory factory = createMonitorFactory(config, teamConfig, runInfo, roboVizServer);
 
 		monitor = new BenchmarkMonitorRuntime(
-				new MonitorParameter(config.getServerIP(), config.getTrainerPort(), Level.WARNING, 3, factory),
-				isGazebo);
+				new MonitorParameters(config.getServerIP(), config.getTrainerPort(), factory), isGazebo);
 
 		monitor.addRuntimeListener(this);
 
@@ -211,10 +208,11 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 	protected abstract MonitorComponentFactory createMonitorFactory(
 			BenchmarkConfiguration config, TeamConfiguration teamConfig, RunInformation runInfo, String roboVizServer);
 
-	protected FactoryParameter createFactoryParameter(BenchmarkConfiguration config, TeamConfiguration teamConfig)
+	protected BenchmarkFactoryParameters createFactoryParameter(
+			BenchmarkConfiguration config, TeamConfiguration teamConfig)
 	{
-		return new FactoryParameter(null, config.getServerIP(), config.getAgentPort(), teamConfig.getName(),
-				teamConfig.getPath(), START_SCRIPT_NAME, null, config.getRuntime(), teamConfig.getDropHeight());
+		return new BenchmarkFactoryParameters(config.getServerIP(), config.getAgentPort(), teamConfig.getName(),
+				teamConfig.getPath(), START_SCRIPT_NAME, config.getRuntime(), teamConfig.getDropHeight());
 	}
 
 	protected abstract TeamResult createTeamResult(TeamConfiguration currentTeamConfig);

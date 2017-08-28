@@ -21,14 +21,14 @@
 
 package magma.tools.benchmark.model.proxy;
 
+import hso.autonomy.util.symboltreeparser.SymbolNode;
+import hso.autonomy.util.symboltreeparser.SymbolTreeParser;
 import java.net.Socket;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.tools.SAProxy.impl.AgentProxy;
 import magma.tools.benchmark.model.bench.RunInformation;
-import magma.util.symboltreeparser.SymbolNode;
-import magma.util.symboltreeparser.SymbolTreeParser;
 
 /**
  * Special proxy for benchmarking agents

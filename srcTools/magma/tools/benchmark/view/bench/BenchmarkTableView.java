@@ -21,6 +21,7 @@
 
 package magma.tools.benchmark.view.bench;
 
+import hso.autonomy.util.observer.IObserver;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -46,7 +47,6 @@ import javax.swing.table.TableCellRenderer;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.util.observer.IObserver;
 
 /**
  *

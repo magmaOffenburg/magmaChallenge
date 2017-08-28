@@ -12,7 +12,6 @@ import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.TeamResult;
-import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmarkReferee;
 
 public class PassingBenchmark extends BenchmarkMain
 {

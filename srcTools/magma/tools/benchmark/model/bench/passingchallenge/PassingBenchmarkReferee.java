@@ -3,6 +3,7 @@ package magma.tools.benchmark.model.bench.passingchallenge;
 import java.awt.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import magma.common.spark.PlayMode;
@@ -55,7 +56,7 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 	{
 		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, false);
 
-		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT));
+		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT, 1));
 
 		goal = false;
 
@@ -198,7 +199,7 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 
 	private boolean validStartingPosition()
 	{
-		ArrayList<? extends ISoccerAgent> agents = worldModel.getSoccerAgents();
+		List<? extends ISoccerAgent> agents = worldModel.getSoccerAgents();
 		for (int i = 0; i < agents.size(); i++) {
 			for (int j = i + 1; j < agents.size(); j++) {
 				double distance = Math.abs(agents.get(i).getPosition().getX() - agents.get(j).getPosition().getX());

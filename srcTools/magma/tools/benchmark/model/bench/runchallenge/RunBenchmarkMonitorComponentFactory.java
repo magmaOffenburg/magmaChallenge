@@ -1,11 +1,12 @@
 package magma.tools.benchmark.model.bench.runchallenge;
 
 import magma.monitor.command.IServerCommander;
-import magma.monitor.general.impl.FactoryParameter;
+import magma.monitor.general.impl.FactoryParameters;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.ChallengeType;
+import magma.tools.benchmark.model.bench.BenchmarkFactoryParameters;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 import magma.tools.benchmark.model.proxy.BenchmarkAgentProxyServer;
@@ -18,8 +19,8 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 
 	private final BenchmarkAgentProxyServer proxy;
 
-	public RunBenchmarkMonitorComponentFactory(
-			FactoryParameter parameterObject, RunInformation runInfo, boolean isGazebo, BenchmarkAgentProxyServer proxy)
+	public RunBenchmarkMonitorComponentFactory(FactoryParameters parameterObject, RunInformation runInfo,
+			boolean isGazebo, BenchmarkAgentProxyServer proxy)
 	{
 		super(parameterObject);
 		this.runInfo = runInfo;
@@ -32,16 +33,15 @@ public class RunBenchmarkMonitorComponentFactory extends MonitorComponentFactory
 	 *
 	 * @param worldModel - the world model of the monitor
 	 * @param serverCommander - the command interface to send server commands
-	 * @param refereeID - 0 (default) for dummy referee, 1 for standard game
-	 *        referee
 	 * @return New Referee
 	 */
 	@Override
-	public IReferee createReferee(IMonitorWorldModel worldModel, IServerCommander serverCommander, int refereeID)
+	public IReferee createReferee(IMonitorWorldModel worldModel, IServerCommander serverCommander)
 	{
+		BenchmarkFactoryParameters params = (BenchmarkFactoryParameters) this.params;
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(params.getServerIP(), params.getAgentPort(),
-				params.getTeam1Jar(), params.getTeam2Name(), ChallengeType.RUN.startScriptArgument, isGazebo);
+				params.getTeamPath(), params.getStartScriptName(), ChallengeType.RUN.startScriptArgument, isGazebo);
 		return new RunBenchmarkReferee(worldModel, serverCommander, params.getServerPid(), launcher,
-				params.getPlayersPerTeam(), params.getDropHeight(), runInfo, isGazebo, proxy);
+				params.getRuntime(), params.getDropHeight(), runInfo, isGazebo, proxy);
 	}
 }

@@ -1,5 +1,6 @@
 package magma.tools.benchmark.model.bench.keepawaychallenge;
 
+import hso.autonomy.util.geometry.Area2D;
 import java.awt.Color;
 import java.nio.file.Paths;
 
@@ -13,7 +14,6 @@ import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
-import magma.util.geometry.Area2D;
 import magma.util.roboviz.RoboVizDraw;
 import magma.util.roboviz.RoboVizParameters;
 
@@ -31,14 +31,14 @@ public class KeepAwayBenchmarkReferee extends BenchmarkRefereeBase
 
 	private final RoboVizDraw roboVizDraw;
 
-	public KeepAwayBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float runTime, float dropHeight, RunInformation runInfo,
+	public KeepAwayBenchmarkReferee(IMonitorWorldModel monitorWorldModel, IServerCommander serverCommander,
+			String serverPid, SinglePlayerLauncher launcher, float runTime, float dropHeight, RunInformation runInfo,
 			String roboVizServer, String serverIP, int agentPort)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, false);
+		super(monitorWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, false);
 
 		keepAwayArea = KeepAwayArea.calculate(worldModel.getTime());
-		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT));
+		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT, 1));
 		drawArea();
 
 		opponentLauncher =

@@ -21,6 +21,7 @@
 
 package magma.tools.benchmark.model.bench;
 
+import hso.autonomy.util.file.CSVFileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ import java.util.List;
 
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.util.file.CSVFileUtil;
 
 /**
  *

@@ -32,11 +32,11 @@ public class RunBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int startCycleCount;
 
-	public RunBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
+	public RunBenchmarkReferee(IMonitorWorldModel monitorWorldModel, IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float runTime, float dropHeight, RunInformation runInfo, boolean isGazebo,
 			BenchmarkAgentProxyServer proxy)
 	{
-		super(mWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, isGazebo);
+		super(monitorWorldModel, serverCommander, serverPid, launcher, runTime, runInfo, isGazebo);
 		this.isGazebo = isGazebo;
 		this.proxy = proxy;
 		averageSpeed = 0;

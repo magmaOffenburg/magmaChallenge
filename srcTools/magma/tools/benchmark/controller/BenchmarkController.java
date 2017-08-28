@@ -21,6 +21,9 @@
 
 package magma.tools.benchmark.controller;
 
+import hso.autonomy.util.commandline.Argument;
+import hso.autonomy.util.commandline.HelpArgument;
+import hso.autonomy.util.commandline.StringArgument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -37,9 +40,6 @@ import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.view.BenchmarkView;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
-import magma.util.commandline.Argument;
-import magma.util.commandline.HelpArgument;
-import magma.util.commandline.StringArgument;
 
 /**
  * @author kdorer

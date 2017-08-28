@@ -73,7 +73,8 @@ public class KickBenchmarkReferee extends BenchmarkRefereeBase
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
 		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 
-		RoboVizDraw roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT));
+		RoboVizDraw roboVizDraw =
+				new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT, 1));
 		roboVizDraw.drawCircle("kickChallenge.penaltyCircle", new Vector3D(runInfo.getBallX(), runInfo.getBallY(), 0),
 				(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
 		roboVizDraw.drawCircle("kickChallenge.targetPosition", Vector3D.ZERO, 0.1f, 3, new Color(0xFFd2d2d2));
