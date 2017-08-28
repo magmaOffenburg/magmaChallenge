@@ -84,7 +84,7 @@ public class BenchmarkController
 		this.defaultPath = defaultPath;
 		this.roboVizServer = roboVizServer;
 		model = new PassingBenchmark(roboVizServer);
-		BenchmarkTableView tableView = RunBenchmarkTableView.getInstance(model, defaultPath);
+		BenchmarkTableView tableView = PassingBenchmarkTableView.getInstance(model, defaultPath);
 		view = BenchmarkView.getInstance(model, tableView, defaultPath, roboVizServer);
 
 		view.addChallengeListener(new ChallengeListener());
