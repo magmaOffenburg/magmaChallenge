@@ -4,6 +4,7 @@ Version 2.6 (to be released)
 - added a headless mode / `startCLI.sh` ([#10](https://github.com/magmaOffenburg/magmaChallenge/issues/10))
 - added a `--startScriptFolder` argument
 - added a `--challenge` argument
+- added support for paths starting with `~` ([#11](https://github.com/magmaOffenburg/magmaChallenge/issues/11))
 - moved `bin/startChallengeBenchmark` to `startGUI.sh`
 
 Version 2.5 (RoboCup 2016)

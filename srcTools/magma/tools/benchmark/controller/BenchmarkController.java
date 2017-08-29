@@ -81,6 +81,8 @@ public class BenchmarkController
 		String defaultPath = DEFAULT_PATH.parse(args);
 		Argument.endParse(args);
 
+		defaultPath = defaultPath.replaceFirst("^~", System.getProperty("user.home"));
+
 		new BenchmarkController(userInterface, challenge, startScriptFolder, roboVizServer, defaultPath);
 	}
 
@@ -91,7 +93,7 @@ public class BenchmarkController
 		this.roboVizServer = roboVizServer;
 		model = challenge.benchmarkMainConstructor.create(roboVizServer);
 		System.out.println("magmaChallenge " + BenchmarkView.VERSION);
-		
+
 		switch (userInterface) {
 		case CLI:
 			model.start(new BenchmarkConfiguration(roboVizServer),

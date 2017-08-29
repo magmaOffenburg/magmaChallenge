@@ -106,7 +106,8 @@ public class SinglePlayerLauncher
 
 	private void runScript(String scriptName, Object[] arguments)
 	{
-		File workingDir = new File(path);
+		String expandedPath = path.replaceFirst("^~", System.getProperty("user.home"));
+		File workingDir = new File(expandedPath);
 		File fullPath = new File(workingDir, scriptName);
 		if (!validatePath(fullPath)) {
 			return;
