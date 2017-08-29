@@ -404,7 +404,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 					stopServer();
 				}
 			}
-			System.out.println("Average Score: " + currentRunResult.getAverageScore());
+			String marker = "---------------------------";
+			System.out.println(marker + "\nAverage Score: " + currentRunResult.getAverageScore() + "\n" + marker);
 			return stopped;
 		}
 
