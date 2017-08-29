@@ -61,7 +61,7 @@ import magma.tools.benchmark.view.bench.BenchmarkTableView;
  */
 public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 {
-	private static final String VERSION = "Version 2.6";
+	public static final String VERSION = "2.6";
 
 	private final JComboBox<ChallengeType> challenge;
 
@@ -241,7 +241,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		btnAbout.addActionListener(e -> {
 			String text = "Magma Challenge Benchmark Tool.\n\n";
 			text += "Provided by the magmaOffenburg team.\n";
-			text += VERSION;
+			text += "Version " + VERSION;
 			JOptionPane.showMessageDialog(
 					BenchmarkView.this, text, "Magma Challenge Benchmark Tool", JOptionPane.INFORMATION_MESSAGE);
 		});

@@ -90,7 +90,8 @@ public class BenchmarkController
 		this.startScriptFolder = startScriptFolder;
 		this.roboVizServer = roboVizServer;
 		model = challenge.benchmarkMainConstructor.create(roboVizServer);
-
+		System.out.println("magmaChallenge " + BenchmarkView.VERSION);
+		
 		switch (userInterface) {
 		case CLI:
 			model.start(new BenchmarkConfiguration(roboVizServer),
