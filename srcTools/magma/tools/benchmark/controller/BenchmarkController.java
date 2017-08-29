@@ -81,7 +81,7 @@ public class BenchmarkController
 		String defaultPath = DEFAULT_PATH.parse(args);
 		Argument.endParse(args);
 
-		new BenchmarkController(userInterface, challenge, startScriptFolder, defaultPath, roboVizServer);
+		new BenchmarkController(userInterface, challenge, startScriptFolder, roboVizServer, defaultPath);
 	}
 
 	public BenchmarkController(UserInterface userInterface, ChallengeType challenge, String startScriptFolder,
