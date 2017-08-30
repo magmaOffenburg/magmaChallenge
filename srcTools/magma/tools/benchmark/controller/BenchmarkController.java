@@ -58,27 +58,28 @@ public class BenchmarkController
 
 	public static void run(String[] args, UserInterface userInterface)
 	{
-		EnumArgument<ChallengeType> CHALLENGE = new EnumArgument<>("challenge", ChallengeType.DEFAULT,
+		EnumArgument<ChallengeType> challengeArgument = new EnumArgument<>("challenge", ChallengeType.DEFAULT,
 				"which challenge to run (CLI version) or to select by default (GUI version)", ChallengeType.class);
-		StringArgument START_SCRIPT_FOLDER = new StringArgument(
+		StringArgument startScriptFolderArgument = new StringArgument(
 				"startScriptFolder", "", "directory in which startChallengePlayer.sh (and kill.sh) are located");
-		StringArgument ROBO_VIZ_SERVER =
+		StringArgument roboVizServerArgument =
 				new StringArgument("roboVizServer", "localhost", "which IP to connect to for RoboViz drawings");
 
-		StringArgument DEFAULT_PATH =
+		StringArgument defaultPathArgument =
 				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
 
-		new HelpArgument(CHALLENGE, START_SCRIPT_FOLDER, ROBO_VIZ_SERVER, DEFAULT_PATH).parse(args);
+		new HelpArgument(challengeArgument, startScriptFolderArgument, roboVizServerArgument, defaultPathArgument)
+				.parse(args);
 
 		if (userInterface == UserInterface.CLI) {
-			CHALLENGE.setRequired(true);
-			START_SCRIPT_FOLDER.setRequired(true);
+			challengeArgument.setRequired(true);
+			startScriptFolderArgument.setRequired(true);
 		}
 
-		ChallengeType challenge = CHALLENGE.parse(args);
-		String startScriptFolder = START_SCRIPT_FOLDER.parse(args);
-		String roboVizServer = ROBO_VIZ_SERVER.parse(args);
-		String defaultPath = DEFAULT_PATH.parse(args);
+		ChallengeType challenge = challengeArgument.parse(args);
+		String startScriptFolder = startScriptFolderArgument.parse(args);
+		String roboVizServer = roboVizServerArgument.parse(args);
+		String defaultPath = defaultPathArgument.parse(args);
 		Argument.endParse(args);
 
 		defaultPath = defaultPath.replaceFirst("^~", System.getProperty("user.home"));
