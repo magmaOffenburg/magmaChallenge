@@ -156,3 +156,17 @@ The score is determined by the server time at the moment the play mode switches 
 The opponent player is a magmaOffenburg agent that runs to the ball at full speed.
 
 This challenge is inspired by [UT Austin Villa's submission](https://www.youtube.com/watch?v=65t9_YRsUMc) to the free challenge for RoboCup 2015 in Hefei. 
+
+## Passing Challenge
+
+### Requirements
+
+The passing challenge requires the `StartAnyFieldPosition` variable in rcssserver3d's `naosoccersim.rb` to be set to `true`.
+
+The start script has to start four players when it receives "PassingChallenge" as the challenge name argument. Beaming is allowed in this challenge, so the "start x position" and "start y position" arguments the script receives can be ignored. For this challenge, the agents can be beamed directly in the opponent's field. The agents must start with a 3 meter distance, in the x axis, from each other.
+
+### Evaluation
+
+If the initial position of the agents does not comply with the rules, the team is awarded the trial score of 85. The trial ends if: a goal is scored; the ball leaves the field; or 80 seconds have passed. For each distinct agent touching the ball, the score is reduced by one point. An agent is considered distinct from another when touching the ball if the ball has travelled at least 2.5 meters after being kicked by the previous agent. If a goal is scored, the score is reduced by one point. If the goal is scored after the ball has been kicked by the four players, the score is the time (in seconds) from the start of the trial until the scoring event. There are 4 trials for each team and the average of the best 3 trial scores is considered as the final score. The team with the lowest final score wins the challenge.
+
+
