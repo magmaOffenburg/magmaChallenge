@@ -1,4 +1,4 @@
-Version 2.6 (to be released)
+Version 2.6
 ---------------------
 - added the Passing and Scoring challenge from RoboCup 2017 ([#9](https://github.com/magmaOffenburg/magmaChallenge/pull/9))
 - added a headless mode / `startCLI.sh` ([#10](https://github.com/magmaOffenburg/magmaChallenge/issues/10))
