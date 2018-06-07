@@ -15,6 +15,7 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 - [Kick Challenge](#kick-challenge)
 - [Keep Away Challenge](#keep-away-challenge)
 - [Passing Challenge](#passing-challenge)
+- [Goalie Challenge](#goalie-challenge)
 
 ## Installation
 
@@ -44,7 +45,7 @@ Additionally, there needs to be a `kill.sh` script that kills the agent process 
 ### Start script
 
 ```bash
-bash start.sh
+bash startGUI.sh
 ```
 
 The script can be used to configure the following arguments that are passed to `BenchmarkController`:
@@ -171,3 +172,26 @@ The start script has to start four players when it receives "PassingChallenge" a
 If the initial position of the agents does not comply with the rules, the team is awarded the trial score of 85. The trial ends if: a goal is scored; the ball leaves the field; or 80 seconds have passed. For each distinct agent touching the ball, the score is reduced by one point. An agent is considered distinct from another when touching the ball if the ball has travelled at least 2.5 meters after being kicked by the previous agent. If a goal is scored, the score is reduced by one point. If the goal is scored after the ball has been kicked by the four players, the score is the time (in seconds) from the start of the trial until the scoring event. There are 4 trials for each team and the average of the best 3 trial scores is considered as the final score. The team with the lowest final score wins the challenge.
 
 
+## Goalie Challenge
+
+### Requirements
+
+The start player script has to start a player that will act as the goalie without leaving the penalty area when it receives "GoalieChallenge" as the challenge name argument.
+Please check [Preparation] section for the meaning of the other script parameters.
+
+### Evaluation
+
+Teams can participate in this challenge using their normal goalie or with a goalie with very few adaptations.
+The goalie challenge tool may also be used as a developing tool to test goalie behavior.
+
+Evaluation rules:
+
+- the final score is based on the percentage of unsuccessful goal attempts, i.e. the percentage of failed goal attempts; 
+- the winner will be the goalie able to achieve the higher percentage of unsuccessful goal attempts;
+- the goalie cannot get out of the penalty area or a goal is considered;
+- if the top teams draw, the challenge will be repeated for these teams with a different seed a maximum of 3 times. If the draw is maintained, several winners will be announced;
+- the evaluation will be based on 12 shots with different targets on the goal, different initial speeds, and different origins on the field;
+- the sequence of shots is randomly selected from a large list of possible kicks (targeting the goal);
+- the random sequence is the same for all teams (for the same seed);
+- during the competition, each team may decide on one of the digits for the random seed;
+- shots are performed automatically using the magma challenge tool;
