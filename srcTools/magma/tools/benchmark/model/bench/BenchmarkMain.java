@@ -27,6 +27,7 @@ import hso.autonomy.util.observer.IPublishSubscribe;
 import hso.autonomy.util.observer.Subject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -389,14 +390,16 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 					replace(scriptPath, dropHeight);
 
 					if (!isGazebo) {
-						server.startServer(0);
+						//server.startServer(0);    // This was not always starting the server, creating big delays between runs, it is replaced by exec() in nextline
+                        Process myProcess = Runtime.getRuntime().exec("./startServer.sh "+config.getServerPort()+" "+config.getTrainerPort()+" "+scriptPath);
 					}
 
 					boolean success = startTrainer(config, currentTeamConfig, runInfo, roboVizServer);
 					if (success) {
 						collectResults(currentRunResult);
 					}
-				} catch (ServerException e) {
+				//} catch (ServerException e) {   // ServerException was thrown by server.startServer
+				} catch (IOException e) {         // exec() may throw IOException
 					statusText += e.getMessage();
 					collectResults(currentRunResult);
 				} catch (RuntimeException e) {
