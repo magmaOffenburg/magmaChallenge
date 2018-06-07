@@ -24,6 +24,15 @@ public class RunInformation
 	/** y coordinate of ball on the field */
 	private final double ballY;
 
+	/** x coordinate of ball vel n the field */
+	private final double ballVelX;
+
+	/** y coordinate of ball vel on the field */
+	private final double ballVelY;
+
+	/** z coordinate of ball vel on the field */
+	private final double ballVelZ;
+
 	public RunInformation()
 	{
 		this(0, -13.5, 0, 0, 0);
@@ -37,6 +46,22 @@ public class RunInformation
 		this.beamY = beamY;
 		this.ballX = ballX;
 		this.ballY = ballY;
+		this.ballVelX = 0.0;
+		this.ballVelY = 0.0;
+		this.ballVelZ = 0.0;
+	}
+
+	public RunInformation(int runID, double ballX, double ballY, double ballVelX, double ballVelY, double ballVelZ)
+	{
+		super();
+		this.runID = runID;
+		this.beamX = 0.0;
+		this.beamY = 0.0;
+		this.ballX = ballX;
+		this.ballY = ballY;
+		this.ballVelX = ballVelX;
+		this.ballVelY = ballVelY;
+		this.ballVelZ = ballVelZ;
 	}
 
 	public int getRunID()
@@ -62,5 +87,20 @@ public class RunInformation
 	public double getBallY()
 	{
 		return ballY;
+	}
+
+	public double getBallVelX()
+	{
+		return ballVelX;
+	}
+
+	public double getBallVelY()
+	{
+		return ballVelY;
+	}
+
+	public double getBallVelZ()
+	{
+		return ballVelZ;
 	}
 }
