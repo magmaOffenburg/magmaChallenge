@@ -177,7 +177,7 @@ If the initial position of the agents does not comply with the rules, the team i
 ### Requirements
 
 The start player script has to start a player that will act as the goalie without leaving the penalty area when it receives "GoalieChallenge" as the challenge name argument.
-Please check [Preparation] section for the meaning of the other script parameters.
+Please check [Preparation](#preparation) section for the meaning of the other script parameters.
 
 ### Evaluation
 
