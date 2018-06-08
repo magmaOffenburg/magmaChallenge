@@ -68,7 +68,8 @@ public class BenchmarkController
 		StringArgument defaultPathArgument =
 				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
 
-		new HelpArgument(challengeArgument, startScriptFolderArgument, roboVizServerArgument, defaultPathArgument).parse(args);
+		new HelpArgument(challengeArgument, startScriptFolderArgument, roboVizServerArgument, defaultPathArgument)
+				.parse(args);
 
 		if (userInterface == UserInterface.CLI) {
 			challengeArgument.setRequired(true);

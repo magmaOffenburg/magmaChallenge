@@ -399,4 +399,3 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 }
-

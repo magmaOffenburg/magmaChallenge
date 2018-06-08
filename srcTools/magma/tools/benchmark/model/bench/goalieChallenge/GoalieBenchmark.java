@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.io.File;
 import java.io.IOException;
-            
+
 import hso.autonomy.util.file.CSVFileUtil;
 
 import magma.monitor.general.impl.MonitorComponentFactory;
@@ -38,7 +38,6 @@ import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.TeamResult;
 
-
 /**
  *
  * @author kdorer
@@ -49,39 +48,39 @@ public class GoalieBenchmark extends BenchmarkMain
 	/** how many attempts each team has */
 	static final int BENCHMARK_RUNS = 12;
 
-    float [][] kicks;
+	float[][] kicks;
 
-	public GoalieBenchmark(String roboVizServer) 
+	public GoalieBenchmark(String roboVizServer)
 	{
 		super(roboVizServer, false);
 		allowPlayerBeaming = true;
 		CSVFileUtil csvFileHandler = new CSVFileUtil(new File("config/goalie/kicks.csv"), ";");
-        try {
+		try {
 			List<String[]> readCsvFile = csvFileHandler.readCsvFile();
 
 			kicks = new float[readCsvFile.size()][5];
-            int lineInd=0;
+			int lineInd = 0;
 			for (String[] line : readCsvFile) {
 				if (line.length != 5) {
 					String error = "Invalid config file format, expected 5 columns, but was: " + line.length +
 								   "\nline: " + Arrays.toString(line);
 					throw new IOException(error);
 				}
-                for(int i=0; i<5;i++) {
-                    kicks[lineInd][i] = Float.valueOf(line[i]);
-                }
-                /*System.err.println("Kick "+lineInd+": "
-                       +kicks[lineInd][0]
-                       +" "+kicks[lineInd][1]
-                       +" "+kicks[lineInd][2]
-                       +" "+kicks[lineInd][3]
-                       +" "+kicks[lineInd][4]+"\n");
-*/
-                lineInd++;
+				for (int i = 0; i < 5; i++) {
+					kicks[lineInd][i] = Float.valueOf(line[i]);
+				}
+				/*System.err.println("Kick "+lineInd+": "
+					   +kicks[lineInd][0]
+					   +" "+kicks[lineInd][1]
+					   +" "+kicks[lineInd][2]
+					   +" "+kicks[lineInd][3]
+					   +" "+kicks[lineInd][4]+"\n");
+		*/
+				lineInd++;
 			}
 		} catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-            e.printStackTrace();
+			System.err.println("Caught IOException: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -93,7 +92,7 @@ public class GoalieBenchmark extends BenchmarkMain
 		if (monitor != null) {
 			GoalieBenchmarkReferee referee = (GoalieBenchmarkReferee) monitor.getReferee();
 			if (referee.getState() == RefereeState.STOPPED) {
-				avgScore = (float )referee.getScore();
+				avgScore = (float) referee.getScore();
 				valid = true;
 			} else {
 				statusText += referee.getStatusText();

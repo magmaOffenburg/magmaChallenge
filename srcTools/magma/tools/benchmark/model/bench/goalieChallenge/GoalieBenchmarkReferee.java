@@ -17,7 +17,8 @@ import magma.util.roboviz.RoboVizParameters;
 public class GoalieBenchmarkReferee extends BenchmarkRefereeBase
 {
 	/**
-	 * time we wait the player to get into penalty area before we start counting (in s)
+	 * time we wait the player to get into penalty area before we start counting
+	 * (in s)
 	 */
 	private static final double TIME_UNTIL_BENCH_STARTS = 3.0;
 
@@ -33,7 +34,7 @@ public class GoalieBenchmarkReferee extends BenchmarkRefereeBase
 	private Vector2D oldBallPos;
 
 	/** score of this attempt (goal/not goal) */
-    private boolean goal = false;
+	private boolean goal = false;
 
 	public GoalieBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float dropHeight, RunInformation runInfo, String roboVizServer)
@@ -63,15 +64,18 @@ public class GoalieBenchmarkReferee extends BenchmarkRefereeBase
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
 		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 
-		//RoboVizDraw roboVizDraw =
-		//		new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT, 1));
-		//roboVizDraw.drawCircle("goalieChallenge.penaltyCircle", new Vector3D(runInfo.getBallX(), runInfo.getBallY(), 0),
-		//		(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
-		//roboVizDraw.drawCircle("goalieChallenge.targetPosition", Vector3D.ZERO, 0.1f, 3, new Color(0xFFd2d2d2));
+		// RoboVizDraw roboVizDraw =
+		//		new RoboVizDraw(new RoboVizParameters(true, roboVizServer,
+		// RoboVizDraw.DEFAULT_PORT, 1));
+		// roboVizDraw.drawCircle("goalieChallenge.penaltyCircle", new
+		// Vector3D(runInfo.getBallX(), runInfo.getBallY(), 0), 		(float)
+		// MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
+		// roboVizDraw.drawCircle("goalieChallenge.targetPosition", Vector3D.ZERO,
+		// 0.1f, 3, new Color(0xFFd2d2d2));
 		return true;
 	}
 
-    boolean ballKicked = false;
+	boolean ballKicked = false;
 
 	@Override
 	protected boolean onDuringBenchmark()
@@ -83,7 +87,6 @@ public class GoalieBenchmarkReferee extends BenchmarkRefereeBase
 		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
 		Vector2D ballNow = new Vector2D(posBall.getX(), posBall.getY());
- 
 
 		if (currentTime > runTime) {
 			// finished this run
@@ -92,39 +95,39 @@ public class GoalieBenchmarkReferee extends BenchmarkRefereeBase
 		}
 
 		if (state == RefereeState.CONNECTED) {
-            ballKicked = false;
+			ballKicked = false;
 			state = RefereeState.STARTED;
 			startTime = time;
 		}
 
 		if (state == RefereeState.STARTED) {
-            if (time > startTime + 5 && ! ballKicked) {
-		        serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY(), (float) 0.04, 
-                                         (float) runInfo.getBallVelX(), (float) runInfo.getBallVelY(), (float) runInfo.getBallVelZ());
-                ballKicked = true;
-            }
+			if (time > startTime + 5 && !ballKicked) {
+				serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY(), (float) 0.04,
+						(float) runInfo.getBallVelX(), (float) runInfo.getBallVelY(), (float) runInfo.getBallVelZ());
+				ballKicked = true;
+			}
 			// stop if player runs too far
 			if (playerNow.getX() > -13.2 || Math.abs(playerNow.getY()) > 3) {
 				goal = true; // if keeper leaves area, a goal is automatically scored
 				return true;
 			}
 			// stop if ball has left radius and has stopped
-			//if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
-		//		if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
-		//			return true;
-		//		}
-		//	} else {
-		//		// stop if the ball did not leave the circle for too long
-		//		if (time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
-		//			return true;
-		//		}
-		//	} 
-            // stop if playmode changes (e.g. because someone scored an own goal)
+			// if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
+			//		if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
+			//			return true;
+			//		}
+			//	} else {
+			//		// stop if the ball did not leave the circle for too
+			// long 		if (time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
+			//			return true;
+			//		}
+			//	}
+			// stop if playmode changes (e.g. because someone scored an own goal)
 			if (worldModel.getPlayMode() != PlayMode.PLAY_ON) {
-                if(worldModel.getPlayMode() == PlayMode.GOAL_RIGHT) {
-                   System.err.println("Goal!!!!!");
-                   goal = true;
-                }
+				if (worldModel.getPlayMode() == PlayMode.GOAL_RIGHT) {
+					System.err.println("Goal!!!!!");
+					goal = true;
+				}
 				return true;
 			}
 		}
@@ -140,13 +143,14 @@ public class GoalieBenchmarkReferee extends BenchmarkRefereeBase
 	}
 
 	/**
-	 * @return the score 
+	 * @return the score
 	 */
 	public double getScore()
 	{
-        double score = 0.0;
+		double score = 0.0;
 
-        if(!goal) score += 1.0;
+		if (!goal)
+			score += 1.0;
 
 		return score;
 	}

@@ -60,8 +60,7 @@ class GoalieBenchmarkTableModelExtension extends DefaultTableModel
 			i++;
 		}
 
-		String[] headers =
-				new String[] {"team", "status", "score", "runs", "path"};
+		String[] headers = new String[] {"team", "status", "score", "runs", "path"};
 
 		return new GoalieBenchmarkTableModelExtension(content, headers);
 	}
