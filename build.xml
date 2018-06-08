@@ -17,7 +17,7 @@
 
         <jar destfile="lib/magmaChallenge.jar" basedir="${buildDir}">
             <manifest>
-                <attribute name="Main-Class" value="magma.tools.benchmark.controller.BenchmarkController"/>
+                <attribute name="Main-Class" value="magma.tools.benchmark.MagmaChallengeGUI"/>
             </manifest>
         </jar>
     </target>

@@ -6,11 +6,13 @@ import magma.tools.benchmark.model.bench.keepawaychallenge.KeepAwayBenchmark;
 import magma.tools.benchmark.model.bench.kickchallenge.KickBenchmark;
 import magma.tools.benchmark.model.bench.passingchallenge.PassingBenchmark;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmark;
+import magma.tools.benchmark.model.bench.goaliechallenge.GoalieBenchmark;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 import magma.tools.benchmark.view.bench.keepawaychallenge.KeepAwayBenchmarkTableView;
 import magma.tools.benchmark.view.bench.kickchallenge.KickBenchmarkTableView;
 import magma.tools.benchmark.view.bench.passingchallenge.PassingBenchmarkTableView;
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
+import magma.tools.benchmark.view.bench.goaliechallenge.GoalieBenchmarkTableView;
 
 public enum ChallengeType {
 	RUN("Run", server -> new RunBenchmark(server, false), RunBenchmarkTableView::getInstance),
@@ -21,9 +23,11 @@ public enum ChallengeType {
 
 	GAZEBO_RUN("Gazebo Run", server -> new RunBenchmark(server, true), RunBenchmarkTableView::getInstance),
 
-	PASSING("Passing", PassingBenchmark::new, PassingBenchmarkTableView::getInstance);
+	PASSING("Passing", PassingBenchmark::new, PassingBenchmarkTableView::getInstance),
 
-	public static final ChallengeType DEFAULT = PASSING;
+	GOALIE("Goalie", GoalieBenchmark::new, GoalieBenchmarkTableView::getInstance);
+
+	public static final ChallengeType DEFAULT = GOALIE;
 
 	public final String name;
 

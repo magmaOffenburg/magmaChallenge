@@ -97,6 +97,8 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 
 	private final JTextField trainerPort;
 
+	private final JTextField seedBox;
+
 	private final JCheckBox checkboxVerbose;
 
 	private BenchmarkTableView tableView;
@@ -122,7 +124,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Magma Challenge Benchmark");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setSize(1000, 200);
+		setSize(1100, 200);
 		setLocationRelativeTo(null);
 		try {
 			setIconImage(ImageIO.read(BenchmarkView.class.getResource("/images/magma32.png")));
@@ -204,6 +206,14 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		trainerPort.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_TRAINER_PORT));
 		panel.add(trainerPort);
 		trainerPort.setColumns(5);
+
+		JLabel lblSeedBox = new JLabel("SeedBox:");
+		panel.add(lblSeedBox);
+
+		seedBox = new JTextField();
+		seedBox.setText(String.valueOf(123));
+		panel.add(seedBox);
+		seedBox.setColumns(5);
 
 		checkboxVerbose = new JCheckBox("Verbose");
 		checkboxVerbose.setSelected(BenchmarkConfiguration.DEFAULT_VERBOSE);
@@ -305,9 +315,10 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		int trainerPort = getNumber(this.trainerPort.getText(), 1, 65536);
 		int averageOutRuns = getNumber(averageRuns.getText(), 1, 200);
 		int time = getNumber(runTime.getText(), 2, 20);
+		int seed = getNumber(this.seedBox.getText(), 1, 100000000);
 		boolean verbose = checkboxVerbose.isSelected();
 		return new BenchmarkConfiguration(serverIP, serverPort, proxyPort, trainerPort, averageOutRuns, time, verbose,
-				false, 123L, roboVizServer);
+				false, seed, roboVizServer);
 	}
 
 	public void disableEditing()

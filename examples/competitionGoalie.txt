@@ -1,0 +1,3 @@
+magma;~/Projectos/RoboCup3D/gitlab_fcportugal/FCPortugal3D;0;0.4
+magma2;~/Projectos/RoboCup3D/gitlab_fcportugal/FCPortugal3D;0;0.4
+magmaFail;~/Projectos/RoboCup3D/gitlab_fcportugal/FCPortugal3D;0;0.4
