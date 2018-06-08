@@ -1,3 +1,7 @@
+Version 2.7 (RoboCup 2018)
+---------------------
+- added Goalie challenge for RoboCup 2018
+
 Version 2.6
 ---------------------
 - added the Passing and Scoring challenge from RoboCup 2017 ([#9](https://github.com/magmaOffenburg/magmaChallenge/pull/9))
