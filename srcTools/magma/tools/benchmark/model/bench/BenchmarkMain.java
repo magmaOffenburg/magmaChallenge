@@ -347,7 +347,6 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 				if (config.isTest()) {
 					benchmarkRuns = 1;
 				}
-				System.out.println("MY RANDOM SEED " + config.getRandomSeed());
 				Random rand = new Random(config.getRandomSeed());
 
 				for (int i = 0; i < benchmarkRuns; i++) {
