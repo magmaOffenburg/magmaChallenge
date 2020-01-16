@@ -24,7 +24,6 @@ package magma.tools.benchmark.model.bench;
 import hso.autonomy.util.file.StreamBufferer;
 import hso.autonomy.util.misc.UnixCommandUtil;
 import java.io.File;
-
 import java.util.Arrays;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -2,7 +2,6 @@ package magma.tools.benchmark.model.bench.passingchallenge;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.List;
 import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;

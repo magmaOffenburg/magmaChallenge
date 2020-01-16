@@ -2,7 +2,6 @@ package magma.tools.benchmark.model.bench.passingchallenge;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee;
 import magma.tools.benchmark.model.BenchmarkConfiguration;

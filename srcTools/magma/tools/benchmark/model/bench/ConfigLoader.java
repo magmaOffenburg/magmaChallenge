@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import magma.tools.benchmark.model.InvalidConfigFileException;
 import magma.tools.benchmark.model.TeamConfiguration;
 

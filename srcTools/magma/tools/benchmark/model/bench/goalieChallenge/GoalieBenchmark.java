@@ -21,14 +21,12 @@
 
 package magma.tools.benchmark.model.bench.goaliechallenge;
 
-import java.util.Random;
-import java.util.List;
-import java.util.Arrays;
+import hso.autonomy.util.file.CSVFileUtil;
 import java.io.File;
 import java.io.IOException;
-
-import hso.autonomy.util.file.CSVFileUtil;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;

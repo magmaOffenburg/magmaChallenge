@@ -32,7 +32,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -43,7 +42,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;

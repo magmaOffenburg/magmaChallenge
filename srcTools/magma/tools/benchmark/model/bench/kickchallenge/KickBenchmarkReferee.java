@@ -1,10 +1,6 @@
 package magma.tools.benchmark.model.bench.kickchallenge;
 
 import java.awt.Color;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
@@ -13,6 +9,8 @@ import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 import magma.util.roboviz.RoboVizDraw;
 import magma.util.roboviz.RoboVizParameters;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class KickBenchmarkReferee extends BenchmarkRefereeBase
 {

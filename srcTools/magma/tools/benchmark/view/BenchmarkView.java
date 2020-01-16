@@ -30,7 +30,6 @@ import java.awt.event.FocusEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,7 +46,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-
 import magma.tools.benchmark.ChallengeType;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;

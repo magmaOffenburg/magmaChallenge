@@ -2,11 +2,9 @@ package magma.tools.benchmark.view.bench.keepawaychallenge;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;

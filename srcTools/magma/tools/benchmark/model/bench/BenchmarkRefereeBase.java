@@ -1,8 +1,5 @@
 package magma.tools.benchmark.model.bench;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.referee.impl.RefereeBase;
@@ -10,6 +7,8 @@ import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.monitor.worldmodel.ISoccerAgent;
 import magma.monitor.worldmodel.ISoccerBall;
 import magma.monitor.worldmodel.SoccerAgentBodyPart;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public abstract class BenchmarkRefereeBase extends RefereeBase
 {

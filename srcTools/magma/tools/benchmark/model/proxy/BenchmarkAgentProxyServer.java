@@ -22,12 +22,10 @@
 package magma.tools.benchmark.model.proxy;
 
 import java.net.Socket;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import magma.tools.SAProxy.impl.AgentProxy;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer;
 import magma.tools.benchmark.model.bench.RunInformation;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  *

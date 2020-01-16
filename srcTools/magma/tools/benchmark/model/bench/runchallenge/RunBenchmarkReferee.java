@@ -1,8 +1,5 @@
 package magma.tools.benchmark.model.bench.runchallenge;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
@@ -10,6 +7,8 @@ import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 import magma.tools.benchmark.model.proxy.BenchmarkAgentProxyServer;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class RunBenchmarkReferee extends BenchmarkRefereeBase
 {

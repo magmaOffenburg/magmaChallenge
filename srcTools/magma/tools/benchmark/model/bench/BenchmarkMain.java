@@ -27,16 +27,15 @@ import hso.autonomy.util.observer.IPublishSubscribe;
 import hso.autonomy.util.observer.Subject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
 import magma.monitor.general.IMonitorRuntimeListener;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.general.impl.MonitorParameters;

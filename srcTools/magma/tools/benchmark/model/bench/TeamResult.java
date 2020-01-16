@@ -23,7 +23,6 @@ package magma.tools.benchmark.model.bench;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.ITeamResult;
 

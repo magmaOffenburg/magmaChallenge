@@ -22,7 +22,6 @@
 package magma.tools.benchmark.model.bench.kickchallenge;
 
 import java.util.Random;
-
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
