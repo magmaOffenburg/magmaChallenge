@@ -42,7 +42,6 @@ import magma.monitor.general.impl.MonitorParameters;
 import magma.monitor.general.impl.MonitorRuntime;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.monitor.server.ServerController;
-import magma.monitor.server.ServerException;
 import magma.tools.SAProxy.impl.SimsparkAgentProxyServer.SimsparkAgentProxyServerParameter;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
 import magma.tools.benchmark.model.IModelReadOnly;
@@ -391,7 +390,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 						// server.startServer(0);    // This was not always starting the
 						// server, creating big delays between runs, it is replaced by exec()
 						// in nextline
-						Process myProcess = Runtime.getRuntime().exec("./startServer.sh " + config.getServerPort() +
+						Runtime.getRuntime().exec("./startServer.sh " + config.getServerPort() +
 																	  " " + config.getTrainerPort() + " " + scriptPath);
 					}
 

@@ -40,23 +40,20 @@ public class RunInformation
 
 	public RunInformation(int runID, double beamX, double beamY, double ballX, double ballY)
 	{
-		super();
-		this.runID = runID;
-		this.beamX = beamX;
-		this.beamY = beamY;
-		this.ballX = ballX;
-		this.ballY = ballY;
-		this.ballVelX = 0.0;
-		this.ballVelY = 0.0;
-		this.ballVelZ = 0.0;
+		this(runID, beamX, beamY, ballX, ballY, 0, 0, 0);
 	}
 
 	public RunInformation(int runID, double ballX, double ballY, double ballVelX, double ballVelY, double ballVelZ)
 	{
+		this(runID, 0, 0, ballX, ballY, ballVelX, ballVelY, ballVelZ);
+	}
+
+	public RunInformation(int runID, double beamX, double beamY, double ballX, double ballY, double ballVelX, double ballVelY, double ballVelZ)
+	{
 		super();
 		this.runID = runID;
-		this.beamX = 0.0;
-		this.beamY = 0.0;
+		this.beamX = beamX;
+		this.beamY = beamY;
 		this.ballX = ballX;
 		this.ballY = ballY;
 		this.ballVelX = ballVelX;

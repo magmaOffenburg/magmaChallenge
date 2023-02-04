@@ -1,7 +1,6 @@
 package magma.tools.benchmark.model.bench.passingchallenge;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;

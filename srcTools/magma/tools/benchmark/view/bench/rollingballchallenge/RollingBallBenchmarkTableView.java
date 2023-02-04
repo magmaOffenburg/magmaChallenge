@@ -19,7 +19,7 @@
  * along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package magma.tools.benchmark.view.bench.runchallenge;
+package magma.tools.benchmark.view.bench.rollingballchallenge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +29,23 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkTeamResult;
+import magma.tools.benchmark.model.bench.rollingballchallenge.RollingBallBenchmarkTeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
 /**
  *
  * @author kdorer
  */
-public class RunBenchmarkTableView extends BenchmarkTableView
+public class RollingBallBenchmarkTableView extends BenchmarkTableView
 {
-	public static RunBenchmarkTableView getInstance(IModelReadOnly model, String startScriptFolder)
+	public static RollingBallBenchmarkTableView getInstance(IModelReadOnly model, String startScriptFolder)
 	{
-		RunBenchmarkTableView view = new RunBenchmarkTableView(model, startScriptFolder);
+		RollingBallBenchmarkTableView view = new RollingBallBenchmarkTableView(model, startScriptFolder);
 		model.attach(view);
 		return view;
 	}
 
-	private RunBenchmarkTableView(IModelReadOnly model, String startScriptFolder)
+	private RollingBallBenchmarkTableView(IModelReadOnly model, String startScriptFolder)
 	{
 		super(model, startScriptFolder);
 	}
@@ -57,9 +57,9 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		int teamid = 0;
 		String teamName;
 		do {
-			String teamPath = (String) table.getValueAt(teamid, RunBenchmarkTableModelExtension.COLUMN_PATH);
-			teamName = (String) table.getValueAt(teamid, RunBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			float dropHeight = (Float) table.getValueAt(teamid, RunBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
+			String teamPath = (String) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_PATH);
+			teamName = (String) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME);
+			float dropHeight = (Float) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath, dropHeight);
 				result.add(config);
@@ -76,32 +76,23 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		List<ITeamResult> teamResults = model.getTeamResults();
 
 		for (ITeamResult teamResult : teamResults) {
-			RunBenchmarkTeamResult runResult = (RunBenchmarkTeamResult) teamResult;
+			RollingBallBenchmarkTeamResult kickResult = (RollingBallBenchmarkTeamResult) teamResult;
 
-			int teamRow = getTeamRow(runResult.getName());
+			int teamRow = getTeamRow(kickResult.getName());
 
-			float averageScore = runResult.getAverageScore();
-			table.setValueAt(averageScore, teamRow, RunBenchmarkTableModelExtension.COLUMN_SCORE);
+			float averageScore = kickResult.getAverageScore();
+			table.setValueAt(averageScore, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_SCORE);
 
-			int runs = ((ITeamResult) runResult.getResult(0)).size();
-			table.setValueAt(runs, teamRow, RunBenchmarkTableModelExtension.COLUMN_RUNS);
+			int runs = kickResult.size();
+			table.setValueAt(runs, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_RUNS);
 
-			int fallenCount = runResult.getFallenCount();
-			table.setValueAt(fallenCount, teamRow, RunBenchmarkTableModelExtension.COLUMN_FALLS);
+			int fallenCount = kickResult.getPenaltyCount();
+			table.setValueAt(fallenCount, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_PENALTIES);
 
-			float averageSpeed = runResult.getAverageSpeed();
-			table.setValueAt(averageSpeed, teamRow, RunBenchmarkTableModelExtension.COLUMN_SPEED);
+			float averageDistance = kickResult.getLastDistance();
+			table.setValueAt(averageDistance, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_DISTANCE);
 
-			float averageOffGround = runResult.getAverageOffGround();
-			table.setValueAt(averageOffGround, teamRow, RunBenchmarkTableModelExtension.COLUMN_OFF_GROUND);
-
-			float averageOneLeg = runResult.getAverageOneLeg();
-			table.setValueAt(averageOneLeg, teamRow, RunBenchmarkTableModelExtension.COLUMN_ONE_LEG);
-
-			float averageTwoLegs = runResult.getAverageTwoLegs();
-			table.setValueAt(averageTwoLegs, teamRow, RunBenchmarkTableModelExtension.COLUMN_TWO_LEGS);
-
-			table.setValueAt("", teamRow, RunBenchmarkTableModelExtension.COLUMN_STATUS);
+			table.setValueAt("", teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_STATUS);
 		}
 
 		if (!model.isRunning()) {
@@ -112,7 +103,7 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 	private int getTeamRow(String name)
 	{
 		for (int i = 0; i < table.getRowCount(); i++) {
-			if (name.equals(table.getValueAt(i, RunBenchmarkTableModelExtension.COLUMN_TEAMNAME))) {
+			if (name.equals(table.getValueAt(i, RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME))) {
 				return i;
 			}
 		}
@@ -125,32 +116,30 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
-		DefaultTableModel tableModel = RunBenchmarkTableModelExtension.getInstance(config);
+		DefaultTableModel tableModel = RollingBallBenchmarkTableModelExtension.getInstance(config);
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(102);
 		table.getColumnModel().getColumn(2).setPreferredWidth(56);
 		table.getColumnModel().getColumn(3).setPreferredWidth(44);
 		table.getColumnModel().getColumn(4).setPreferredWidth(38);
 		table.getColumnModel().getColumn(5).setPreferredWidth(85);
-		table.getColumnModel().getColumn(7).setPreferredWidth(54);
-		table.getColumnModel().getColumn(8).setPreferredWidth(54);
-		table.getColumnModel().getColumn(9).setPreferredWidth(302);
-		table.getColumnModel().getColumn(10).setPreferredWidth(156);
+		table.getColumnModel().getColumn(6).setPreferredWidth(302);
+		table.getColumnModel().getColumn(7).setPreferredWidth(156);
 		table.setColumnSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 
-		BenchmarkTableCell benchmarkTableCell = new BenchmarkTableView.BenchmarkTableCell();
+		BenchmarkTableCell benchmarkTableCell = new BenchmarkTableCell();
 		table.getColumn("status").setCellRenderer(benchmarkTableCell);
 		table.getColumn("status").setCellEditor(benchmarkTableCell);
 		table.setRowHeight(30);
 		table.addMouseListener(new TableMouseListener(
-				RunBenchmarkTableModelExtension.COLUMN_STATUS, RunBenchmarkTableModelExtension.COLUMN_TEAMNAME));
+				RollingBallBenchmarkTableModelExtension.COLUMN_STATUS, RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME));
 		return table;
 	}
 
 	@Override
 	public ResultStatus getStatus(int row)
 	{
-		return getLocalStatus(row, RunBenchmarkTableModelExtension.COLUMN_TEAMNAME);
+		return getLocalStatus(row, RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME);
 	}
 }
