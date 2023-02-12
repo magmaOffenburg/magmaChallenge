@@ -36,7 +36,7 @@ public class RollingBallBenchmarkMonitorComponentFactory extends MonitorComponen
 	{
 		BenchmarkFactoryParameters params = (BenchmarkFactoryParameters) this.params;
 		SinglePlayerLauncher launcher = new SinglePlayerLauncher(params.getServerIP(), params.getAgentPort(),
-				params.getTeamPath(), params.getStartScriptName(), ChallengeType.KICK.startScriptArgument, false);
+				params.getTeamPath(), params.getStartScriptName(), ChallengeType.ROLLING_BALL.startScriptArgument, false);
 		return new RollingBallBenchmarkReferee(worldModel, serverCommander, params.getServerPid(), launcher,
 				params.getDropHeight(), runInfo, roboVizServer);
 	}
