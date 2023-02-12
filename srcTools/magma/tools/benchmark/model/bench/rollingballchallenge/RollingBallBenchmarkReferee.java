@@ -1,35 +1,20 @@
 package magma.tools.benchmark.model.bench.rollingballchallenge;
 
-import java.awt.Color;
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
-import magma.util.roboviz.RoboVizDraw;
-import magma.util.roboviz.RoboVizParameters;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 {
 	/**
-	 * time we wait the player to cross the line before we start counting (in s)
+	 * time we wait to allow the player to look for the ball (in s)
 	 */
-	private static final double TIME_UNTIL_BENCH_STARTS = 3.0;
-
-	/** if after this time the ball is still in the 2m circle we stop (in s) */
-	private static final double TIME_BALL_HAS_TO_LEAVE_CIRCLE = 7.0;
-
-	/** distance to ball below which time starts to count (in m) */
-	private static final double START_LINE_DISTANCE = 0.4;
-
-	/** distance to ball above which run ends (in m) */
-	private static final double MAX_BALL_DISTANCE = 2.0;
-
-	/** penalty assigned if player leaves circle */
-	private static final double PENALTY_LEAVING_CIRCLE = 5.0;
+	private static final double TIME_UNTIL_BENCH_STARTS = 5.0;
 
 	/** speed below which the ball is considered in rest (in m/cycle) */
 	private static final double BALL_STOPPED_SPEED = 0.001;
@@ -46,6 +31,8 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 	private Vector2D oldBallPos;
 
 	private boolean ballRolling;
+
+	private int ballNotMoving;
 
 	public RollingBallBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
 			SinglePlayerLauncher launcher, float dropHeight, RunInformation runInfo, String roboVizServer)
@@ -77,13 +64,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
 		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
-//		serverCommander.moveRotatePlayer(Team.LEFT, worldModel.getSoccerAgents().get(0).getPlayerID(), 
-//				(float) runInfo.getBeamX(), (float) runInfo.getBeamY(), 0.4f, (float) 0 - 90);
 
-		RoboVizDraw roboVizDraw =
-				new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT, 1));
-		roboVizDraw.drawCircle("rollingBallChallenge.penaltyCircle", new Vector3D(runInfo.getBeamX(), runInfo.getBeamY(), 0),
-				(float) MAX_BALL_DISTANCE, 5, new Color(0xFF1e7711));
 		return true;
 	}
 
@@ -116,7 +97,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 
 		if (state == RefereeState.STARTED) {
 			// wait few seconds to allow the player to find the ball
-			if (currentTime < 5) {
+			if (currentTime < TIME_UNTIL_BENCH_STARTS) {
 				oldBallPos = ballNow;
 				return false;
 			}
@@ -125,23 +106,18 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 				serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY(), 0.0f,
 						(float) runInfo.getBallVelX(), (float) runInfo.getBallVelY(), (float) runInfo.getBallVelZ());
 				ballRolling = true;
+			} else {
+				// stop if ball stopped moving
+				if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
+					ballNotMoving++;
+					if (ballNotMoving > 3) {
+						return true;
+					}
+				} else {
+					ballNotMoving = 0;
+				}
 			}
 			
-			// stop if player runs too far
-			if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
-				return true;
-			}
-			// stop if ball has left radius and has stopped
-			if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
-				if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
-					return true;
-				}
-			} else {
-				// stop if the ball did not leave the circle for too long
-				if (time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
-					return true;
-				}
-			}
 			// stop if playmode changes (e.g. because someone scored an own goal)
 			if (worldModel.getPlayMode() != PlayMode.PLAY_ON) {
 				return true;
@@ -163,15 +139,6 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		distance = start.distance(oldBallPos);
 		deltaY = Math.abs(oldBallPos.getY());
 		state = RefereeState.STOPPED;
-
-		// we give a penalty if player left circle around ball
-		Vector3D posPlayer = getAgent().getPosition();
-		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
-		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
-		if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
-			distance += PENALTY_LEAVING_CIRCLE;
-			hasPenalty = true;
-		}
 	}
 
 	/**
