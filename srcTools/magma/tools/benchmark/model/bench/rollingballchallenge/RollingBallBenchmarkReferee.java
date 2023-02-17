@@ -134,9 +134,11 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		// evaluation function
 		Vector2D start = new Vector2D(runInfo.getBeamX(), runInfo.getBeamY());
 		
-		// TODO: set distance to 0 if ball not kicked
-		
-		distance = start.distance(oldBallPos);
+		distance = 0;
+		if (oldBallPos.getX() > start.getX()) {
+			// only count forward movement of ball
+			distance = start.distance(oldBallPos);
+		}
 		deltaY = Math.abs(oldBallPos.getY());
 		state = RefereeState.STOPPED;
 	}
