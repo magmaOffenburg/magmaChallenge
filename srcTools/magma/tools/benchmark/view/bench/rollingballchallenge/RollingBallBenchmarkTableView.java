@@ -86,11 +86,11 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 			int runs = kickResult.size();
 			table.setValueAt(runs, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_RUNS);
 
-			int fallenCount = kickResult.getPenaltyCount();
-			table.setValueAt(fallenCount, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_PENALTIES);
-
 			float averageDistance = kickResult.getLastDistance();
 			table.setValueAt(averageDistance, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_DISTANCE);
+
+			float deltaY = kickResult.getAverageDistance();
+			table.setValueAt(deltaY, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_DELTAY);
 
 			table.setValueAt("", teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_STATUS);
 		}
@@ -121,8 +121,8 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 		table.getColumnModel().getColumn(0).setPreferredWidth(102);
 		table.getColumnModel().getColumn(2).setPreferredWidth(56);
 		table.getColumnModel().getColumn(3).setPreferredWidth(44);
-		table.getColumnModel().getColumn(4).setPreferredWidth(38);
-		table.getColumnModel().getColumn(5).setPreferredWidth(85);
+		table.getColumnModel().getColumn(4).setPreferredWidth(60);
+		table.getColumnModel().getColumn(5).setPreferredWidth(60);
 		table.getColumnModel().getColumn(6).setPreferredWidth(302);
 		table.getColumnModel().getColumn(7).setPreferredWidth(156);
 		table.setColumnSelectionAllowed(true);

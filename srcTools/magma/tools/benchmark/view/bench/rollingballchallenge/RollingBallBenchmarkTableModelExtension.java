@@ -39,9 +39,9 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_RUNS = 3;
 
-	static final int COLUMN_PENALTIES = 4;
+	static final int COLUMN_DISTANCE = 4;
 
-	static final int COLUMN_DISTANCE = 5;
+	static final int COLUMN_DELTAY = 5;
 
 	static final int COLUMN_PATH = 6;
 
@@ -62,15 +62,15 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 			content[i][COLUMN_STATUS] = null;
 			content[i][COLUMN_SCORE] = null;
 			content[i][COLUMN_RUNS] = null;
-			content[i][COLUMN_PENALTIES] = null;
 			content[i][COLUMN_DISTANCE] = null;
+			content[i][COLUMN_DELTAY] = null;
 			content[i][COLUMN_PATH] = team.getPath();
 			content[i][COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
 		String[] headers =
-				new String[] {"team", "status", "score", "runs", "penalties", "distance", "path", "drop height"};
+				new String[] {"team", "status", "score", "runs", "distance", "deltaY", "path", "drop height"};
 
 		return new RollingBallBenchmarkTableModelExtension(content, headers);
 	}
@@ -79,7 +79,7 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] {String.class, Object.class, Float.class, Integer.class, Integer.class, Float.class,
+		columnTypes = new Class[] {String.class, Object.class, Float.class, Integer.class, Float.class, Float.class,
 				String.class, Float.class};
 
 		editableColumns = new boolean[] {true, false, false, false, false, false, true, true};
