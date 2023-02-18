@@ -48,6 +48,6 @@ public class KeepAwayBenchmark extends BenchmarkMain
 	@Override
 	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
 	{
-		return new KeepAwayBenchmarkTeamResult(currentTeamConfig.getName());
+		return new TeamResult(currentTeamConfig.getName());
 	}
 }

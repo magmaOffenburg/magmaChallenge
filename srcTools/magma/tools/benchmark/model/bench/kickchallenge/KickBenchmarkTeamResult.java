@@ -35,39 +35,12 @@ public class KickBenchmarkTeamResult extends TeamResult
 		super(name);
 	}
 
-	@Override
-	public float getAverageScore()
-	{
-		return getAverageDistance();
-	}
-
-	public float getAverageDistance()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		float avg = 0;
-		for (ISingleResult result : results) {
-			// NOT NICE: stopped with compositum pattern half way through
-			if (result instanceof KickBenchmarkTeamResult) {
-				avg += ((KickBenchmarkTeamResult) result).getAverageDistance();
-			} else {
-				avg += ((KickBenchmarkSingleResult) result).getDistance();
-			}
-		}
-		return avg / results.size();
-	}
-
 	public float getLastDistance()
 	{
 		if (results.isEmpty()) {
 			return 0.0f;
 		}
 		ISingleResult result = results.get(results.size() - 1);
-		if (result instanceof KickBenchmarkTeamResult) {
-			return ((KickBenchmarkTeamResult) result).getLastDistance();
-		} else {
-			return ((KickBenchmarkSingleResult) result).getDistance();
-		}
+		return ((KickBenchmarkSingleResult) result).getDistance();
 	}
 }

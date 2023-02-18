@@ -21,7 +21,9 @@
 
 package magma.tools.benchmark.model.bench.rollingballchallenge;
 
-import magma.tools.benchmark.model.ISingleResult;
+import java.util.function.ToDoubleFunction;
+import java.util.stream.Collectors;
+
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
@@ -35,39 +37,9 @@ public class RollingBallBenchmarkTeamResult extends TeamResult
 		super(name);
 	}
 
-	@Override
-	public float getAverageScore()
+	public double getAverage(ToDoubleFunction<? super RollingBallBenchmarkSingleResult> method)
 	{
-		return getAverageDistance();
-	}
-
-	public float getAverageDistance()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		float avg = 0;
-		for (ISingleResult result : results) {
-			// NOT NICE: stopped with compositum pattern half way through
-			if (result instanceof RollingBallBenchmarkTeamResult) {
-				avg += ((RollingBallBenchmarkTeamResult) result).getAverageDistance();
-			} else {
-				avg += ((RollingBallBenchmarkSingleResult) result).getDistance();
-			}
-		}
-		return avg / results.size();
-	}
-
-	public float getLastDistance()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		ISingleResult result = results.get(results.size() - 1);
-		if (result instanceof RollingBallBenchmarkTeamResult) {
-			return ((RollingBallBenchmarkTeamResult) result).getLastDistance();
-		} else {
-			return ((RollingBallBenchmarkSingleResult) result).getDistance();
-		}
+		return results.stream().map(obj -> (RollingBallBenchmarkSingleResult) obj)
+				.collect(Collectors.summarizingDouble(method)).getAverage();
 	}
 }

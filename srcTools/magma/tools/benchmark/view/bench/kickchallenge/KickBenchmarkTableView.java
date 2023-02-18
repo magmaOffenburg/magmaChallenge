@@ -80,7 +80,7 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 
 			int teamRow = getTeamRow(kickResult.getName());
 
-			float averageScore = kickResult.getAverageScore();
+			double averageScore = kickResult.getScore();
 			table.setValueAt(averageScore, teamRow, KickBenchmarkTableModelExtension.COLUMN_SCORE);
 
 			int runs = kickResult.size();

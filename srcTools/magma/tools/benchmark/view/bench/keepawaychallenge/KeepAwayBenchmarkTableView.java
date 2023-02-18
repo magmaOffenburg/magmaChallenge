@@ -57,7 +57,7 @@ public class KeepAwayBenchmarkTableView extends BenchmarkTableView
 		for (ITeamResult teamResult : teamResults) {
 			int teamRow = getTeamRow(teamResult.getName());
 
-			float averageScore = teamResult.getAverageScore();
+			double averageScore = teamResult.getScore();
 			table.setValueAt(averageScore, teamRow, KeepAwayBenchmarkTableModelExtension.COLUMN_TIME);
 
 			table.setValueAt("", teamRow, KeepAwayBenchmarkTableModelExtension.COLUMN_STATUS);

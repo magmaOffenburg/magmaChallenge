@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.bench.rollingballchallenge.RollingBallBenchmarkSingleResult;
 import magma.tools.benchmark.model.bench.rollingballchallenge.RollingBallBenchmarkTeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
@@ -80,16 +81,16 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 
 			int teamRow = getTeamRow(kickResult.getName());
 
-			float averageScore = kickResult.getAverageScore();
+			double averageScore = kickResult.getScore();
 			table.setValueAt(averageScore, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_SCORE);
 
 			int runs = kickResult.size();
 			table.setValueAt(runs, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_RUNS);
 
-			float averageDistance = kickResult.getLastDistance();
+			double averageDistance = kickResult.getAverage(RollingBallBenchmarkSingleResult::getDistance);
 			table.setValueAt(averageDistance, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_DISTANCE);
 
-			float deltaY = kickResult.getAverageDistance();
+			double deltaY = kickResult.getAverage(RollingBallBenchmarkSingleResult::getDeltaY);
 			table.setValueAt(deltaY, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_DELTAY);
 
 			table.setValueAt("", teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_STATUS);

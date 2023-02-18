@@ -16,4 +16,11 @@ public class KeepAwayBenchmarkSingleResult extends SingleResult
 	{
 		return time;
 	}
+	
+	@Override
+	public double getScore()
+	{
+		return time;
+	}
+
 }

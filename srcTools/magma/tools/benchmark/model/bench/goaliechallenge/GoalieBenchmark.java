@@ -110,7 +110,7 @@ public class GoalieBenchmark extends BenchmarkMain
 	@Override
 	protected TeamResult createTeamResult(TeamConfiguration currentTeamConfig)
 	{
-		return new GoalieBenchmarkTeamResult(currentTeamConfig.getName());
+		return new TeamResult(currentTeamConfig.getName());
 	}
 
 	@Override

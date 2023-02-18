@@ -11,4 +11,7 @@ public interface ISingleResult {
 	boolean isValid();
 
 	String getStatusText();
+	
+	double getScore();
+
 }

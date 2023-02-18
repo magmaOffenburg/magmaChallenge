@@ -69,7 +69,7 @@ class GoalieBenchmarkTableModelExtension extends DefaultTableModel
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] {String.class, Object.class, Float.class, Integer.class, String.class};
+		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, String.class};
 
 		editableColumns = new boolean[] {true, false, false, false, true};
 	}

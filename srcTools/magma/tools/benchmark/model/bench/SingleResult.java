@@ -27,7 +27,7 @@ import magma.tools.benchmark.model.ISingleResult;
  * Common base class for all results of a single benchmark run
  * @author kdorer
  */
-public class SingleResult implements ISingleResult
+public abstract class SingleResult implements ISingleResult
 {
 	private final boolean fallen;
 

@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
+import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkSingleResult;
 import magma.tools.benchmark.model.bench.runchallenge.RunBenchmarkTeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
@@ -80,25 +81,25 @@ public class RunBenchmarkTableView extends BenchmarkTableView
 
 			int teamRow = getTeamRow(runResult.getName());
 
-			float averageScore = runResult.getAverageScore();
+			double averageScore = runResult.getScore();
 			table.setValueAt(averageScore, teamRow, RunBenchmarkTableModelExtension.COLUMN_SCORE);
 
-			int runs = ((ITeamResult) runResult.getResult(0)).size();
+			int runs = runResult.size();
 			table.setValueAt(runs, teamRow, RunBenchmarkTableModelExtension.COLUMN_RUNS);
 
 			int fallenCount = runResult.getFallenCount();
 			table.setValueAt(fallenCount, teamRow, RunBenchmarkTableModelExtension.COLUMN_FALLS);
 
-			float averageSpeed = runResult.getAverageSpeed();
+			double averageSpeed = runResult.getAverage(RunBenchmarkSingleResult::getSpeed);
 			table.setValueAt(averageSpeed, teamRow, RunBenchmarkTableModelExtension.COLUMN_SPEED);
 
-			float averageOffGround = runResult.getAverageOffGround();
+			double averageOffGround = runResult.getAverage(RunBenchmarkSingleResult::getOffGround);
 			table.setValueAt(averageOffGround, teamRow, RunBenchmarkTableModelExtension.COLUMN_OFF_GROUND);
 
-			float averageOneLeg = runResult.getAverageOneLeg();
+			double averageOneLeg = runResult.getAverage(RunBenchmarkSingleResult::getOneLeg);
 			table.setValueAt(averageOneLeg, teamRow, RunBenchmarkTableModelExtension.COLUMN_ONE_LEG);
 
-			float averageTwoLegs = runResult.getAverageTwoLegs();
+			double averageTwoLegs = runResult.getAverage(RunBenchmarkSingleResult::getTwoLegs);
 			table.setValueAt(averageTwoLegs, teamRow, RunBenchmarkTableModelExtension.COLUMN_TWO_LEGS);
 
 			table.setValueAt("", teamRow, RunBenchmarkTableModelExtension.COLUMN_STATUS);

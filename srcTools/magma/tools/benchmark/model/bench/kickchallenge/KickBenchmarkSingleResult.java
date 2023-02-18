@@ -41,4 +41,10 @@ public class KickBenchmarkSingleResult extends SingleResult
 	{
 		return distance;
 	}
+
+	@Override
+	public double getScore()
+	{
+		return distance;
+	}
 }

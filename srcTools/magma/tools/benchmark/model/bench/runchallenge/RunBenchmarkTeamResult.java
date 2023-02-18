@@ -21,7 +21,9 @@
 
 package magma.tools.benchmark.model.bench.runchallenge;
 
-import magma.tools.benchmark.model.ISingleResult;
+import java.util.function.ToDoubleFunction;
+import java.util.stream.Collectors;
+
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
@@ -35,73 +37,9 @@ public class RunBenchmarkTeamResult extends TeamResult
 		super(name);
 	}
 
-	@Override
-	public float getAverageScore()
+	public double getAverage(ToDoubleFunction<? super RunBenchmarkSingleResult> method)
 	{
-		return getAverageSpeed() + getAverageOffGround();
-	}
-
-	public float getAverageSpeed()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		float avg = 0;
-		for (ISingleResult result : results) {
-			if (result instanceof RunBenchmarkTeamResult) {
-				avg += ((RunBenchmarkTeamResult) result).getAverageSpeed();
-			} else {
-				avg += ((RunBenchmarkSingleResult) result).getSpeed();
-			}
-		}
-		return avg / results.size();
-	}
-
-	public float getAverageOffGround()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		float avg = 0;
-		for (ISingleResult result : results) {
-			if (result instanceof RunBenchmarkTeamResult) {
-				avg += ((RunBenchmarkTeamResult) result).getAverageOffGround();
-			} else {
-				avg += ((RunBenchmarkSingleResult) result).getOffGround();
-			}
-		}
-		return avg / results.size();
-	}
-
-	public float getAverageOneLeg()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		float avg = 0;
-		for (ISingleResult result : results) {
-			if (result instanceof RunBenchmarkTeamResult) {
-				avg += ((RunBenchmarkTeamResult) result).getAverageOneLeg();
-			} else {
-				avg += ((RunBenchmarkSingleResult) result).getOneLeg();
-			}
-		}
-		return avg / results.size();
-	}
-
-	public float getAverageTwoLegs()
-	{
-		if (results.isEmpty()) {
-			return 0.0f;
-		}
-		float avg = 0;
-		for (ISingleResult result : results) {
-			if (result instanceof RunBenchmarkTeamResult) {
-				avg += ((RunBenchmarkTeamResult) result).getAverageTwoLegs();
-			} else {
-				avg += ((RunBenchmarkSingleResult) result).getTwoLegs();
-			}
-		}
-		return avg / results.size();
+		return results.stream().map(obj -> (RunBenchmarkSingleResult) obj)
+				.collect(Collectors.summarizingDouble(method)).getAverage();
 	}
 }

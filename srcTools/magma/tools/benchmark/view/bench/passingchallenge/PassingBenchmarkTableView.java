@@ -34,14 +34,14 @@ public class PassingBenchmarkTableView extends BenchmarkTableView
 			PassingBenchmarkTeamResult passResult = (PassingBenchmarkTeamResult) teamResult;
 			int teamRow = getTeamRow(passResult.getName());
 
-			float averageScore = passResult.getAverageScore();
+			double averageScore = passResult.getScore();
 			table.setValueAt(averageScore, teamRow, PassingBenchmarkTableModelExtension.COLUMN_TIME);
 
-			table.setValueAt(passResult.getBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_BEST_TIME);
+			table.setValueAt(passResult.getScore(0), teamRow, PassingBenchmarkTableModelExtension.COLUMN_BEST_TIME);
 			table.setValueAt(
-					passResult.getSecondBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_2_BEST_TIME);
+					passResult.getScore(1), teamRow, PassingBenchmarkTableModelExtension.COLUMN_2_BEST_TIME);
 			table.setValueAt(
-					passResult.getThirdBestScore(), teamRow, PassingBenchmarkTableModelExtension.COLUMN_3_BEST_TIME);
+					passResult.getScore(2), teamRow, PassingBenchmarkTableModelExtension.COLUMN_3_BEST_TIME);
 
 			table.setValueAt("", teamRow, PassingBenchmarkTableModelExtension.COLUMN_STATUS);
 		}

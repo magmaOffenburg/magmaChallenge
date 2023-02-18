@@ -29,7 +29,6 @@ import javax.swing.table.DefaultTableModel;
 import magma.tools.benchmark.model.IModelReadOnly;
 import magma.tools.benchmark.model.ITeamResult;
 import magma.tools.benchmark.model.TeamConfiguration;
-import magma.tools.benchmark.model.bench.goaliechallenge.GoalieBenchmarkTeamResult;
 import magma.tools.benchmark.view.bench.BenchmarkTableView;
 
 /**
@@ -75,11 +74,11 @@ public class GoalieBenchmarkTableView extends BenchmarkTableView
 		List<ITeamResult> teamResults = model.getTeamResults();
 
 		for (ITeamResult teamResult : teamResults) {
-			GoalieBenchmarkTeamResult goalieResult = (GoalieBenchmarkTeamResult) teamResult;
+			ITeamResult goalieResult = teamResult;
 
 			int teamRow = getTeamRow(goalieResult.getName());
 
-			float averageScore = goalieResult.getAverageScore();
+			double averageScore = goalieResult.getScore();
 			table.setValueAt(averageScore, teamRow, GoalieBenchmarkTableModelExtension.COLUMN_SCORE);
 
 			int runs = goalieResult.size();

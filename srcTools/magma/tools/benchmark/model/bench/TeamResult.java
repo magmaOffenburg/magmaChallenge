@@ -30,7 +30,7 @@ import magma.tools.benchmark.model.ITeamResult;
  *
  * @author kdorer
  */
-public abstract class TeamResult implements ITeamResult
+public class TeamResult implements ITeamResult
 {
 	private final String name;
 
@@ -47,9 +47,6 @@ public abstract class TeamResult implements ITeamResult
 	{
 		results.add(result);
 	}
-
-	@Override
-	public abstract float getAverageScore();
 
 	@Override
 	public int getFallenCount()
@@ -142,8 +139,12 @@ public abstract class TeamResult implements ITeamResult
 	}
 
 	@Override
-	public ISingleResult getResult(int n)
+	public double getScore()
 	{
-		return results.get(n);
+		float avg = 0;
+		for (ISingleResult result : results) {
+			avg += result.getScore();
+		}
+		return avg / results.size();
 	}
 }

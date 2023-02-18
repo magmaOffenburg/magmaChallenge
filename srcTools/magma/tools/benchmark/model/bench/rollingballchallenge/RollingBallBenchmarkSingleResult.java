@@ -48,4 +48,10 @@ public class RollingBallBenchmarkSingleResult extends SingleResult
 	{
 		return deltaY;
 	}
+
+	@Override
+	public double getScore()
+	{
+		return distance - deltaY;
+	}
 }

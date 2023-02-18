@@ -29,15 +29,15 @@ import magma.tools.benchmark.model.bench.SingleResult;
  */
 public class RunBenchmarkSingleResult extends SingleResult
 {
-	private final float speed;
+	private final double speed;
 
-	private final float offGround;
+	private final double offGround;
 
-	private final float oneLeg;
+	private final double oneLeg;
 
-	private final float twoLegs;
+	private final double twoLegs;
 
-	public RunBenchmarkSingleResult(boolean valid, float speed, float offGround, float oneLeg, float twoLegs,
+	public RunBenchmarkSingleResult(boolean valid, double speed, double offGround, double oneLeg, double twoLegs,
 			boolean fallen, boolean penalty, String statusText)
 	{
 		super(valid, fallen, penalty, statusText);
@@ -47,23 +47,29 @@ public class RunBenchmarkSingleResult extends SingleResult
 		this.twoLegs = twoLegs;
 	}
 
-	public float getSpeed()
+	public double getSpeed()
 	{
 		return speed;
 	}
 
-	public float getOffGround()
+	public double getOffGround()
 	{
 		return offGround;
 	}
 
-	public float getOneLeg()
+	public double getOneLeg()
 	{
 		return oneLeg;
 	}
 
-	public float getTwoLegs()
+	public double getTwoLegs()
 	{
 		return twoLegs;
+	}
+	
+	@Override
+	public double getScore()
+	{
+		return getSpeed() + getOffGround();
 	}
 }
