@@ -146,6 +146,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 	{
 		ISingleResult result = benchmarkResults();
 		currentRunResult.addResult(result);
+		ITeamResult teamResult = getCurrentTeamResult();
+		if (currentRunResult.size() < 2) {
+			teamResult.addResult(currentRunResult.createSingleResult());
+		} else {
+			teamResult.replaceResult(currentRunResult.createSingleResult());
+		}
 		observer.onStateChange(this);
 	}
 
@@ -379,7 +385,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 			int avgRuns = config.getAverageOutRuns();
 
 			stoppedTeam = false;
-			ITeamResult currentRunResult = getCurrentTeamResult(); 
+			ITeamResult currentRunResult = createTeamResult(currentTeamConfig);
 			while (currentRunResult.size() < avgRuns && !stopped && !stoppedTeam) {
 				try {
 					float dropHeight = currentTeamConfig.getDropHeight();

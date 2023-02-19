@@ -34,6 +34,7 @@ import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
@@ -96,7 +97,7 @@ public class GoalieBenchmark extends BenchmarkMain
 				statusText += referee.getStatusText();
 			}
 		}
-		return new GoalieBenchmarkSingleResult(valid, statusText, avgScore);
+		return new SingleResult(avgScore, valid, false, false, statusText);
 	}
 
 	@Override

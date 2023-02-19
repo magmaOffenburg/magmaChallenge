@@ -27,8 +27,10 @@ import magma.tools.benchmark.model.ISingleResult;
  * Common base class for all results of a single benchmark run
  * @author kdorer
  */
-public abstract class SingleResult implements ISingleResult
+public class SingleResult implements ISingleResult
 {
+	private final double score;
+	
 	private final boolean fallen;
 
 	private final boolean penalty;
@@ -37,8 +39,9 @@ public abstract class SingleResult implements ISingleResult
 
 	private final String statusText;
 
-	public SingleResult(boolean valid, boolean fallen, boolean penalty, String statusText)
+	public SingleResult(double score, boolean valid, boolean fallen, boolean penalty, String statusText)
 	{
+		this.score = score;
 		this.valid = valid;
 		this.fallen = fallen;
 		this.penalty = penalty;
@@ -67,5 +70,11 @@ public abstract class SingleResult implements ISingleResult
 	public boolean hasPenalty()
 	{
 		return penalty;
+	}
+
+	@Override
+	public double getScore()
+	{
+		return score;
 	}
 }

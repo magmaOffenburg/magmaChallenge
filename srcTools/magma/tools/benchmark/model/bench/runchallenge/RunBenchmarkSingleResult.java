@@ -40,11 +40,16 @@ public class RunBenchmarkSingleResult extends SingleResult
 	public RunBenchmarkSingleResult(boolean valid, double speed, double offGround, double oneLeg, double twoLegs,
 			boolean fallen, boolean penalty, String statusText)
 	{
-		super(valid, fallen, penalty, statusText);
+		super(calculateScore(speed, offGround), valid, fallen, penalty, statusText);
 		this.speed = speed;
 		this.offGround = offGround;
 		this.oneLeg = oneLeg;
 		this.twoLegs = twoLegs;
+	}
+
+	private static double calculateScore(double speed, double offGround)
+	{
+		return speed + offGround;
 	}
 
 	public double getSpeed()
@@ -65,11 +70,5 @@ public class RunBenchmarkSingleResult extends SingleResult
 	public double getTwoLegs()
 	{
 		return twoLegs;
-	}
-	
-	@Override
-	public double getScore()
-	{
-		return getSpeed() + getOffGround();
 	}
 }

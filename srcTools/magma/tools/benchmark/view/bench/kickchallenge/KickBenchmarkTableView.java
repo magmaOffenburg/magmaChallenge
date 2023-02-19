@@ -89,8 +89,8 @@ public class KickBenchmarkTableView extends BenchmarkTableView
 			int fallenCount = kickResult.getPenaltyCount();
 			table.setValueAt(fallenCount, teamRow, KickBenchmarkTableModelExtension.COLUMN_PENALTIES);
 
-			float averageDistance = kickResult.getLastDistance();
-			table.setValueAt(averageDistance, teamRow, KickBenchmarkTableModelExtension.COLUMN_DISTANCE);
+			double lastDistance = kickResult.getLastDistance();
+			table.setValueAt(lastDistance, teamRow, KickBenchmarkTableModelExtension.COLUMN_DISTANCE);
 
 			table.setValueAt("", teamRow, KickBenchmarkTableModelExtension.COLUMN_STATUS);
 		}

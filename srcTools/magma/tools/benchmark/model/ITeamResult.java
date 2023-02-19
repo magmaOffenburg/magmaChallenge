@@ -4,6 +4,8 @@ public interface ITeamResult extends ISingleResult
 {
 	void addResult(ISingleResult result);
 
+	void replaceResult(ISingleResult result);
+
 	int getFallenCount();
 
 	int getPenaltyCount();
@@ -12,4 +14,5 @@ public interface ITeamResult extends ISingleResult
 
 	String getName();
 
+	ISingleResult createSingleResult();
 }

@@ -49,6 +49,12 @@ public class TeamResult implements ITeamResult
 	}
 
 	@Override
+	public void replaceResult(ISingleResult result)
+	{
+		results.set(results.size() - 1, result);
+	}
+
+	@Override
 	public int getFallenCount()
 	{
 		if (results.isEmpty()) {
@@ -146,5 +152,11 @@ public class TeamResult implements ITeamResult
 			avg += result.getScore();
 		}
 		return avg / results.size();
+	}
+
+	@Override
+	public ISingleResult createSingleResult()
+	{
+		return new SingleResult(getScore(), isValid(), isFallen(), hasPenalty(), getStatusText());
 	}
 }

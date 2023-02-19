@@ -79,7 +79,7 @@ class KickBenchmarkTableModelExtension extends DefaultTableModel
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, Integer.class, Float.class,
+		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, Integer.class, Double.class,
 				String.class, Float.class};
 
 		editableColumns = new boolean[] {true, false, false, false, false, false, true, true};

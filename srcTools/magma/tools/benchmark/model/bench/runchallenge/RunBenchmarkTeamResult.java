@@ -24,6 +24,7 @@ package magma.tools.benchmark.model.bench.runchallenge;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 
+import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
@@ -41,5 +42,17 @@ public class RunBenchmarkTeamResult extends TeamResult
 	{
 		return results.stream().map(obj -> (RunBenchmarkSingleResult) obj)
 				.collect(Collectors.summarizingDouble(method)).getAverage();
+	}
+	
+	@Override
+	public ISingleResult createSingleResult()
+	{
+		double speed = getAverage(RunBenchmarkSingleResult::getSpeed);
+		double offGround = getAverage(RunBenchmarkSingleResult::getOffGround);
+		double oneLeg = getAverage(RunBenchmarkSingleResult::getOneLeg);
+		double twoLegs = getAverage(RunBenchmarkSingleResult::getTwoLegs);
+		
+		return new RunBenchmarkSingleResult(isValid(), speed, offGround, oneLeg, twoLegs,  
+				isFallen(), hasPenalty(), getStatusText());
 	}
 }

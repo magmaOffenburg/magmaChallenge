@@ -29,6 +29,7 @@ import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 /**
@@ -72,7 +73,7 @@ public class KickBenchmark extends BenchmarkMain
 				statusText += referee.getStatusText();
 			}
 		}
-		return new KickBenchmarkSingleResult(valid, fallen, penalty, statusText, avgScore);
+		return new SingleResult(avgScore, valid, fallen, penalty, statusText);
 	}
 
 	@Override

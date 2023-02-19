@@ -7,6 +7,7 @@ import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.TeamConfiguration;
 import magma.tools.benchmark.model.bench.BenchmarkMain;
 import magma.tools.benchmark.model.bench.RunInformation;
+import magma.tools.benchmark.model.bench.SingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
 public class PassingBenchmark extends BenchmarkMain
@@ -36,7 +37,7 @@ public class PassingBenchmark extends BenchmarkMain
 				statusText += referee.getStatusText();
 			}
 		}
-		return new PassingBenchmarkSingleResult(valid, false, false, statusText, time);
+		return new SingleResult(time, valid, false, false, statusText);
 	}
 
 	@Override

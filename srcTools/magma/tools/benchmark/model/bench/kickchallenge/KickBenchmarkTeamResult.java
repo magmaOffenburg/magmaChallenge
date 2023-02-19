@@ -35,12 +35,12 @@ public class KickBenchmarkTeamResult extends TeamResult
 		super(name);
 	}
 
-	public float getLastDistance()
+	public double getLastDistance()
 	{
 		if (results.isEmpty()) {
 			return 0.0f;
 		}
 		ISingleResult result = results.get(results.size() - 1);
-		return ((KickBenchmarkSingleResult) result).getDistance();
+		return result.getScore();
 	}
 }

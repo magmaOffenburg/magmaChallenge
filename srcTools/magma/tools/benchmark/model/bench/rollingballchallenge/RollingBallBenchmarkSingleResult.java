@@ -29,29 +29,29 @@ import magma.tools.benchmark.model.bench.SingleResult;
  */
 public class RollingBallBenchmarkSingleResult extends SingleResult
 {
-	private final float distance;
-	private final float deltaY;
+	private final double distance;
+	private final double deltaY;
 
-	public RollingBallBenchmarkSingleResult(boolean valid, boolean fallen, boolean penalty, String statusText, float distance, float deltaY)
+	public RollingBallBenchmarkSingleResult(boolean valid, boolean fallen, boolean penalty, String statusText, 
+			double distance, double deltaY)
 	{
-		super(valid, fallen, penalty, statusText);
+		super(calculateScore(distance, deltaY), valid, fallen, penalty, statusText);
 		this.distance = distance;
 		this.deltaY = deltaY;
 	}
 
-	public float getDistance()
+	private static double calculateScore(double distance, double deltaY)
+	{
+		return distance - deltaY;
+	}
+
+	public double getDistance()
 	{
 		return distance;
 	}
 
-	public float getDeltaY()
+	public double getDeltaY()
 	{
 		return deltaY;
-	}
-
-	@Override
-	public double getScore()
-	{
-		return distance - deltaY;
 	}
 }
