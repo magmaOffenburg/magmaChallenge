@@ -17,7 +17,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 	private static final double TIME_UNTIL_BENCH_STARTS = 5.0;
 
 	/** speed below which the ball is considered in rest (in m/cycle) */
-	private static final double BALL_STOPPED_SPEED = 0.001;
+	private static final double BALL_STOPPED_SPEED = 0.01;
 
 	private final String roboVizServer;
 
@@ -29,6 +29,9 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 
 	/** position of ball in last cycle */
 	private Vector2D oldBallPos;
+
+	/** amount of speed of ball in last cycle */
+	private double oldBallSpeed;
 
 	private boolean ballRolling;
 
@@ -43,6 +46,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		distance = 0;
 		deltaY = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
+		oldBallSpeed = 0;
 	}
 
 	/**
@@ -108,7 +112,10 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 				ballRolling = true;
 			} else {
 				// stop if ball stopped moving
-				if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
+				double ballSpeed = ballNow.distance(oldBallPos);
+				double avgSpeed = (ballSpeed + oldBallSpeed) / 2;
+				oldBallSpeed = ballSpeed;
+				if (avgSpeed < BALL_STOPPED_SPEED) {
 					ballNotMoving++;
 					if (ballNotMoving > 3) {
 						return true;
