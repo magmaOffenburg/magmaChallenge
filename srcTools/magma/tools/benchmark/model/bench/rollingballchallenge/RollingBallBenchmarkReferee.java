@@ -80,10 +80,13 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		Vector3D posPlayer = getAgent().getPosition();
 		Vector3D posBall = getBall().getPosition();
 		Vector2D playerInitial = new Vector2D(runInfo.getBeamX(), runInfo.getBeamY());
-		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
 		Vector2D ballNow = new Vector2D(posBall.getX(), posBall.getY());
 
+		if (hasFallen()) {
+			hasFallen = true;
+		}
+		
 		if (currentTime > runTime) {
 			// finished this run
 			runTime = currentTime;

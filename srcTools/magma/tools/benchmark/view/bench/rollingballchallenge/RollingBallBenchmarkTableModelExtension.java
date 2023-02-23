@@ -43,9 +43,11 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 
 	static final int COLUMN_DELTAY = 5;
 
-	static final int COLUMN_PATH = 6;
+	static final int COLUMN_FALLS = 6;
 
-	static final int COLUMN_DROP_HEIGHT = 7;
+	static final int COLUMN_PATH = 7;
+
+	static final int COLUMN_DROP_HEIGHT = 8;
 
 	private final Class<?>[] columnTypes;
 
@@ -53,7 +55,7 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 
 	public static RollingBallBenchmarkTableModelExtension getInstance(List<TeamConfiguration> config)
 	{
-		final int COLUMNS = 8;
+		final int COLUMNS = 9;
 
 		Object[][] content = new Object[config.size()][COLUMNS];
 		int i = 0;
@@ -64,13 +66,14 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 			content[i][COLUMN_RUNS] = null;
 			content[i][COLUMN_DISTANCE] = null;
 			content[i][COLUMN_DELTAY] = null;
+			content[i][COLUMN_FALLS] = null;
 			content[i][COLUMN_PATH] = team.getPath();
 			content[i][COLUMN_DROP_HEIGHT] = team.getDropHeight();
 			i++;
 		}
 
 		String[] headers =
-				new String[] {"team", "status", "score", "runs", "distance", "deltaY", "path", "drop height"};
+				new String[] {"team", "status", "score", "runs", "distance", "deltaY", "falls", "path", "drop height"};
 
 		return new RollingBallBenchmarkTableModelExtension(content, headers);
 	}
@@ -79,10 +82,10 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, Float.class, Float.class,
+		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, Float.class, Float.class, Float.class,
 				String.class, Float.class};
 
-		editableColumns = new boolean[] {true, false, false, false, false, false, true, true};
+		editableColumns = new boolean[] {true, false, false, false, false, false, false, true, true};
 	}
 
 	@Override

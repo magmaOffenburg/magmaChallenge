@@ -93,6 +93,9 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 			double deltaY = kickResult.getAverage(RollingBallBenchmarkSingleResult::getDeltaY);
 			table.setValueAt(deltaY, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_DELTAY);
 
+			double falls = kickResult.getFallenCount();
+			table.setValueAt(falls, teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_FALLS);
+
 			table.setValueAt("", teamRow, RollingBallBenchmarkTableModelExtension.COLUMN_STATUS);
 		}
 
@@ -124,8 +127,9 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 		table.getColumnModel().getColumn(3).setPreferredWidth(44);
 		table.getColumnModel().getColumn(4).setPreferredWidth(60);
 		table.getColumnModel().getColumn(5).setPreferredWidth(60);
-		table.getColumnModel().getColumn(6).setPreferredWidth(302);
-		table.getColumnModel().getColumn(7).setPreferredWidth(156);
+		table.getColumnModel().getColumn(6).setPreferredWidth(60);
+		table.getColumnModel().getColumn(7).setPreferredWidth(302);
+		table.getColumnModel().getColumn(8).setPreferredWidth(156);
 		table.setColumnSelectionAllowed(true);
 		table.setAutoCreateRowSorter(true);
 

@@ -35,14 +35,14 @@ public class RollingBallBenchmarkSingleResult extends SingleResult
 	public RollingBallBenchmarkSingleResult(boolean valid, boolean fallen, boolean penalty, String statusText, 
 			double distance, double deltaY)
 	{
-		super(calculateScore(distance, deltaY), valid, fallen, penalty, statusText);
+		super(calculateScore(distance, deltaY, fallen), valid, fallen, penalty, statusText);
 		this.distance = distance;
 		this.deltaY = deltaY;
 	}
 
-	private static double calculateScore(double distance, double deltaY)
+	private static double calculateScore(double distance, double deltaY, boolean fallen)
 	{
-		return distance - deltaY;
+		return distance - deltaY - 3 * ((fallen) ?1 :0);
 	}
 
 	public double getDistance()
