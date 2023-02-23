@@ -195,3 +195,21 @@ Evaluation rules:
 - the random sequence is the same for all teams (for the same seed);
 - during the competition, each team may decide on one of the digits for the random seed;
 - shots are performed automatically using the magma challenge tool;
+
+## Rolling Ball Challenge
+
+In this challenge, the player has to try to kick a ball rolling towards it. The initial position of the ball is at a random distance of 1 to 4 m away from the player on an angle between -90 to 90 degrees. The player has 5 seconds time to find the ball. After 5s the ball is kicked by the tool to a point 0.15m in front of the player with a noise of 0.05m in x and y direction and a speed that is double the distance of the ball to the player.
+
+### Requirements
+
+The start player script has to start a player that will act as kicker that waits or steps in place at its spot until the ball arrives when it receives "RollingBallChallenge" as the challenge name argument.
+
+### Evaluation
+
+The final score is dx - abs(dy) - fallen * 3, where
+
+- dx is the distance of the ball when stopped to the initial beaming position of the player or 0 if closer to the own goal
+- abs(dy) is the absolute value of the ball's y coordinate when stopped
+- fallen is 1 if the player did fall before the episode stops, otherwise 0
+
+An episode ends if the ball was kicked by the tool and reaches a speed below 0.01 m/cycle. This means that it is not allowed for the player to stop the ball and then kick the ball in rest.
