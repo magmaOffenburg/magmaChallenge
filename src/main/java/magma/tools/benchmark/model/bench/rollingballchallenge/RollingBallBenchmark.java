@@ -23,7 +23,6 @@ package magma.tools.benchmark.model.bench.rollingballchallenge;
 
 import java.util.Random;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
 import magma.monitor.general.impl.MonitorComponentFactory;
