@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>magmaoffenburg</groupId>
+  <artifactId>magmaproxy</artifactId>
+  <versioning>
+    <versions>
+      <version>2.1.2-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20230224123329</lastUpdated>
+  </versioning>
+</metadata>

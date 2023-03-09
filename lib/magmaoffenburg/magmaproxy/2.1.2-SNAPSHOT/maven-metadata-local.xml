@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>magmaoffenburg</groupId>
+  <artifactId>magmaproxy</artifactId>
+  <versioning>
+    <lastUpdated>20230224123329</lastUpdated>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>2.1.2-SNAPSHOT</value>
+        <updated>20230224123329</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>2.1.2-SNAPSHOT</value>
+        <updated>20230224123329</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>2.1.2-SNAPSHOT</version>
+</metadata>

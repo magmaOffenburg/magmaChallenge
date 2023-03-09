@@ -28,3 +28,6 @@ test.xml
 .clang-format
 *.TMP
 *.java-*
+
+# Maven
+/target
