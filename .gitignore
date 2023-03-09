@@ -1,5 +1,4 @@
 *.class
-.settings/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -13,11 +12,12 @@ hs_err_pid*
 /build/
 
 #Intelij
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/watcherTasks.xml
-.idea/**/uiDesigner.xml
-.idea/dictionaries
+.idea
+
+# Eclipse
+.project
+.settings/
+.classpath
 
 /buildDefault
 test.xml
