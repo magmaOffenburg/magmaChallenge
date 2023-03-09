@@ -5,7 +5,7 @@
     <groupId>magmaoffenburg</groupId>
     <artifactId>magmachallenge</artifactId>
     <packaging>jar</packaging>
-    <version>2.7</version>
+    <version>3.0</version>
     <name>magmaChallenge</name>
     <url>https://github.com/magmaOffenburg/magmaChallenge</url>
 
