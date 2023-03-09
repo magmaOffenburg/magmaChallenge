@@ -49,7 +49,7 @@ public class ConfigLoader
 								   "\nline: " + Arrays.toString(line);
 					throw new InvalidConfigFileException(error);
 				}
-				float dropHeight = Float.valueOf(line[3]);
+				float dropHeight = Float.parseFloat(line[3]);
 				TeamConfiguration config = new TeamConfiguration(line[0], line[1], dropHeight);
 				result.add(config);
 			}

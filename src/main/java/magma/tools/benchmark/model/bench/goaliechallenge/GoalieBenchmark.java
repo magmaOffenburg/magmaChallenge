@@ -66,7 +66,7 @@ public class GoalieBenchmark extends BenchmarkMain
 					throw new IOException(error);
 				}
 				for (int i = 0; i < 5; i++) {
-					kicks[lineInd][i] = Float.valueOf(line[i]);
+					kicks[lineInd][i] = Float.parseFloat(line[i]);
 				}
 				/*System.err.println("Kick "+lineInd+": "
 					   +kicks[lineInd][0]

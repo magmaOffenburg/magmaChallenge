@@ -202,9 +202,9 @@ public class BenchmarkAgentProxy extends AgentProxy
 				String forceString = message.substring(fIndex + 3, eIndex);
 				String[] values = forceString.split(" ");
 				if (values.length == 3) {
-					float x = Float.valueOf(values[0]);
-					float y = Float.valueOf(values[1]);
-					float z = Float.valueOf(values[2]);
+					float x = Float.parseFloat(values[0]);
+					float y = Float.parseFloat(values[1]);
+					float z = Float.parseFloat(values[2]);
 					return new Vector3D(x, y, z);
 				}
 			}
