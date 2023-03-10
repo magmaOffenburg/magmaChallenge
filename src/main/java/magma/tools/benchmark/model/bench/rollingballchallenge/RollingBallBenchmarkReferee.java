@@ -6,8 +6,15 @@ import magma.monitor.worldmodel.IMonitorWorldModel;
 import magma.tools.benchmark.model.bench.BenchmarkRefereeBase;
 import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
+import magma.util.roboviz.RoboVizDraw;
+import magma.util.roboviz.RoboVizParameters;
+
+import java.awt.Color;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+
+import hso.autonomy.util.geometry.Angle;
 
 public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 {
@@ -19,7 +26,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 	/** speed below which the ball is considered in rest (in m/cycle) */
 	private static final double BALL_STOPPED_SPEED = 0.01;
 
-	private final String roboVizServer;
+	private final RoboVizDraw roboVizDraw;
 
 	/** the distance of the ball from the kick Position when stopped */
 	private double distance;
@@ -42,11 +49,11 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 	{
 		// ignoring passed runtime since the check should anyhow not fire
 		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo, false);
-		this.roboVizServer = roboVizServer;
 		distance = 0;
 		deltaY = 0;
 		oldBallPos = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 		oldBallSpeed = 0;
+		roboVizDraw = new RoboVizDraw(new RoboVizParameters(true, roboVizServer, RoboVizDraw.DEFAULT_PORT, 1));
 	}
 
 	/**
@@ -69,6 +76,8 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		serverCommander.setPlaymode(PlayMode.PLAY_ON);
 		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 
+		roboVizDraw.drawMeterMarkers(false, Color.BLACK, (int) runInfo.getBeamX(), Angle.ZERO, 20);
+		
 		return true;
 	}
 
