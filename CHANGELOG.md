@@ -1,3 +1,7 @@
+Version 3.0 (RoboCup 2023)
+---------------------
+- added Rolling Ball Challenge for RoboCup 2023
+
 Version 2.7 (RoboCup 2018)
 ---------------------
 - added Goalie challenge for RoboCup 2018
