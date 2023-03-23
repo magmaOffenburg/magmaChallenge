@@ -1,3 +1,4 @@
+#!/bin/bash
 #*******************************************************************************
 # Copyright 2008, 2011 Hochschule Offenburg
 # Klaus Dorer, Mathias Ehret, Stefan Glaser, Thomas Huber, Fabian Korak,
@@ -19,20 +20,10 @@
 # You should have received a copy of the GNU General Public License
 # along with magmaOffenburg. If not, see <http://www.gnu.org/licenses/>.
 #*******************************************************************************
-#!/bin/bash
+
 ###########################################
 # Starts the GUI version of magmaChallenge
 # example: sh startGUI.sh
 ###########################################
 
-# for Ubuntu
-CLSEP=:
-# for Cygwin
-#CLSEP=\;
-
-CLSPTH=build
-CLSPTH=${CLSPTH}${CLSEP}build/config
-CLSPTH=${CLSPTH}${CLSEP}lib/*
-CLSPTH=${CLSPTH}${CLSEP}config
-
-java -cp $CLSPTH -Dsun.java2d.xrender=false magma.tools.benchmark.MagmaChallengeGUI $*
+java -cp "lib/*" -Dsun.java2d.xrender=false magma.tools.benchmark.MagmaChallengeGUI "$@"

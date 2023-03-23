@@ -98,7 +98,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 		results = new ArrayList<>();
 
 		// build environment
-		URL resource = BenchmarkMain.class.getResource("/rcssserver3d.rb");
+		URL resource = BenchmarkMain.class.getResource("/config/rcssserver3d.rb");
 		if (resource != null) {
 			scriptPath = resource.getPath();
 		}
