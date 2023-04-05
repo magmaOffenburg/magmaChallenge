@@ -22,6 +22,7 @@ Challenge Benchmark Tool for the [RoboCup 3D Soccer Simulation League](http://wi
 - Clone the repository: `git clone https://github.com/magmaOffenburg/magmaChallenge`.
 - Make sure you have Java 8 installed and available on your command line.
 - Make sure you have [simspark and rcssserver3d](http://simspark.sourceforge.net/wiki/index.php/Main_Page) installed and the command `rcssserver3d` is available on your command line.
+- Run `./mvnw package` from the root directory of this repository. You'll find the build result in the `target/magmachallenge` directory.
 
 For contributions, please set up `clang-format` as described [here](https://github.com/hsoautonomy/formatting). 
 
