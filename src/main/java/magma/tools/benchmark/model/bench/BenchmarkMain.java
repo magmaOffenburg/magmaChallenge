@@ -97,17 +97,15 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 		runThread = null;
 		results = new ArrayList<>();
 
-		// build environment
-		URL resource = BenchmarkMain.class.getResource("/config/rcssserver3d.rb");
-		if (resource != null) {
-			scriptPath = resource.getPath();
-		}
-
-		// release environment / jar
-		if (scriptPath == null || scriptPath.contains("jar!")) {
-			String absPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-			String libPath = absPath.substring(0, absPath.lastIndexOf(File.separator));
-			scriptPath = libPath.substring(0, libPath.lastIndexOf(File.separator)) + "/config/rcssserver3d.rb";
+		String absPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		String libPath = absPath.substring(0, absPath.lastIndexOf(File.separator));
+		final String relativeScriptPath = "/config/rcssserver3d.rb";
+		if (runsInIDE()) {
+			// Probably running in a development environment (aka IDE)
+			scriptPath = System.getProperty("user.dir") + relativeScriptPath;
+		} else {
+			// Release environment (packaged by Maven)
+			scriptPath = libPath.substring(0, libPath.lastIndexOf(File.separator)) + relativeScriptPath;
 		}
 
 		server = new ServerController(3100, 3200, scriptPath, 0);
@@ -395,7 +393,11 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 						// server.startServer(0);    // This was not always starting the
 						// server, creating big delays between runs, it is replaced by exec()
 						// in nextline
-						Runtime.getRuntime().exec("./startServer.sh " + config.getServerPort() +
+						String serverStartScript = "./startServer.sh";
+						if (runsInIDE()) {
+							serverStartScript = "scripts/startServer.sh";
+						}
+						Runtime.getRuntime().exec(serverStartScript + " " + config.getServerPort() +
 																	  " " + config.getTrainerPort() + " " + scriptPath);
 					}
 
@@ -428,6 +430,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 		{
 			stoppedTeam = true;
 		}
+	}
+
+	private boolean runsInIDE() {
+		String absPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		String libPath = absPath.substring(0, absPath.lastIndexOf(File.separator));
+		return libPath.substring(libPath.lastIndexOf(File.separator)).equals(File.separator + "classes");
 	}
 
 	@Override
