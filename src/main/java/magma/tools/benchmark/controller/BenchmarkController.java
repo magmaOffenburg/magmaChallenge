@@ -24,6 +24,7 @@ package magma.tools.benchmark.controller;
 import hso.autonomy.util.commandline.Argument;
 import hso.autonomy.util.commandline.EnumArgument;
 import hso.autonomy.util.commandline.HelpArgument;
+import hso.autonomy.util.commandline.IntegerArgument;
 import hso.autonomy.util.commandline.StringArgument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,6 +69,8 @@ public class BenchmarkController
 		StringArgument defaultPathArgument =
 				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
 
+		IntegerArgument defaultRandomSeed = new IntegerArgument("randomSeed", (int) BenchmarkConfiguration.DEFAULT_RANDOM_SEED, 0, "the random seed to use");
+		
 		new HelpArgument(challengeArgument, startScriptFolderArgument, roboVizServerArgument, defaultPathArgument)
 				.parse(args);
 
@@ -80,15 +83,16 @@ public class BenchmarkController
 		String startScriptFolder = startScriptFolderArgument.parse(args);
 		String roboVizServer = roboVizServerArgument.parse(args);
 		String defaultPath = defaultPathArgument.parse(args);
+		int randomSeed = defaultRandomSeed.parse(args);
 		Argument.endParse(args);
 
 		defaultPath = defaultPath.replaceFirst("^~", System.getProperty("user.home"));
 
-		new BenchmarkController(userInterface, challenge, startScriptFolder, roboVizServer, defaultPath);
+		new BenchmarkController(userInterface, challenge, startScriptFolder, roboVizServer, defaultPath, randomSeed);
 	}
 
 	public BenchmarkController(UserInterface userInterface, ChallengeType challenge, String startScriptFolder,
-			String roboVizServer, String defaultPath)
+			String roboVizServer, String defaultPath, int randomSeed)
 	{
 		this.startScriptFolder = startScriptFolder;
 		this.roboVizServer = roboVizServer;
@@ -97,7 +101,8 @@ public class BenchmarkController
 
 		switch (userInterface) {
 		case CLI:
-			model.start(new BenchmarkConfiguration(roboVizServer),
+			System.out.println("Using random seed: " + randomSeed);
+			model.start(new BenchmarkConfiguration(roboVizServer, randomSeed),
 					Collections.singletonList(new TeamConfiguration("magma", startScriptFolder, 0.4f)));
 			break;
 		case GUI:

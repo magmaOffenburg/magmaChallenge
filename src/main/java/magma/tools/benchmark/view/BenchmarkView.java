@@ -209,7 +209,7 @@ public class BenchmarkView extends JFrame implements IObserver<IModelReadOnly>
 		panel.add(lblSeedBox);
 
 		seedBox = new JTextField();
-		seedBox.setText(String.valueOf(123));
+		seedBox.setText(String.valueOf(BenchmarkConfiguration.DEFAULT_RANDOM_SEED));
 		panel.add(seedBox);
 		seedBox.setColumns(5);
 

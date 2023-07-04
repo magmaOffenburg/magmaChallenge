@@ -27,6 +27,8 @@ package magma.tools.benchmark.model;
  */
 public class BenchmarkConfiguration
 {
+	public static final long DEFAULT_RANDOM_SEED = 123L;
+
 	public static final String DEFAULT_SERVER_IP = "localhost";
 
 	public static final int DEFAULT_SERVER_PORT = 3100;
@@ -61,10 +63,10 @@ public class BenchmarkConfiguration
 
 	private final String roboVizServer;
 
-	public BenchmarkConfiguration(String roboVizServer)
+	public BenchmarkConfiguration(String roboVizServer, int randomSeed)
 	{
 		this(DEFAULT_SERVER_IP, DEFAULT_SERVER_PORT, DEFAULT_PROXY_PORT, DEFAULT_TRAINER_PORT, DEFAULT_AVERAGE_OUT_RUNS,
-				DEFAULT_RUNTIME, DEFAULT_VERBOSE, false, 123L, roboVizServer);
+				DEFAULT_RUNTIME, DEFAULT_VERBOSE, false, randomSeed, roboVizServer);
 	}
 
 	/**
