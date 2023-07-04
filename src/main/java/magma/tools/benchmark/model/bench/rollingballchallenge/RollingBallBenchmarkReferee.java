@@ -137,6 +137,11 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 				}
 			}
 			
+			// stop if player is moving too much
+			if (posPlayer.getX() > playerInitial.getX() + 1.5) {
+				return true;
+			}
+			
 			// stop if playmode changes (e.g. because someone scored an own goal)
 			if (worldModel.getPlayMode() != PlayMode.PLAY_ON) {
 				return true;
