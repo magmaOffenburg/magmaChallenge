@@ -31,7 +31,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -361,7 +360,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 					if (stopped) {
 						break;
 					}
+					// System.out.println("test" + proxy.getAgentProxies().get(0).toStringVerbose());
 				}
+				ITeamResult teamResult = getCurrentTeamResult();
+				String marker = "---------------------------";
+				System.out.println(marker + "\nOverall average Score: " + teamResult.getScore() + "\n" + marker);
+
 				currentTeam++;
 				if (stopped) {
 					break;
@@ -401,6 +405,12 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 																	  " " + config.getTrainerPort() + " " + scriptPath);
 					}
 
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
 					boolean success = startTrainer(config, currentTeamConfig, runInfo, roboVizServer);
 					if (success) {
 						collectResults(currentRunResult);
@@ -417,7 +427,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 				}
 			}
 			String marker = "---------------------------";
-			System.out.println(marker + "\nAverage Score: " + currentRunResult.getScore() + "\n" + marker);
+			System.out.println(marker + "\nAverage " + avgRuns + " Score: " + currentRunResult.getScore() + "\n" + marker);
 			return stopped;
 		}
 
