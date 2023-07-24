@@ -1,3 +1,10 @@
+Version 3.1 (RoboCup 2023)
+---------------------
+- Rolling Ball Challenge: add rule to prevent player from moving too far
+- print overall score of a team at the end of a run
+- allow to inject random seed
+- fix paths to rcssserver3d.rb and startServer.sh
+
 Version 3.0 (RoboCup 2023)
 ---------------------
 - added Rolling Ball Challenge for RoboCup 2023
