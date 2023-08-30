@@ -152,8 +152,7 @@ public class Area2D
 				return true;
 			}
 
-			if (obj instanceof Area2D.Int) {
-				Area2D.Int other = (Area2D.Int) obj;
+			if (obj instanceof Int other) {
 				return other.minX == minX && other.maxX == maxX && other.minY == minY && other.maxY == maxY;
 			}
 
@@ -314,8 +313,7 @@ public class Area2D
 				return true;
 			}
 
-			if (obj instanceof Area2D.Float) {
-				Area2D.Float other = (Area2D.Float) obj;
+			if (obj instanceof Float other) {
 				return other.minX == minX && other.maxX == maxX && other.minY == minY && other.maxY == maxY;
 			}
 

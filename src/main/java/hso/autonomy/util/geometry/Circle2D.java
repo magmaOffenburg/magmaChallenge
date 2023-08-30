@@ -195,9 +195,8 @@ public class Circle2D
 	@Override
 	public boolean equals(Object other)
 	{
-		if (!(other instanceof Circle2D))
+		if (!(other instanceof Circle2D c))
 			return false;
-		Circle2D c = (Circle2D) other;
 		return (this.x == c.getX() && this.y == c.getY() && this.radius == c.getRadius());
 	}
 

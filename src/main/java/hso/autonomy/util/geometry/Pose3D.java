@@ -223,8 +223,7 @@ public class Pose3D implements IPose3D
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (obj instanceof IPose3D) {
-			IPose3D other = (IPose3D) obj;
+		if (obj instanceof IPose3D other) {
 			return position.equals(other.getPosition()) &&
 					Rotation.distance(orientation, other.getOrientation()) < 0.0001;
 		}

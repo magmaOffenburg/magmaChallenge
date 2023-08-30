@@ -26,8 +26,7 @@ public class Tangent
 	@Override
 	public boolean equals(Object other)
 	{
-		if (other instanceof Tangent) {
-			Tangent t = (Tangent) other;
+		if (other instanceof Tangent t) {
 			if ((this.p1.equals(t.p1) && this.p2.equals(t.p2)) || (this.p1.equals(t.p2) && this.p2.equals(t.p1)))
 				return true;
 		}

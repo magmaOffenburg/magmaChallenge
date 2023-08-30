@@ -352,9 +352,8 @@ public class Pose2D implements IPose2D
 	@Override
 	public boolean equals(Object other)
 	{
-		if (!(other instanceof Pose2D))
+		if (!(other instanceof Pose2D p))
 			return false;
-		Pose2D p = (Pose2D) other;
 		return (this.x == p.x && this.y == p.y && this.angle.equals(p.angle));
 	}
 
