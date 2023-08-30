@@ -120,17 +120,11 @@ public class ServerController
 
 		// we have started the server, so we also stop it
 		try {
-			int pid = UnixCommandUtil.getPID(serverProcess);
-			if (pid > 0) {
-				boolean killed = UnixCommandUtil.killProcessConditional("" + pid, "rcssserver3d");
-				if (!killed) {
-					System.err.println("Could not kill server! pid: " + pid + ", server: " + id);
-					// killAllServers();
-				}
-			} else {
-				System.err.println("Do not have pid of specific server, killing all"
-								   + ", server: " + id);
-				killAllServers();
+			long pid = serverProcess.pid();
+			boolean killed = UnixCommandUtil.killProcessConditional("" + pid, "rcssserver3d");
+			if (!killed) {
+				System.err.println("Could not kill server! pid: " + pid + ", server: " + id);
+				// killAllServers();
 			}
 			return true;
 
