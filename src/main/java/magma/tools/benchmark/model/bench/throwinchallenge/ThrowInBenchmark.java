@@ -44,9 +44,6 @@ public class ThrowInBenchmark extends BenchmarkMain
 	/** x-axis delta of player to ball (in m) */
 	static final double DISTANCE_BEHIND_BALL = 0.6;
 
-	/** half opening angle of ball positions (in degrees) */
-	static final double BEAM_ANGLE = 30;
-
 	/** noise in player beam position (in m) */
 	static final double BEAM_NOISE = 0.1;
 
@@ -92,13 +89,12 @@ public class ThrowInBenchmark extends BenchmarkMain
 
 	@Override
 	protected RunInformation createRunInformation(Random rand, int runID)
-	{
-		double radius = (runID + 3);
-		double angle = Math.toRadians(noise(rand, BEAM_ANGLE));
-		double ballX = -radius * Math.cos(angle);
-		double ballY = radius * Math.sin(angle);
-		double beamX = ballX - DISTANCE_BEHIND_BALL + noise(rand, BEAM_NOISE);
-		double beamY = ballY + noise(rand, BEAM_NOISE);
+	{		
+		double beamX = -15;
+		double beamY = 0;
+		double ballX = beamX + DISTANCE_BEHIND_BALL + noise(rand, BEAM_NOISE);
+		double ballY = beamY + noise(rand, BEAM_NOISE);
+		
 		return new RunInformation(runID, beamX, beamY, ballX, ballY);
 	}
 

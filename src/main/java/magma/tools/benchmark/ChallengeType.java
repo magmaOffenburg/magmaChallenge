@@ -35,7 +35,7 @@ public enum ChallengeType {
 	
 	THROW_IN("Throw In", ThrowInBenchmark::new, ThrowInBenchmarkTableView::getInstance);
 	
-	public static final ChallengeType DEFAULT = ROLLING_BALL;
+	public static final ChallengeType DEFAULT = THROW_IN;
 
 	public final String name;
 
