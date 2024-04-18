@@ -28,9 +28,6 @@ public class ThrowInBenchmarkReferee extends BenchmarkRefereeBase
 	/** distance to ball above which run ends (in m) */
 	private static final double MAX_BALL_DISTANCE = 2.0;
 
-	/** penalty assigned if player leaves circle */
-	private static final double PENALTY_LEAVING_CIRCLE = 5.0;
-
 	/** speed below which the ball is considered in rest (in m/cycle) */
 	private static final double BALL_STOPPED_SPEED = 0.001;
 	
@@ -168,16 +165,17 @@ public class ThrowInBenchmarkReferee extends BenchmarkRefereeBase
 	@Override
 	protected void onStopBenchmark()
 	{
-		// evaluation function
-		distanceError = oldBallPos.getNorm();
 		state = RefereeState.STOPPED;
 
-		// we give a penalty if player left circle around ball
 		Vector3D posPlayer = getAgent().getPosition();
 		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
 		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
+		
+		distanceError = oldBallPos.distance(ballInitial);
+		
+		// we give a penalty if player left circle around ball
 		if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
-			distanceError += PENALTY_LEAVING_CIRCLE;
+			distanceError = 0;
 			hasPenalty = true;
 		}
 		
