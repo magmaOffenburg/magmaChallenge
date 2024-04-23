@@ -132,8 +132,8 @@ public class ThrowInBenchmarkTableView extends BenchmarkTableView
 		table.getColumn("status").setCellRenderer(benchmarkTableCell);
 		table.getColumn("status").setCellEditor(benchmarkTableCell);
 		table.setRowHeight(30);
-		table.addMouseListener(new TableMouseListener(
-				ThrowInBenchmarkTableModelExtension.COLUMN_STATUS, ThrowInBenchmarkTableModelExtension.COLUMN_TEAMNAME));
+		table.addMouseListener(new TableMouseListener(ThrowInBenchmarkTableModelExtension.COLUMN_STATUS,
+				ThrowInBenchmarkTableModelExtension.COLUMN_TEAMNAME));
 		return table;
 	}
 

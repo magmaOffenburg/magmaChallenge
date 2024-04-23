@@ -30,7 +30,7 @@ import magma.tools.benchmark.model.ISingleResult;
 public class SingleResult implements ISingleResult
 {
 	private final double score;
-	
+
 	private final boolean fallen;
 
 	private final boolean penalty;

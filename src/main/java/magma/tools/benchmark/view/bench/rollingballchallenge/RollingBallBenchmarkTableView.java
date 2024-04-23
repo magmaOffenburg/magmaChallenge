@@ -60,7 +60,8 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 		do {
 			String teamPath = (String) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_PATH);
 			teamName = (String) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME);
-			float dropHeight = (Float) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
+			float dropHeight =
+					(Float) table.getValueAt(teamid, RollingBallBenchmarkTableModelExtension.COLUMN_DROP_HEIGHT);
 			if (teamName != null && !teamName.isEmpty()) {
 				TeamConfiguration config = new TeamConfiguration(teamName, teamPath, dropHeight);
 				result.add(config);
@@ -137,8 +138,8 @@ public class RollingBallBenchmarkTableView extends BenchmarkTableView
 		table.getColumn("status").setCellRenderer(benchmarkTableCell);
 		table.getColumn("status").setCellEditor(benchmarkTableCell);
 		table.setRowHeight(30);
-		table.addMouseListener(new TableMouseListener(
-				RollingBallBenchmarkTableModelExtension.COLUMN_STATUS, RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME));
+		table.addMouseListener(new TableMouseListener(RollingBallBenchmarkTableModelExtension.COLUMN_STATUS,
+				RollingBallBenchmarkTableModelExtension.COLUMN_TEAMNAME));
 		return table;
 	}
 

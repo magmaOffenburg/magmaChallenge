@@ -21,10 +21,9 @@
 
 package magma.tools.benchmark.model.bench.rollingballchallenge;
 
-import java.util.Random;
-
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
+import java.util.Random;
 import magma.monitor.general.impl.MonitorComponentFactory;
 import magma.monitor.referee.IReferee.RefereeState;
 import magma.tools.benchmark.model.BenchmarkConfiguration;
@@ -105,16 +104,17 @@ public class RollingBallBenchmark extends BenchmarkMain
 		double beamX = -12;
 		double beamY = 0;
 		Pose2D beamPose = new Pose2D(beamX, beamY);
-		
+
 		Vector2D direction = angle.applyTo(new Vector2D(1, 0));
-		Vector2D destinationBallPosition = beamPose.getPosition().add(new Vector2D(0.15 + noise(rand, 0.05), 0 + noise(rand, 0.05)));
+		Vector2D destinationBallPosition =
+				beamPose.getPosition().add(new Vector2D(0.15 + noise(rand, 0.05), 0 + noise(rand, 0.05)));
 		Vector2D ballStart = destinationBallPosition.add(direction.scalarMultiply(radius));
 		double ballX = ballStart.getX();
 		double ballY = ballStart.getY();
-		
+
 		double speedX = -direction.getX() * speedFactor;
 		double speedY = -direction.getY() * speedFactor;
-		
+
 		return new RunInformation(runID, beamX, beamY, ballX, ballY, speedX, speedY, 0);
 	}
 

@@ -23,7 +23,6 @@ package magma.tools.benchmark.model.bench.rollingballchallenge;
 
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
-
 import magma.tools.benchmark.model.ISingleResult;
 import magma.tools.benchmark.model.bench.TeamResult;
 
@@ -40,16 +39,18 @@ public class RollingBallBenchmarkTeamResult extends TeamResult
 
 	public double getAverage(ToDoubleFunction<? super RollingBallBenchmarkSingleResult> method)
 	{
-		return results.stream().map(obj -> (RollingBallBenchmarkSingleResult) obj)
-				.collect(Collectors.summarizingDouble(method)).getAverage();
+		return results.stream()
+				.map(obj -> (RollingBallBenchmarkSingleResult) obj)
+				.collect(Collectors.summarizingDouble(method))
+				.getAverage();
 	}
-	
+
 	@Override
 	public ISingleResult createSingleResult()
 	{
 		double distance = getAverage(RollingBallBenchmarkSingleResult::getDistance);
 		double deltaY = getAverage(RollingBallBenchmarkSingleResult::getDeltaY);
-		
+
 		return new RollingBallBenchmarkSingleResult(
 				isValid(), isFallen(), hasPenalty(), getStatusText(), distance, deltaY);
 	}

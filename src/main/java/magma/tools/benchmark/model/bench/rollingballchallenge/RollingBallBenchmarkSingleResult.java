@@ -32,8 +32,8 @@ public class RollingBallBenchmarkSingleResult extends SingleResult
 	private final double distance;
 	private final double deltaY;
 
-	public RollingBallBenchmarkSingleResult(boolean valid, boolean fallen, boolean penalty, String statusText, 
-			double distance, double deltaY)
+	public RollingBallBenchmarkSingleResult(
+			boolean valid, boolean fallen, boolean penalty, String statusText, double distance, double deltaY)
 	{
 		super(calculateScore(distance, deltaY, fallen), valid, fallen, penalty, statusText);
 		this.distance = distance;
@@ -42,7 +42,7 @@ public class RollingBallBenchmarkSingleResult extends SingleResult
 
 	private static double calculateScore(double distance, double deltaY, boolean fallen)
 	{
-		return distance - deltaY - 3 * ((fallen) ?1 :0);
+		return distance - deltaY - 3 * ((fallen) ? 1 : 0);
 	}
 
 	public double getDistance()

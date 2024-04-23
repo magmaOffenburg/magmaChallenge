@@ -1,6 +1,7 @@
 package magma.tools.benchmark.model;
 
-public interface ISingleResult {
+public interface ISingleResult
+{
 	boolean isFallen();
 
 	/**
@@ -11,7 +12,6 @@ public interface ISingleResult {
 	boolean isValid();
 
 	String getStatusText();
-	
-	double getScore();
 
+	double getScore();
 }

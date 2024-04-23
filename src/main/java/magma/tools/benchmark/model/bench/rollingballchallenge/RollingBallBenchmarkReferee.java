@@ -1,5 +1,7 @@
 package magma.tools.benchmark.model.bench.rollingballchallenge;
 
+import hso.autonomy.util.geometry.Angle;
+import java.awt.Color;
 import magma.common.spark.PlayMode;
 import magma.monitor.command.IServerCommander;
 import magma.monitor.worldmodel.IMonitorWorldModel;
@@ -8,13 +10,8 @@ import magma.tools.benchmark.model.bench.RunInformation;
 import magma.tools.benchmark.model.bench.SinglePlayerLauncher;
 import magma.util.roboviz.RoboVizDraw;
 import magma.util.roboviz.RoboVizParameters;
-
-import java.awt.Color;
-
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
-import hso.autonomy.util.geometry.Angle;
 
 public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 {
@@ -44,8 +41,9 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 
 	private int ballNotMoving;
 
-	public RollingBallBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander, String serverPid,
-			SinglePlayerLauncher launcher, float dropHeight, RunInformation runInfo, String roboVizServer)
+	public RollingBallBenchmarkReferee(IMonitorWorldModel mWorldModel, IServerCommander serverCommander,
+			String serverPid, SinglePlayerLauncher launcher, float dropHeight, RunInformation runInfo,
+			String roboVizServer)
 	{
 		// ignoring passed runtime since the check should anyhow not fire
 		super(mWorldModel, serverCommander, serverPid, launcher, 20, runInfo, false);
@@ -77,7 +75,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY());
 
 		roboVizDraw.drawMeterMarkers(false, Color.BLACK, (int) runInfo.getBeamX(), Angle.ZERO, 20);
-		
+
 		return true;
 	}
 
@@ -95,7 +93,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 		if (hasFallen()) {
 			hasFallen = true;
 		}
-		
+
 		if (currentTime > runTime) {
 			// finished this run
 			runTime = currentTime;
@@ -117,7 +115,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 				oldBallPos = ballNow;
 				return false;
 			}
-			
+
 			if (!ballRolling) {
 				serverCommander.beamBall((float) runInfo.getBallX(), (float) runInfo.getBallY(), 0.0f,
 						(float) runInfo.getBallVelX(), (float) runInfo.getBallVelY(), (float) runInfo.getBallVelZ());
@@ -136,12 +134,12 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 					ballNotMoving = 0;
 				}
 			}
-			
+
 			// stop if player is moving too much
 			if (posPlayer.getX() > playerInitial.getX() + 1.5) {
 				return true;
 			}
-			
+
 			// stop if playmode changes (e.g. because someone scored an own goal)
 			if (worldModel.getPlayMode() != PlayMode.PLAY_ON) {
 				return true;
@@ -157,7 +155,7 @@ public class RollingBallBenchmarkReferee extends BenchmarkRefereeBase
 	{
 		// evaluation function
 		Vector2D start = new Vector2D(runInfo.getBeamX(), runInfo.getBeamY());
-		
+
 		distance = 0;
 		if (oldBallPos.getX() > start.getX()) {
 			// only count forward movement of ball

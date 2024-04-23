@@ -27,7 +27,8 @@ import java.util.List;
  *
  * @author kdorer
  */
-public interface IModelReadWrite extends IModelReadOnly {
+public interface IModelReadWrite extends IModelReadOnly
+{
 	void resetModel();
 
 	void start(BenchmarkConfiguration config, List<TeamConfiguration> teamConfig);

@@ -89,12 +89,12 @@ public class ThrowInBenchmark extends BenchmarkMain
 
 	@Override
 	protected RunInformation createRunInformation(Random rand, int runID)
-	{		
+	{
 		double beamX = -15;
 		double beamY = 0;
 		double ballX = beamX + DISTANCE_BEHIND_BALL + noise(rand, BEAM_NOISE);
 		double ballY = beamY + noise(rand, BEAM_NOISE);
-		
+
 		return new RunInformation(runID, beamX, beamY, ballX, ballY);
 	}
 

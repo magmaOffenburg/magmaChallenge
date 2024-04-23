@@ -18,7 +18,8 @@ import magma.tools.benchmark.view.bench.rollingballchallenge.RollingBallBenchmar
 import magma.tools.benchmark.view.bench.runchallenge.RunBenchmarkTableView;
 import magma.tools.benchmark.view.bench.throwinchallenge.ThrowInBenchmarkTableView;
 
-public enum ChallengeType {
+public enum ChallengeType
+{
 	RUN("Run", server -> new RunBenchmark(server, false), RunBenchmarkTableView::getInstance),
 
 	KICK("Kick", KickBenchmark::new, KickBenchmarkTableView::getInstance),
@@ -32,9 +33,9 @@ public enum ChallengeType {
 	GOALIE("Goalie", GoalieBenchmark::new, GoalieBenchmarkTableView::getInstance),
 
 	ROLLING_BALL("Rolling Ball", RollingBallBenchmark::new, RollingBallBenchmarkTableView::getInstance),
-	
+
 	THROW_IN("Throw In", ThrowInBenchmark::new, ThrowInBenchmarkTableView::getInstance);
-	
+
 	public static final ChallengeType DEFAULT = THROW_IN;
 
 	public final String name;
