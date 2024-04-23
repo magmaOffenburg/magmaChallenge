@@ -1,3 +1,7 @@
+Version 3.2 (to be relesaed)
+---------------------
+- added Throw In Challenge for RoboCup 2024
+
 Version 3.1 (RoboCup 2023)
 ---------------------
 - Rolling Ball Challenge: add rule to prevent player from moving too far
