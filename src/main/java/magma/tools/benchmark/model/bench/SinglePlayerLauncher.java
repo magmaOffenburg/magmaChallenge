@@ -23,10 +23,10 @@ package magma.tools.benchmark.model.bench;
 
 import hso.autonomy.util.file.StreamBufferer;
 import hso.autonomy.util.misc.CommandUtil;
-
 import java.io.File;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SinglePlayerLauncher
 {
@@ -112,8 +112,9 @@ public class SinglePlayerLauncher
 			return;
 		}
 
-		Object[] commands = ArrayUtils.addAll(new Object[] {"bash", fullPath.getPath()}, arguments);
-		String command = StringUtils.join(commands, " ");
+		String command =
+				Stream.concat(Stream.of("bash", fullPath.getPath()), Arrays.stream(arguments).map(Object::toString))
+						.collect(Collectors.joining(" "));
 		System.out.println(command);
 
 		Process ps = CommandUtil.launch(command, null, workingDir);

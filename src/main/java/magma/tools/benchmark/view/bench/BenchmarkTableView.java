@@ -136,7 +136,12 @@ public abstract class BenchmarkTableView implements IObserver<IModelReadOnly>
 	/**
 	 * The states of a benchmark run
 	 */
-	protected enum ResultStatus { NO_RESULT, SUCCESS, FAILED }
+	protected enum ResultStatus
+	{
+		NO_RESULT,
+		SUCCESS,
+		FAILED
+	}
 
 	/**
 	 * Listener for status button clicks

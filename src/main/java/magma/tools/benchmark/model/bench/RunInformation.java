@@ -48,7 +48,8 @@ public class RunInformation
 		this(runID, 0, 0, ballX, ballY, ballVelX, ballVelY, ballVelZ);
 	}
 
-	public RunInformation(int runID, double beamX, double beamY, double ballX, double ballY, double ballVelX, double ballVelY, double ballVelZ)
+	public RunInformation(int runID, double beamX, double beamY, double ballX, double ballY, double ballVelX,
+			double ballVelY, double ballVelZ)
 	{
 		super();
 		this.runID = runID;

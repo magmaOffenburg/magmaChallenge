@@ -5,7 +5,7 @@
     <groupId>magmaoffenburg</groupId>
     <artifactId>magmachallenge</artifactId>
     <packaging>jar</packaging>
-    <version>3.1</version>
+    <version>3.2-beta1</version>
     <name>magmaChallenge</name>
     <url>https://github.com/magmaOffenburg/magmaChallenge</url>
 
@@ -34,11 +34,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.13.0</version>
         </dependency>
     </dependencies>
 

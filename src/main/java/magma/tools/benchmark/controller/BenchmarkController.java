@@ -69,8 +69,9 @@ public class BenchmarkController
 		StringArgument defaultPathArgument =
 				new StringArgument("defaultPath", "examples", "the initial path to use for file dialogs");
 
-		IntegerArgument defaultRandomSeed = new IntegerArgument("randomSeed", (int) BenchmarkConfiguration.DEFAULT_RANDOM_SEED, 0, "the random seed to use");
-		
+		IntegerArgument defaultRandomSeed = new IntegerArgument(
+				"randomSeed", (int) BenchmarkConfiguration.DEFAULT_RANDOM_SEED, 0, "the random seed to use");
+
 		new HelpArgument(challengeArgument, startScriptFolderArgument, roboVizServerArgument, defaultPathArgument)
 				.parse(args);
 

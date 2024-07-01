@@ -29,7 +29,8 @@ import java.util.List;
  *
  * @author kdorer
  */
-public interface IModelReadOnly {
+public interface IModelReadOnly
+{
 	/**
 	 * @return the results per team
 	 */

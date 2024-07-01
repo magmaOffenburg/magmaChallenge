@@ -82,8 +82,8 @@ class RollingBallBenchmarkTableModelExtension extends DefaultTableModel
 	{
 		super(data, columnNames);
 
-		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, Float.class, Float.class, Float.class,
-				String.class, Float.class};
+		columnTypes = new Class[] {String.class, Object.class, Double.class, Integer.class, Float.class, Float.class,
+				Float.class, String.class, Float.class};
 
 		editableColumns = new boolean[] {true, false, false, false, false, false, false, true, true};
 	}

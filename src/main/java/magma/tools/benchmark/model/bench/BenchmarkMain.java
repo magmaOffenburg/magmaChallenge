@@ -401,8 +401,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 						if (runsInIDE()) {
 							serverStartScript = "scripts/startServer.sh";
 						}
-						Runtime.getRuntime().exec(serverStartScript + " " + config.getServerPort() +
-																	  " " + config.getTrainerPort() + " " + scriptPath);
+						Runtime.getRuntime().exec(serverStartScript + " " + config.getServerPort() + " " +
+												  config.getTrainerPort() + " " + scriptPath);
 					}
 
 					try {
@@ -410,7 +410,7 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					
+
 					boolean success = startTrainer(config, currentTeamConfig, runInfo, roboVizServer);
 					if (success) {
 						collectResults(currentRunResult);
@@ -427,7 +427,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 				}
 			}
 			String marker = "---------------------------";
-			System.out.println(marker + "\nAverage " + avgRuns + " Score: " + currentRunResult.getScore() + "\n" + marker);
+			System.out.println(
+					marker + "\nAverage " + avgRuns + " Score: " + currentRunResult.getScore() + "\n" + marker);
 			return stopped;
 		}
 
@@ -442,7 +443,8 @@ public abstract class BenchmarkMain implements IMonitorRuntimeListener, IModelRe
 		}
 	}
 
-	private boolean runsInIDE() {
+	private boolean runsInIDE()
+	{
 		String absPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 		String libPath = absPath.substring(0, absPath.lastIndexOf(File.separator));
 		return libPath.substring(libPath.lastIndexOf(File.separator)).equals(File.separator + "classes");

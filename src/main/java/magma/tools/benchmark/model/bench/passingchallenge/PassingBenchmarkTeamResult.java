@@ -22,7 +22,7 @@ public class PassingBenchmarkTeamResult extends TeamResult
 		for (ISingleResult result : results) {
 			scores.add(result.getScore());
 		}
-		
+
 		Collections.sort(scores);
 
 		int end = PassingBenchmark.AVG_OUT_OF_BEST;

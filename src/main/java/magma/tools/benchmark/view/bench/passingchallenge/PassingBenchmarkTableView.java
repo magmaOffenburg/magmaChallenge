@@ -38,10 +38,8 @@ public class PassingBenchmarkTableView extends BenchmarkTableView
 			table.setValueAt(averageScore, teamRow, PassingBenchmarkTableModelExtension.COLUMN_TIME);
 
 			table.setValueAt(passResult.getScore(0), teamRow, PassingBenchmarkTableModelExtension.COLUMN_BEST_TIME);
-			table.setValueAt(
-					passResult.getScore(1), teamRow, PassingBenchmarkTableModelExtension.COLUMN_2_BEST_TIME);
-			table.setValueAt(
-					passResult.getScore(2), teamRow, PassingBenchmarkTableModelExtension.COLUMN_3_BEST_TIME);
+			table.setValueAt(passResult.getScore(1), teamRow, PassingBenchmarkTableModelExtension.COLUMN_2_BEST_TIME);
+			table.setValueAt(passResult.getScore(2), teamRow, PassingBenchmarkTableModelExtension.COLUMN_3_BEST_TIME);
 
 			table.setValueAt("", teamRow, PassingBenchmarkTableModelExtension.COLUMN_STATUS);
 		}

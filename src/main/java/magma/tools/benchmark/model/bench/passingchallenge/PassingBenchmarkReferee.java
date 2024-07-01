@@ -32,7 +32,12 @@ public class PassingBenchmarkReferee extends BenchmarkRefereeBase
 
 	private AgentState agentStates[] = new AgentState[PassingBenchmark.PLAYERS];
 
-	private enum AgentState { NEUTRAL, TOUCHED, PASSED }
+	private enum AgentState
+	{
+		NEUTRAL,
+		TOUCHED,
+		PASSED
+	}
 
 	private boolean goal;
 

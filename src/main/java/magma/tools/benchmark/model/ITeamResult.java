@@ -1,6 +1,6 @@
 package magma.tools.benchmark.model;
 
-public interface ITeamResult extends ISingleResult 
+public interface ITeamResult extends ISingleResult
 {
 	void addResult(ISingleResult result);
 
