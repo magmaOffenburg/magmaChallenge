@@ -95,12 +95,8 @@ public class SinglePlayerLauncher
 
 	public void stopPlayer()
 	{
-		runScript("kill.sh");
-	}
-
-	private void runScript(String scriptName)
-	{
-		runScript(scriptName, null);
+		Object[] arguments = {""};
+		runScript("kill.sh", arguments);
 	}
 
 	private void runScript(String scriptName, Object[] arguments)
