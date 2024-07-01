@@ -148,7 +148,7 @@ public class ThrowInBenchmarkReferee extends BenchmarkRefereeBase
 				return true;
 			}
 			// stop if the ball did not leave the circle for too long
-			if (time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
+			if (ballNow.distance(ballInitial) < MAX_BALL_DISTANCE && time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
 				return true;
 			}
 			
