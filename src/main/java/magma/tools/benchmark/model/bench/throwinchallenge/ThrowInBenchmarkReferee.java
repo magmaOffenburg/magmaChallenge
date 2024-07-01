@@ -35,7 +35,10 @@ public class ThrowInBenchmarkReferee extends BenchmarkRefereeBase
 	private static final double MIN_THROW_HEIGHT = 0.2;
 	
 	/** threshold for ball velocity where a throw is considered a kick */
-	private static final double KICK_VELOCITY_THRESHOLD = 0.6;
+	private static final double KICK_VELOCITY_THRESHOLD = 0.4;
+	
+	/** minimal distance the ball needs to cover before counting as a throw*/
+	private static final double MIN_THROW_DISTANCE = 0.25;
 
 	private final String roboVizServer;
 
@@ -127,40 +130,20 @@ public class ThrowInBenchmarkReferee extends BenchmarkRefereeBase
 		}
 
 		if (state == RefereeState.STARTED) {
-//			double velocity = posBall.distance(oldBallPos3D);
+			double velocity = posBall.distance(oldBallPos3D);
 			
-//			if (posBall.getZ() > MIN_THROW_HEIGHT) {
-//				wasThrown = true;
-//			} else {
-//				wasThrown = false;
-//			}
-			wasThrown = true;
+			if (posBall.getZ() >= MIN_THROW_HEIGHT && velocity < KICK_VELOCITY_THRESHOLD) {
+				wasThrown = true;
+			}else if (wasThrown && posBall.getZ() < MIN_THROW_HEIGHT && playerNow.distance(ballNow) < MIN_THROW_DISTANCE) {
+				wasThrown = false;
+			}
 			
 			// stop if player runs too far
 			if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
 				return true;
 			}	
 		
-			// stop if ball has left radius and has stopped
-//			if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
-//				if (ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
-//					return true;
-//				}
-//			} else {
-//				// stop if the ball did not leave the circle for too long
-//				if (time - startTime > TIME_BALL_HAS_TO_LEAVE_CIRCLE) {
-//					return true;
-//				}
-//				
-//				double velocity = posBall.distance(oldBallPos3D);
-//				
-//				if (posBall.getZ() > MIN_THROW_HEIGHT && velocity < KICK_VELOCITY_THRESHOLD) {
-//					wasThrown = true;
-//				} else {
-//					wasThrown = false;
-//				}
-//			}
-			
+			// stop if ball has left radius and has stopped			
 			if (ballNow.distance(ballInitial) > MAX_BALL_DISTANCE && ballNow.distance(oldBallPos) < BALL_STOPPED_SPEED) {
 				return true;
 			}
@@ -189,9 +172,7 @@ public class ThrowInBenchmarkReferee extends BenchmarkRefereeBase
 		Vector2D playerNow = new Vector2D(posPlayer.getX(), posPlayer.getY());
 		Vector2D ballInitial = new Vector2D(runInfo.getBallX(), runInfo.getBallY());
 		
-		distanceError = oldBallPos.distance(ballInitial)*10000;
-		distanceError = Math.round(distanceError);
-		distanceError = distanceError/10000;
+		distanceError = oldBallPos.distance(ballInitial);
 		
 		// we give a penalty if player left circle around ball
 		if (playerNow.distance(ballInitial) > MAX_BALL_DISTANCE) {
