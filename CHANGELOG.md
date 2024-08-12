@@ -1,4 +1,4 @@
-Version 3.2 (to be relesaed)
+Version 3.2 (RoboCup 2024)
 ---------------------
 - added Throw In Challenge for RoboCup 2024
 
