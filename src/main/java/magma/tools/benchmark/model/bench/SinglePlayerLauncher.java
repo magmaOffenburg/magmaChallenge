@@ -108,9 +108,9 @@ public class SinglePlayerLauncher
 			return;
 		}
 
-		String command =
-				Stream.concat(Stream.of("bash", fullPath.getPath()), Arrays.stream(arguments).map(Object::toString))
-						.collect(Collectors.joining(" "));
+		String command = Stream.concat(Stream.of("bash", fullPath.getAbsolutePath()),
+									   Arrays.stream(arguments).map(Object::toString))
+								 .collect(Collectors.joining(" "));
 		System.out.println(command);
 
 		Process ps = CommandUtil.launch(command, null, workingDir);
